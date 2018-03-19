@@ -1,0 +1,60 @@
+contract Owned {
+	address owner;
+	
+	function Owned() public {
+		owner = msg.sender;
+	}
+
+	modifier onlyOwner() {
+		require(owner == msg.sender);
+		_;
+	}
+	
+}
+
+contract Courses is Owned {
+
+	// to organize data structure.
+	//remember string is costly, so we can change it to byte16,...
+	struct Instructor {
+		uint age;
+		string fName;
+		string lName;
+	}
+
+	// how does it init data.
+	mapping (address => Instructor) instructors;	
+	address[] public instructorAccts;
+
+	
+	event instructorEvent(
+		uint age,
+		string fName,
+		string lName
+	);
+	
+	// set new 
+	function setInstructor(address _address, uint _age, string _fName, string _lName) public {
+		var instructor = instructors[_address];
+		
+		instructor.age = _age;
+		instructor.fName = _fName;
+		instructor.lName = _lName;
+			
+		//add new address into the list.
+		instructorAccts.push(_address) -1;
+
+		//call event to update info in gui.
+		instructorEvent(_age, _fName, _lName);
+	}
+
+	function getInstructors() view public returns(address[]) {
+		return instructorAccts;
+	}
+
+	// get instructor info by a specified address
+	function getInstructors(address _address) view public returns(uint, string, string) {
+		var instructor = instructors[_address];
+		return (instructor.age, instructor.fName, instructor.lName);
+	}
+}

@@ -1,0 +1,57 @@
+#Initialize private network with available genesis 
+geth --datadir=./chaindata init genesis.json
+-> Successfully wrote genesis state
+-------------------------------
+Start private network
+//geth --datadir path/to/custom/data/folder --networkid 15
+//geth --datadir path/to/custom/data/folder
+//geth --datadir=./chaindata/
+geth --datadir=./chaindata/ console -rpc --rpccorsdomain "*"
+
+//sudo dpkg -i --force-all [file.deb]
+
+-------------------------------
+connect to IPC file which is exist when running private network
+= connect geth and mist to the private net.
+
++ Open geth console:
+geth attach
+
++ for GETH:
+#simply opens a a command line interface to the geth node that you initially started (maybe this thing is unneeded because "geth --datadir=./chaindata/" did sync geth to mist)
+geth attach ipc:[/path/to/geth.ipc]
+
++ for MIST:
+mist --rpc [<path to chaindata>/geth.ipc]
+
+-----------------------------------------------
+First run geth with network and IPC options:
+geth --datadir ~/private_network/chaindata --networkid 1232 --ipcpath ~/private_network/chaindata/geth.ipc
+
+Mist 0.9.3 should be run from command line with following command:
+->mist
+
+
+After installing vim running
+->vimtutor = kind of editor
+
+----------------------------------------------
+miner.start(1);
+----------------------------------------------
+Find process with its port
+sudo netstat -nlp | grep :[port] 
+
+----------------------------------------------
+1. web3.eth.coinbase - this is where your mined ether gets set to. To mine to a different account, type: miner.setEtherbase(address) where address is the 0x address that you want to mine to
+----------------------------------------------
+2) In a private node, you dont have to increase the gas to make the block get mined any faster. You are the only one doing any mining or producing transactions. Speed will be limited by your hardware. 
+----------------------------------------------
+3) Private node, its only you and you have complete control over the system. No you can not transfer your privately mined ether to the main net. Public blockchain, you have to pay real money/ether to interact with this system.
+----------------------------------------------
+4) This is the details of the transaction, and 0 ethers are showing because you do not send any ethers along with this transaction (by design). Gas parameters shows you how much gas it took to execute the transaction. Block - I believe this is the block number and block ID where the tx you sent was mined. Send data - this is any data you sent along with your transaction (hashed).
+----------------------------------------------
+we need to continuously mine in order to deploy & confirm contracts
+----------------------------------------------
+npm install ganache-cli
+ganache-cli -> ethereum simulation about protocols
+
