@@ -16,9 +16,9 @@
 </head>
 
 <body>
-	<div class='container'>
+	<div class="container">
 
-		
+
 		<h2>QUIZ GAME</h2>
 		<h3 id='num_right_answer'>0</h3>
 		<h3 id='num_false_answer'>0</h3>
@@ -26,34 +26,13 @@
 
 		<h3 id='questionId'></h3>
 		<h3 id='question'></h3>
-		
-
-		<!-- <form action=''>
-			<input type='radio' name='user_answer' value='1' id='answer_A'>
-			<label id='des_A_right' class='right_des'></label>
-			<label id='des_A_false' class='false_des'></label>
-			<br>
-			<input type='radio' name='user_answer' value='2' id='answer_B'>
-			<label id='des_B_right' class='right_des'></label>
-			<label id='des_B_false' class='false_des'></label>
-			<br>
-			<input type='radio' name='user_answer' value='3' id='answer_C'>
-			<label id='des_C_right' class='right_des'></label>
-			<label id='des_C_false' class='false_des'></label>
-			<br>
-			<input type='radio' name='user_answer' value='4' id='answer_D'>
-			<label id='des_D_right' class='right_des'></label>
-			<label id='des_D_false' class='false_des'></label>
-			<br>
-		</form> -->
-
 
 		<ul>
 			<li>
-				<input type="radio" id="a-option" name="user_answer" value='1' >
+				<input type="radio" id="a-option" name="user_answer" value='1'>
 				<label for="a-option" id='a'></label>
-				<label id='des_A_right' class='right_des'></label>
-				<label id='des_A_false' class='false_des'></label>
+				<h5 id='des_A_right' class='right_des'></h5>
+				<h5 id='des_A_false' class='false_des'></h5>
 
 				<div class="check">
 					<div class="inside"></div>
@@ -61,10 +40,11 @@
 			</li>
 
 			<li>
-				<input type="radio" id="b-option" name="user_answer" value='2' >
+				<input type="radio" id="b-option" name="user_answer" value='2'>
 				<label for="b-option" id='b'></label>
-				<label id='des_B_right' class='right_des'></label>
-				<label id='des_B_false' class='false_des'></label>
+				<h5 id='des_B_right' class='right_des'></h5>
+				<h5 id='des_B_right' class='false_des'></h5>
+
 
 				<div class="check">
 					<div class="inside"></div>
@@ -72,10 +52,11 @@
 			</li>
 
 			<li>
-				<input type="radio" id="c-option" name="user_answer" value='3' >
+				<input type="radio" id="c-option" name="user_answer" value='3'>
 				<label for="c-option" id='c'></label>
-				<label id='des_C_right' class='right_des'></label>
-				<label id='des_C_false' class='false_des'></label>
+				<h5 id='des_C_right' class='right_des'></h5>
+				<h5 id='des_C_false' class='false_des'></h5>
+
 
 				<div class="check">
 					<div class="inside"></div>
@@ -83,10 +64,10 @@
 			</li>
 
 			<li>
-				<input type="radio" id="d-option" name="user_answer" value='4' >
+				<input type="radio" id="d-option" name="user_answer" value='4'>
 				<label for="d-option" id='c'></label>
-				<label id='des_D_right' class='right_des'></label>
-				<label id='des_D_false' class='false_des'></label>
+				<h5 id='des_D_right' class='right_des'></h5>
+				<h5 id='des_D_false' class='false_des'></h5>
 
 				<div class="check">
 					<div class="inside"></div>
@@ -333,7 +314,7 @@
 		);
 
 		//fill address in the quote.
-		var quizInstant = quizContract.at('0xe1958cb7a56c39d10a4153fcfd9fa3c451bc2fca');
+		var quizInstant = quizContract.at('0x526b9f160e4b89b466b81beb0979c17ea2360910');
 
 		//using event to update the quiz.
 		var update_quiz_evt = quizInstant.update_quiz_evt();
@@ -414,6 +395,7 @@
 
 			//show info question.
 			if (!error) {
+				$("#loader").hide();
 				$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
 				$('#num_false_answer').html('Number false answer: ' + result.args.num_false_answer + '/' + result.args.total_quiz);
 				var question_num = parseInt(result.args.quiz_id) + 1;
