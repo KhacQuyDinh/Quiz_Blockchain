@@ -14,48 +14,50 @@ contract Owned {
 }
 
 contract Quiz is Owned {
-	//remember string is costly, so we can change it to bytes16,...
+	//remember string is costly, so we can change it to bytes,...
 	
 	function Quiz() public {
-	    quiz_set.push(quiz_pattern(0, 'When we use /"hello/"?'
-	    , 'A', 'B', 'C', 'D', '', 4));
 	    
-	    quiz_set.push(quiz_pattern(1, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 3));
-	    
-	     quiz_set.push(quiz_pattern(2, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(3, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(4, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(5, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(6, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(7, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(8, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
-	    
-	     quiz_set.push(quiz_pattern(9, 'When we play hello?'
-	    , 'A', 'B', 'C', 'D', '', 4));
+	    quiz_set.push(quiz_pattern(0, 'When we use "hello"?'
+	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1));
+
+	    quiz_set.push(quiz_pattern(1, 'What is pig?'
+	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2));
+
+	     quiz_set.push(quiz_pattern(2, 'What is clever?'
+	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1));
+
+	     quiz_set.push(quiz_pattern(3, 'Who is Washington?'
+	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3));
+
+	     quiz_set.push(quiz_pattern(4, 'What is DellInspiron 3552?'
+	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4));
+
+	     quiz_set.push(quiz_pattern(5, 'Who is the president of Vietnam in 2018?'
+	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1));
+
+	     quiz_set.push(quiz_pattern(6, 'Which word is adjective?'
+	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1));
+	   
+	     quiz_set.push(quiz_pattern(7, 'What should use do when you feel bored?'
+	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something bored', '', 1));
+	   
+      	 quiz_set.push(quiz_pattern(8, 'Who is Thomas Edison?'
+	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1));
+
+	     quiz_set.push(quiz_pattern(9, 'What is the fourth industrial revolution?'
+	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1));
+
 	}
 	
 	struct quiz_pattern {
 	    uint8 id;
-	    bytes31 question;
-	    bytes16 answer_A;
-	    bytes16 answer_B;
-	    bytes16 answer_C;
-	    bytes16 answer_D;
-	    bytes16 answer_check;
+	    bytes question;
+	    bytes answer_A;
+	    bytes answer_B;
+	    bytes answer_C;
+	    bytes answer_D;
+	    bytes answer_check;
 	    uint8 answer_check_id;
 	}
 	
@@ -74,7 +76,7 @@ contract Quiz is Owned {
 		uint8 num_right_answer,
 		uint8 num_false_answer,
 		uint8 total_quiz,
-		bytes16 answer_check,
+		bytes answer_check,
 		uint8 user_answer_id
 	);
 	
@@ -85,11 +87,11 @@ contract Quiz is Owned {
 		uint8 num_false_answer,
 		uint8 total_quiz,
 		uint8 quiz_id,
-		bytes32 question,
-		bytes16 answer_A,
-		bytes16 answer_B,
-		bytes16 answer_C,
-		bytes16 answer_D
+		bytes question,
+		bytes answer_A,
+		bytes answer_B,
+		bytes answer_C,
+		bytes answer_D
 	);
 	
 	//set new 
