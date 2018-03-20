@@ -40,7 +40,7 @@ contract Quiz is Owned {
 	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1));
 	   
 	     quiz_set.push(quiz_pattern(7, 'What should use do when you feel bored?'
-	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something bored', '', 1));
+	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something boring', '', 1));
 	   
       	 quiz_set.push(quiz_pattern(8, 'Who is Thomas Edison?'
 	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1));
@@ -71,13 +71,14 @@ contract Quiz is Owned {
 	uint8 default_total_quiz = 10;
 
 	//call event to update info in gui.
-	event update_quiz_evt(
+	event update_answer_evt(
 		bool isRight,
 		uint8 num_right_answer,
 		uint8 num_false_answer,
 		uint8 total_quiz,
 		bytes answer_check,
-		uint8 user_answer_id
+		uint8 user_answer_id,
+		uint8 server_current_quiz_id
 	);
 	
 	
@@ -106,24 +107,26 @@ contract Quiz is Owned {
 		}
 
        // call event to update info in gui.
-        emit update_quiz_evt(isRight
+        emit update_answer_evt(isRight
         , current_num_right_answer
         , current_num_false_answer
         , default_total_quiz
        // current answer_check is useless
         , quiz_set[quiz_id].answer_check
-        , user_answer_id);
+        , user_answer_id
+        //the rule of index in programming.
+        , current_quiz_id - 1);
 	}
 
 	function getTheNextQuiz() public {
-	   
-	    if (current_quiz_id < default_total_quiz) {
-	        current_quiz_id += 1;
-	    }
 	    
-	    quiz_pattern storage quiz = quiz_set[current_quiz_id - 1];
+	    require(default_total_quiz - current_quiz_id > 0);
+	    
+	    quiz_pattern storage quiz = quiz_set[current_quiz_id];
+	    current_quiz_id += 1;
 	   
-		emit update_the_next_quiz_evt(current_num_right_answer
+		emit update_the_next_quiz_evt(
+		  current_num_right_answer
 		, current_num_false_answer
 		, default_total_quiz
 		, quiz.id
@@ -134,11 +137,12 @@ contract Quiz is Owned {
 		, quiz.answer_D);
 	}
 	
-	function getTheNextQuiz(uint8 quiz_id) public {
+	function getTheNextQuizById(uint8 quiz_id) public {
 	        
 	    quiz_pattern storage quiz = quiz_set[quiz_id];
 		
-		emit update_the_next_quiz_evt(current_num_right_answer
+		emit update_the_next_quiz_evt(
+		  current_num_right_answer
 		, current_num_false_answer
 		, default_total_quiz
 		, quiz.id

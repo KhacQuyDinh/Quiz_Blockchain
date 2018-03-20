@@ -9,9 +9,11 @@
 
 	<link rel='stylesheet' type='text/css' href='quiz.css'>
 
-	<script type="text/javascript" src='./node_modules/web3/dist/web3.min.js'></script>
+	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
 
-	<script type="text/javascript" src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
+	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
+
+	<script type='text/javascript' src='jquery-cookie/src/jquery-3.2.1.slim.min.js'></script>
 </head>
 
 <body>
@@ -52,8 +54,6 @@
 
 	</div>
 
-	<script src='https://code.jquery.com/jquery-3.2.1.slim.min.js'></script>
-
 	<script>		
 		//web3 is already set provider.
 		if (typeof web3 !== 'undefined') {
@@ -69,232 +69,261 @@
 		//fill contract description.
 		var quizContract = web3.eth.contract(
 			[
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "getTheNextQuiz",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "quiz_id",
-				"type": "uint8"
-			}
-		],
-		"name": "getTheNextQuizById",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getCurrentQuizId",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getDefaultTotalQuiz",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "quiz_set",
-		"outputs": [
-			{
-				"name": "id",
-				"type": "uint8"
-			},
-			{
-				"name": "question",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_A",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_B",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_C",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_D",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_check",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_check_id",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "quiz_id",
-				"type": "uint8"
-			},
-			{
-				"name": "user_answer_id",
-				"type": "uint8"
-			}
-		],
-		"name": "submitAnswer",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "isRight",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"name": "num_right_answer",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "num_false_answer",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "total_quiz",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "answer_check",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "user_answer_id",
-				"type": "uint8"
-			}
-		],
-		"name": "update_quiz_evt",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "num_right_answer",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "num_false_answer",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "total_quiz",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "quiz_id",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"name": "question",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_A",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_B",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_C",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_D",
-				"type": "bytes"
-			}
-		],
-		"name": "update_the_next_quiz_evt",
-		"type": "event"
-	}
-]
+				{
+					"constant": false,
+					"inputs": [],
+					"name": "getTheNextQuiz",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint8"
+						}
+					],
+					"name": "getTheNextQuizById",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getCurrentQuizId",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint8"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getDefaultTotalQuiz",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint8"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"name": "quiz_set",
+					"outputs": [
+						{
+							"name": "id",
+							"type": "uint8"
+						},
+						{
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_D",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check_id",
+							"type": "uint8"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint8"
+						},
+						{
+							"name": "user_answer_id",
+							"type": "uint8"
+						}
+					],
+					"name": "submitAnswer",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "constructor"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "isRight",
+							"type": "bool"
+						},
+						{
+							"indexed": false,
+							"name": "num_right_answer",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "num_false_answer",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "total_quiz",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "user_answer_id",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "server_current_quiz_id",
+							"type": "uint8"
+						}
+					],
+					"name": "update_answer_evt",
+					"type": "event"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "num_right_answer",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "num_false_answer",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "total_quiz",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "quiz_id",
+							"type": "uint8"
+						},
+						{
+							"indexed": false,
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_D",
+							"type": "bytes"
+						}
+					],
+					"name": "update_the_next_quiz_evt",
+					"type": "event"
+				}
+			]
 		);
 
 		//fill address in the quote.
-		var quizInstant = quizContract.at('0x6abdf6a5fa18fae2ca0a24259e0f8a87bbb73965');
+		var quizInstant = quizContract.at('0x1c5abf7df4b0fd0051bab711c5c0ea189172f8a3');
+
+		console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
+		//if the cookie is not set, init cookie.				
+		if (sessionStorage.getItem('user_quiz_id') == null) {
+			sessionStorage.setItem('user_quiz_id', -1);
+		}
+
+		if (sessionStorage.getItem('default_total_quiz') == null) {
+			sessionStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
+		}
 
 		//using event to update the quiz.
-		var update_quiz_evt = quizInstant.update_quiz_evt();
+		var update_answer_evt = quizInstant.update_answer_evt();
 
 		//func when have instructorEvent be called. 
-		update_quiz_evt.watch(function (error, result) {
+		update_answer_evt.watch(function (error, result) {
 			//hide loader.
 
 			//show info including name-age or error.
 			if (!error) {
+				//the quiz is answered.
+				sessionStorage.setItem('user_quiz_id', -1);
+
+				//check end.
+				if (sessionStorage.getItem('default_total_quiz')
+					- result.args.server_current_quiz_id - 1 == 0) {
+					$('#btn_submit').html('GAME END');
+					//delete cookie everytime endgame.
+					sessionStorage.setItem('user_quiz_id', -2);
+					// console.log('510, end game');
+				} else {
+					$('#btn_submit').html('NEXT');
+				}
+
 				//update info
 				//#start region:              
 				$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
@@ -305,9 +334,9 @@
 					case 1:
 						if (result.args.isRight) {
 							$('#des_A_right').html('Correct');
-							$('#des_A_false').html('');
+							$('#des_A_false').html('')
 						} else {
-							$('#des_A_right').html('');
+							$('#des_A_right').html('')
 							$('#des_A_false').html('False');
 						}
 
@@ -316,9 +345,9 @@
 					case 2:
 						if (result.args.isRight) {
 							$('#des_B_right').html('Correct');
-							$('#des_B_false').html('');
+							$('#des_B_false').html('')
 						} else {
-							$('#des_B_right').html('');
+							$('#des_B_right').html('')
 							$('#des_B_false').html('False');
 						}
 
@@ -328,9 +357,9 @@
 					case 3:
 						if (result.args.isRight) {
 							$('#des_C_right').html('Correct');
-							$('#des_C_false').html('');
+							$('#des_C_false').html('')
 						} else {
-							$('#des_C_right').html('');
+							$('#des_C_right').html('')
 							$('#des_C_false').html('False');
 						}
 
@@ -339,16 +368,16 @@
 					case 4:
 						if (result.args.isRight) {
 							$('#des_D_right').html('Correct');
-							$('#des_D_false').html('');
+							$('#des_D_false').html('')
 						} else {
-							$('#des_D_right').html('');
+							$('#des_D_right').html('')
 							$('#des_D_false').html('False');
 						}
 
 						break;
 
 					default:
-					console.log('in default');
+						console.log('in default');
 				}
 				//#end region.              
 			} else {
@@ -363,8 +392,13 @@
 		update_the_next_quiz_evt.watch(function (error, result) {
 			//hide loader.
 
-			//show info question.
+			//show info question.			
 			if (!error) {
+				//if not error and the question is not be answered
+				console.log('409: ' + result.args.quiz_id);
+				//update value of user_quiz_id as runtime variable.						
+				sessionStorage.setItem('user_quiz_id', result.args.quiz_id);
+
 				$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
 				$('#num_false_answer').html('Number false answer: ' + result.args.num_false_answer + '/' + result.args.total_quiz);
 				var question_num = parseInt(result.args.quiz_id) + 1;
@@ -393,58 +427,68 @@
 			}
 		});
 
-		console.log('line 392: ' + (quizInstant.getCurrentQuizId() == quizInstant.getDefaultTotalQuiz()));
-		//start game.
-		if (parseInt(quizInstant.getCurrentQuizId()) - parseInt(quizInstant.getDefaultTotalQuiz()) == 0) {
-			$('#btn_submit').html('START');
+		//reload the page.
+		{
+			var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+			if (user_quiz_id >= 0) {				
+				console.log('478: reload');
+				quizInstant.getTheNextQuizById(user_quiz_id);
+				//update button		
+				$('#btn_submit').html('SUBMIT');
+			} else if (user_quiz_id != -2) {
+				//update button				
+				$('#btn_submit').html('START');								
+			}
 		}
 
 		//reset the question. for example loading the page.	
 		$('#btn_reset').click(function () {
-			var quiz_id = quizInstant.getCurrentQuizId();
-			if (quiz_id >= 0 && quizInstant.getDefaultTotalQuiz() - quiz_id > 0) {
-				quizInstant.getTheNextQuizById(quiz_id);
+			//get user_quiz_id as runtime variable.
+			var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+
+			if (user_quiz_id >= 0 && sessionStorage.getItem('default_total_quiz') - user_quiz_id > 0) {
+				//reload the quiz
+				quizInstant.getTheNextQuizById(user_quiz_id);
 			}
 		});
 
 		//after submit we call event.
 		$('#btn_submit').click(function () {
 			//show loader..
-			var quiz_id = quizInstant.getCurrentQuizId();
-			var total_quiz_id = quizInstant.getDefaultTotalQuiz();			
 
-			if (($('#btn_submit').text() == "NEXT" || $('#btn_submit').text() == "START")
-				//if quiz_id - end_quiz_id == 0 then for the case start
-				&& (total_quiz_id - quiz_id - 1 > 0 || quiz_id - total_quiz_id == 0)) {
+			//condition.
+			if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {
 				quizInstant.getTheNextQuiz(function (error, result) {
 					if (!error) {
-						//will call event.
-						console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);
+						console.log('485: get new quiz');
+						//will call event to update gui and cookie_quiz_id (user_quiz_id).
+						//console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);
 					} else {
-						console.log('error in line 413: ' + error)
+						//when server throw error that means have no more quiz.
+						console.log('error in line 413: ' + error);
+						$('#btn_submit').html('GAME END');
+						//delete cookie everytime endgame.
+						sessionStorage.setItem('user_quiz_id', -2);
+						// console.log('510, end game');
 					}
 				});
-			} else {				
-				if ($('#btn_submit').text() == "SUBMIT") {
-					console.log('431 quiz_id: ' + quiz_id);
+
+			} else {
+				if ($('#btn_submit').text() == 'SUBMIT') {
 					var user_answer_id = $('input[name=user_answer]:checked').val();
 					//if choosen an answer.
 					if (user_answer_id != undefined) {
-						quizInstant.submitAnswer(quiz_id, user_answer_id, (err, res) => {
+						//get user_quiz_id as runtime variable.			
+						var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+						quizInstant.submitAnswer(user_quiz_id, user_answer_id, (err, res) => {
 							if (err) {
 								//hide loader..
 								console.log('error in line 425: ' + err);
 							} else {
-								//will call event.
-								$('#btn_submit').html('NEXT');							
 							}
 						});
 					}
 				}
-
-				if (total_quiz_id - quiz_id - 1 == 0) {
-					$('#btn_submit').html('GAME END');
-				} 
 			}
 		});
 
