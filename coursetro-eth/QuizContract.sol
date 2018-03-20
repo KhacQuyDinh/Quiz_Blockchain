@@ -17,36 +17,35 @@ contract Quiz is Owned {
 	//remember string is costly, so we can change it to bytes16,...
 	
 	function Quiz() public {
-	      quiz_set[0] = quiz_pattern(1, 'When we use "hello"?'
-	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1);
-
-	    quiz_set[1] = quiz_pattern(2, 'What is pig?'
-	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2);
-
-	     quiz_set[2] = quiz_pattern(3, 'What is clever?'
-	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1);
-
-	     quiz_set[3] = quiz_pattern(4, 'Who is Washington?'
-	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3);
-
-	     quiz_set[4] = quiz_pattern(5, 'What is Dell-Inspiron 3552?'
-	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4);
-
-	     quiz_set[5] = quiz_pattern(6, 'Who is the president of Vietnam in 2018?'
-	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1);
-
-	     quiz_set[6] = quiz_pattern(7, 'Which word is adjective?'
-	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1);
-	   
-	     quiz_set[7] = quiz_pattern(8, 'What should use do when you feel bored?'
-	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something bored', '', 1);
-	   
-      	    quiz_set[8] = quiz_pattern(9, 'Who is Thomas Edison?
-	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1);
-
-	     quiz_set[9] = quiz_pattern(10, 'What is the fourth industrial revolution?'
-	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1);
+	    quiz_set.push(quiz_pattern(0, 'When we use /"hello/"?'
+	    , 'A', 'B', 'C', 'D', '', 4));
 	    
+	    quiz_set.push(quiz_pattern(1, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 3));
+	    
+	     quiz_set.push(quiz_pattern(2, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(3, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(4, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(5, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(6, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(7, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(8, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
+	    
+	     quiz_set.push(quiz_pattern(9, 'When we play hello?'
+	    , 'A', 'B', 'C', 'D', '', 4));
 	}
 	
 	struct quiz_pattern {
@@ -114,13 +113,14 @@ contract Quiz is Owned {
         , user_answer_id);
 	}
 
-	function getTheNextQuiz() public {	        	   
-	    quiz_pattern storage quiz = quiz_set[current_quiz_id];
-
+	function getTheNextQuiz() public {
+	   
 	    if (current_quiz_id < default_total_quiz) {
 	        current_quiz_id += 1;
 	    }
-		
+	    
+	    quiz_pattern storage quiz = quiz_set[current_quiz_id - 1];
+	   
 		emit update_the_next_quiz_evt(current_num_right_answer
 		, current_num_false_answer
 		, default_total_quiz
