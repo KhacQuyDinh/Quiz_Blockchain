@@ -20,17 +20,20 @@
 
 
 		<h2>QUIZ GAME</h2>
-		<h3 id='num_right_answer'>0</h3>
-		<h3 id='num_false_answer'>0</h3>
+		<h3 id='num_right_answer' style="color:#0DFF92;">0</h3>
+		<h3 id='num_false_answer' style="color:#ff7f82;">0</h3>
 		<hr>
 
 		<h3 id='questionId'></h3>
 		<h3 id='question'></h3>
 
+		<img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif">
+
+
 		<ul>
 			<li>
-				<input type="radio" id="a-option" name="user_answer" value='1'>
-				<label for="a-option" id='a'></label>
+				<input type="radio" id="answer_A" name="user_answer" value='1'>
+				<label for="answer_A" id='a'></label>
 				<h5 id='des_A_right' class='right_des'></h5>
 				<h5 id='des_A_false' class='false_des'></h5>
 
@@ -40,8 +43,8 @@
 			</li>
 
 			<li>
-				<input type="radio" id="b-option" name="user_answer" value='2'>
-				<label for="b-option" id='b'></label>
+				<input type="radio" id="answer_B" name="user_answer" value='2'>
+				<label for="answer_B" id='b'></label>
 				<h5 id='des_B_right' class='right_des'></h5>
 				<h5 id='des_B_right' class='false_des'></h5>
 
@@ -52,8 +55,8 @@
 			</li>
 
 			<li>
-				<input type="radio" id="c-option" name="user_answer" value='3'>
-				<label for="c-option" id='c'></label>
+				<input type="radio" id="answer_C" name="user_answer" value='3'>
+				<label for="answer_C" id='c'></label>
 				<h5 id='des_C_right' class='right_des'></h5>
 				<h5 id='des_C_false' class='false_des'></h5>
 
@@ -64,8 +67,8 @@
 			</li>
 
 			<li>
-				<input type="radio" id="d-option" name="user_answer" value='4'>
-				<label for="d-option" id='c'></label>
+				<input type="radio" id="answer_D" name="user_answer" value='4'>
+				<label for="answer_D" id='c'></label>
 				<h5 id='des_D_right' class='right_des'></h5>
 				<h5 id='des_D_false' class='false_des'></h5>
 
@@ -78,7 +81,7 @@
 		<button id='btn_submit' class="raise">START</button>
 		<br>
 		<br>
-		<button id='btn_reset' class="raise">RESET THE QUESTION</button>
+		<button id='btn_reload' class="raise">RELOAD THE QUESTION</button>
 
 	</div>
 
@@ -115,27 +118,27 @@
 						},
 						{
 							"name": "question",
-							"type": "bytes31"
+							"type": "bytes"
 						},
 						{
 							"name": "answer_A",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"name": "answer_B",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"name": "answer_C",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"name": "answer_D",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"name": "answer_check",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"name": "answer_check_id",
@@ -247,7 +250,7 @@
 						{
 							"indexed": false,
 							"name": "answer_check",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"indexed": false,
@@ -284,27 +287,27 @@
 						{
 							"indexed": false,
 							"name": "question",
-							"type": "bytes32"
+							"type": "bytes"
 						},
 						{
 							"indexed": false,
 							"name": "answer_A",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"indexed": false,
 							"name": "answer_B",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"indexed": false,
 							"name": "answer_C",
-							"type": "bytes16"
+							"type": "bytes"
 						},
 						{
 							"indexed": false,
 							"name": "answer_D",
-							"type": "bytes16"
+							"type": "bytes"
 						}
 					],
 					"name": "update_the_next_quiz_evt",
@@ -314,7 +317,7 @@
 		);
 
 		//fill address in the quote.
-		var quizInstant = quizContract.at('0x526b9f160e4b89b466b81beb0979c17ea2360910');
+		var quizInstant = quizContract.at('0x9430362358a3cca7ee53398681088e2373f5b57e');
 
 		//using event to update the quiz.
 		var update_quiz_evt = quizInstant.update_quiz_evt();
@@ -401,10 +404,14 @@
 				var question_num = parseInt(result.args.quiz_id) + 1;
 				$('#questionId').html('Question number ' + question_num);
 				$('#question').html(web3.toAscii(result.args.question));
-				$('#answer_A').html(web3.toAscii(result.args.answer_A));
-				$('#answer_B').html(web3.toAscii(result.args.answer_B));
-				$('#answer_C').html(web3.toAscii(result.args.answer_C));
-				$('#answer_D').html(web3.toAscii(result.args.answer_D));
+				var ansA = $('#answer_A').next()[0];
+				var ansB = $('#answer_B').next()[0];
+				var ansC = $('#answer_C').next()[0];
+				var ansD = $('#answer_D').next()[0];
+				ansA.textContent = web3.toAscii(result.args.answer_A);
+				ansB.textContent = web3.toAscii(result.args.answer_B);
+				ansC.textContent = web3.toAscii(result.args.answer_C);
+				ansD.textContent = web3.toAscii(result.args.answer_D);
 				//update button.
 				$('#btn_submit').html('SUBMIT');
 				//reset result.
@@ -431,7 +438,7 @@
 		}
 
 		//reset the question. for example loading the page.	
-		$('#btn_reset').click(function () {
+		$('#btn_reload').click(function () {
 			var quiz_id = quizInstant.getCurrentQuizId();
 			if (quiz_id >= 0 && quizInstant.getDefaultTotalQuiz() - quiz_id > 0) {
 				quizInstant.getTheNextQuiz(quiz_id);
@@ -441,11 +448,9 @@
 		//after submit we call event.
 		$('#btn_submit').click(function () {
 			//show loader..
+			$("#loader").show();
 			var quiz_id = quizInstant.getCurrentQuizId();
 			var total_quiz_id = quizInstant.getDefaultTotalQuiz();
-
-			console.log(quiz_id + ' -> ' + total_quiz_id);
-
 			if (($('#btn_submit').text() == "NEXT" || $('#btn_submit').text() == "START")
 				//if quiz_id - end_quiz_id == 0 then for the case start
 				&& (total_quiz_id - quiz_id - 1 > 0 || quiz_id - total_quiz_id == 0)) {
@@ -458,8 +463,8 @@
 					}
 				});
 			} else {
-				if ($('btn_submit').text() == 'SUBMIT') {
-					console.log('current quiz_id: ' + quiz_id);
+				if ($('#btn_submit').text() == "SUBMIT") {
+					console.log('431 quiz_id: ' + quiz_id);
 					var user_answer_id = $('input[name=user_answer]:checked').val();
 					//if choosen an answer.
 					if (user_answer_id != undefined) {
@@ -468,16 +473,19 @@
 								//hide loader..
 								console.log('error in line 425: ' + err);
 							} else {
-								//will call event.							
+								//will call event
+								$("#loader").hide();
+								$('#btn_submit').html('NEXT');
 							}
 						});
+					} else {
+						///
 					}
 				}
 
 				if (total_quiz_id - quiz_id - 1 == 0) {
+					$("#loader").hide();
 					$('#btn_submit').html('GAME END');
-				} else {
-					$('#btn_submit').html('NEXT');
 				}
 			}
 		});
