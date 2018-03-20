@@ -1,4 +1,6 @@
 #Initialize private network with available genesis 
+#Will generate chaindata.
+#chaindata is for private network.
 geth --datadir=./chaindata init genesis.json
 -> Successfully wrote genesis state
 -------------------------------

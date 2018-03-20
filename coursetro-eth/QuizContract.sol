@@ -1,6 +1,5 @@
 pragma solidity ^0.4.21;
 
-
 contract Owned {
 	address owner;
 	
@@ -12,67 +11,90 @@ contract Owned {
 		require(owner == msg.sender);
 		_;
 	}
-	
 }
 
 contract Quiz is Owned {
 	//remember string is costly, so we can change it to bytes16,...
 	
 	function Quiz() public {
-	    quiz_set[0] = quiz_pattern(1, 'When we use "hello"?'
-	    , 'feel fun', 'B', 'C', 'D', '', 4);
-	    quiz_set[1] = quiz_pattern(2, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'D', '', 4);
-	     quiz_set[2] = quiz_pattern(3, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'D', '', 4);
-	     quiz_set[3] = quiz_pattern(4, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
-	     quiz_set[4] = quiz_pattern(5, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
-	     quiz_set[5] = quiz_pattern(6, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
-	     quiz_set[6] = quiz_pattern(7, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
-	     quiz_set[7] = quiz_pattern(8, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
-	     quiz_set[8] = quiz_pattern(9, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
-	     quiz_set[9] = quiz_pattern(10, 'When we play /"hello/"?'
-	    , 'A', 'B', 'C', 'DD', '', 4);
+	      quiz_set[0] = quiz_pattern(1, 'When we use "hello"?'
+	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1);
+
+	    quiz_set[1] = quiz_pattern(2, 'What is pig?'
+	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2);
+
+	     quiz_set[2] = quiz_pattern(3, 'What is clever?'
+	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1);
+
+	     quiz_set[3] = quiz_pattern(4, 'Who is Washington?'
+	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3);
+
+	     quiz_set[4] = quiz_pattern(5, 'What is Dell-Inspiron 3552?'
+	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4);
+
+	     quiz_set[5] = quiz_pattern(6, 'Who is the president of Vietnam in 2018?'
+	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1);
+
+	     quiz_set[6] = quiz_pattern(7, 'Which word is adjective?'
+	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1);
+	   
+	     quiz_set[7] = quiz_pattern(8, 'What should use do when you feel bored?'
+	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something bored', '', 1);
+	   
+      	    quiz_set[8] = quiz_pattern(9, 'Who is Thomas Edison?
+	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1);
+
+	     quiz_set[9] = quiz_pattern(10, 'What is the fourth industrial revolution?'
+	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1);
 	    
 	}
 	
 	struct quiz_pattern {
-	    uint128 id;
+	    uint8 id;
 	    bytes31 question;
 	    bytes16 answer_A;
 	    bytes16 answer_B;
 	    bytes16 answer_C;
 	    bytes16 answer_D;
 	    bytes16 answer_check;
-	    uint128 answer_check_id;
+	    uint8 answer_check_id;
 	}
 	
 	//like a database.
-	mapping (uint128 => quiz_pattern) public quiz_set;
+	//mapping (uint8 => quiz_pattern) public quiz_set;
+	quiz_pattern[] public quiz_set;
 	
-	uint128 current_quiz_id = 0;
-	uint128 current_num_right_answer = 0;
-	uint128 current_num_false_answer = 0;
-	uint128 default_total_quiz = 10;
+ 	uint8 current_quiz_id = 0;
+	uint8 current_num_right_answer = 0;
+	uint8 current_num_false_answer = 0;
+	uint8 default_total_quiz = 10;
 
 	//call event to update info in gui.
 	event update_quiz_evt(
 		bool isRight,
-		uint128 num_right_answer,
-		uint128 num_false_answer,
-		uint128 total_quiz,
+		uint8 num_right_answer,
+		uint8 num_false_answer,
+		uint8 total_quiz,
 		bytes16 answer_check,
-		uint128 user_answer_id
+		uint8 user_answer_id
 	);
 	
-	// set new 
-	function submitAnswer(uint128 quiz_id, uint128 user_answer_id) public {
+	
+	//call event to update the next question in gui.
+	event update_the_next_quiz_evt(
+		uint8 num_right_answer,
+		uint8 num_false_answer,
+		uint8 total_quiz,
+		uint8 quiz_id,
+		bytes32 question,
+		bytes16 answer_A,
+		bytes16 answer_B,
+		bytes16 answer_C,
+		bytes16 answer_D
+	);
+	
+	//set new 
+	function submitAnswer(uint8 quiz_id, uint8 user_answer_id) public {
 	    bool isRight = false;
 		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {
 		    isRight = true;
@@ -82,26 +104,24 @@ contract Quiz is Owned {
 		    current_num_false_answer += 1;
 		}
 
-        //call event to update info in gui.
+       // call event to update info in gui.
         emit update_quiz_evt(isRight
         , current_num_right_answer
         , current_num_false_answer
         , default_total_quiz
-        //current answer_check is useless
+       // current answer_check is useless
         , quiz_set[quiz_id].answer_check
         , user_answer_id);
 	}
 
-	function getTheNextQuiz() public returns(uint128
-	    , uint128
-	    , uint128
-	    , uint128,
-	    bytes31, bytes16, bytes16, bytes16, bytes16) {
-	        
+	function getTheNextQuiz() public {	        	   
 	    quiz_pattern storage quiz = quiz_set[current_quiz_id];
-	    if (current_quiz_id < default_total_quiz) current_quiz_id += 1;
-	    
-		return (current_num_right_answer
+
+	    if (current_quiz_id < default_total_quiz) {
+	        current_quiz_id += 1;
+	    }
+		
+		emit update_the_next_quiz_evt(current_num_right_answer
 		, current_num_false_answer
 		, default_total_quiz
 		, quiz.id
@@ -112,11 +132,31 @@ contract Quiz is Owned {
 		, quiz.answer_D);
 	}
 	
-	function getCurrentQuizId() public view returns(uint128) {
-	    return current_quiz_id;
+	function getTheNextQuiz(uint8 quiz_id) public {
+	        
+	    quiz_pattern storage quiz = quiz_set[quiz_id];
+		
+		emit update_the_next_quiz_evt(current_num_right_answer
+		, current_num_false_answer
+		, default_total_quiz
+		, quiz.id
+		, quiz.question
+		, quiz.answer_A
+		, quiz.answer_B
+		, quiz.answer_C
+		, quiz.answer_D);
 	}
 	
-	function getDefaultTotalQuiz() public view returns(uint128) {
+	function getCurrentQuizId() public view returns(uint8) {
+	    //because current_quiz_id increased one uint8 after getTheNextQuiz() is called
+	    if (current_quiz_id > 0) {
+	        return current_quiz_id - 1;
+	    } else {
+	        return default_total_quiz;
+	    }
+	}
+	
+	function getDefaultTotalQuiz() public view returns(uint8) {
 	    return default_total_quiz;
 	}
 }

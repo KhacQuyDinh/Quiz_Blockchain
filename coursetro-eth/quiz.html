@@ -10,7 +10,7 @@
 
     <script type="text/javascript" src='./node_modules/web3/dist/web3.min.js'></script>   
 
-    <script type="text/javascript" src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>	  
+	<script type="text/javascript" src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>	  		
 </head>
 
 <body>
@@ -44,13 +44,16 @@
 	<br> 
 	</form>	
 	       
-	<button id='btn_submit'>SUBMIT</button>
+	<button id='btn_submit'>START</button>
+	<br>
+	<br>
+	<button id='btn_reset'>RESET THE QUESTION</button>
 	
-    </div>    
+    </div>    	
 
 	<script src='https://code.jquery.com/jquery-3.2.1.slim.min.js'></script>     
 
-<script>
+<script>		
 		//web3 is already set provider.
         if (typeof web3 !== 'undefined') {
             web3 = new Web3(web3.currentProvider);
@@ -144,44 +147,21 @@
 		"constant": false,
 		"inputs": [],
 		"name": "getTheNextQuiz",
-		"outputs": [
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
 			{
-				"name": "",
+				"name": "quiz_id",
 				"type": "uint8"
-			},
-			{
-				"name": "",
-				"type": "uint8"
-			},
-			{
-				"name": "",
-				"type": "uint8"
-			},
-			{
-				"name": "",
-				"type": "uint8"
-			},
-			{
-				"name": "",
-				"type": "bytes31"
-			},
-			{
-				"name": "",
-				"type": "bytes16"
-			},
-			{
-				"name": "",
-				"type": "bytes16"
-			},
-			{
-				"name": "",
-				"type": "bytes16"
-			},
-			{
-				"name": "",
-				"type": "bytes16"
 			}
 		],
+		"name": "getTheNextQuiz",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -246,12 +226,64 @@
 		],
 		"name": "update_quiz_evt",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "num_right_answer",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"name": "num_false_answer",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"name": "total_quiz",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"name": "quiz_id",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"name": "question",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "answer_A",
+				"type": "bytes16"
+			},
+			{
+				"indexed": false,
+				"name": "answer_B",
+				"type": "bytes16"
+			},
+			{
+				"indexed": false,
+				"name": "answer_C",
+				"type": "bytes16"
+			},
+			{
+				"indexed": false,
+				"name": "answer_D",
+				"type": "bytes16"
+			}
+		],
+		"name": "update_the_next_quiz_evt",
+		"type": "event"
 	}
 ]
 );    		
 
 		//fill address in the quote.
-        var quizInstant = quizContract.at('0xaef73db875e910f75832aed9f5c4271c2e1ca32f');       
+        var quizInstant = quizContract.at('0xe1ad53df64d9049179ed10f87eeb38b4708a3723');       
 
         //using event to update the quiz.
         var update_quiz_evt = quizInstant.update_quiz_evt();
@@ -261,7 +293,9 @@
             //hide loader.
 
             //show info including name-age or error.
-            if (!error) {                                
+            if (!error) {                  				
+				//update info
+				//#start region:              
                 $('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
                 $('#num_false_answer').html('Number false answer: ' + result.args.num_false_answer + '/' + result.args.total_quiz);
 
@@ -315,67 +349,107 @@
 					default:
 						//console.log('in default');
 				}					
+				//#end region.              
 			} else {
 				//console.log(error);
 			}
    		});                 
 	
-	if (quizInstant.getCurrentQuizId() == 0)  {
-		$('#btn_submit').html('START');	
+	 //using event to update the quiz.
+	 var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
+            
+	//func when have getTheNextQuiz() be called. 
+	update_the_next_quiz_evt.watch(function(error, result) {
+		//hide loader.
+	
+		//show info question.
+		if (!error) {  
+			$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
+			$('#num_false_answer').html('Number false answer: '+ result.args.num_false_answer + '/' + result.args.total_quiz);
+			var question_num = parseInt(result.args.quiz_id) + 1;
+			$('#questionId').html('Question number ' + question_num);		
+			$('#question').html(web3.toAscii(result.args.question));
+			$('#answer_A').html(web3.toAscii(result.args.answer_A));
+			$('#answer_B').html(web3.toAscii(result.args.answer_B));
+			$('#answer_C').html(web3.toAscii(result.args.answer_C));
+			$('#answer_D').html(web3.toAscii(result.args.answer_D));				
+			//update button.
+			$('#btn_submit').html('SUBMIT');
+			//reset result.
+			$('#des_A_right').html('');
+			$('#des_A_false').html('');
+			$('#des_B_right').html('');
+			$('#des_B_false').html('');
+			$('#des_C_right').html('');
+			$('#des_C_false').html('');
+			$('#des_D_right').html('');
+			$('#des_D_false').html('');
+			//uncheck all radio buttons.
+			$('#answer_A').prop('checked', false);
+			$('#answer_B').prop('checked', false);
+			$('#answer_C').prop('checked', false);
+			$('#answer_D').prop('checked', false);
+		}
+	});
+
+	console.log('line 392: ' + (quizInstant.getCurrentQuizId() == quizInstant.getDefaultTotalQuiz()));
+	//start game.
+	if (parseInt(quizInstant.getCurrentQuizId()) - parseInt(quizInstant.getDefaultTotalQuiz()) == 0)  {
+		$('#btn_submit').html('START');			
 	}
 
-        //after submit we call event.
+	//reset the question. for example loading the page.	
+	$('#btn_reset').click(function() {
+		var quiz_id = quizInstant.getCurrentQuizId();
+		if (quiz_id >= 0 && quizInstant.getDefaultTotalQuiz() - quiz_id > 0) {
+			quizInstant.getTheNextQuiz(quiz_id);
+		}		
+	});
+
+    //after submit we call event.
 	$('#btn_submit').click(function() {
 		    //show loader..
-		if (quizInstant.getCurrentQuizId() >= quizInstant.getDefaultTotalQuiz()) {
-		    $('#btn_submit').html('GAME END');											
-		} else {
-		    if ($('#btn_submit').text() == "NEXT" ||$('#btn_submit').text() == "START") {
-				quizInstant.getTheNextQuiz(function(error, result) {	
-					if (!error) {		           
-						$('#num_right_answer').html('Number right answer: ' + result[0] + '/' + result[2]);
-						$('#num_false_answer').html('Number false answer: '+ result[1] + '/' + result[2]);
-						$('#questionId').html('Question number ' + result[3]);		
-						$('#question').html(web3.toAscii(result[4]));
-						$('#answer_A').html(web3.toAscii(result[5]));
-						$('#answer_B').html(web3.toAscii(result[6]));
-						$('#answer_C').html(web3.toAscii(result[7]));
-						$('#answer_D').html(web3.toAscii(result[8]));				
-						//update button.
-						$('#btn_submit').html('SUBMIT');
-						//reset result.
-						$('#des_A_right').html('');
-						$('#des_A_false').html('');
-						$('#des_B_right').html('');
-						$('#des_B_false').html('');
-						$('#des_C_right').html('');
-						$('#des_C_false').html('');
-						$('#des_D_right').html('');
-						$('#des_D_false').html('');
+		var quiz_id = quizInstant.getCurrentQuizId();
+		var total_quiz_id = quizInstant.getDefaultTotalQuiz();
 
-						console.log('result: ' + result);
+		console.log(quiz_id + ' -> ' + total_quiz_id);
+		
+		if (($('#btn_submit').text() == "NEXT" || $('#btn_submit').text() == "START")
+			//if quiz_id - end_quiz_id == 0 then for the case start
+			&& (total_quiz_id - quiz_id  - 1 > 0 || quiz_id - total_quiz_id == 0)) {
+				quizInstant.getTheNextQuiz(function(error, result) {	
+					if (!error) {		           						
+						//will call event.
+						console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);
 					} else {
-						//console.log(error)
+						console.log('error in line 413: ' + error)
 					}
 				});			
-			} else {
-				var quiz_id = quizInstant.getCurrentQuizId();
+		} else {
+			if ($('btn_submit').text() != 'GAME END') {
+				console.log('current quiz_id: ' + quiz_id);
 				var user_answer_id = $('input[name=user_answer]:checked').val();
 				//if choosen an answer.
 				if (user_answer_id != undefined) { 
 					quizInstant.submitAnswer(quiz_id, user_answer_id, (err, res) => {
 						if (err) {
 						//hide loader..
-						//console.log(err);
+							console.log('error in line 425: ' + err);
 						} else {
-							//update button.
-							$('#btn_submit').html('NEXT');
+							//will call event.							
 						}
 					});
-				}			
+				}	
 			}
-		}
+			
+			if (total_quiz_id - quiz_id - 1 == 0) {
+				$('#btn_submit').html('GAME END');
+			} else {				
+				$('#btn_submit').html('NEXT');
+			}								
+		}		
 	});
+
 </script>
 </body>
 </html>
