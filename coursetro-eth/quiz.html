@@ -8,6 +8,7 @@
 	<title>Coursetro Smart Contract</title>
 
 	<link rel='stylesheet' type='text/css' href='quiz.css'>
+	<link rel='stylesheet' type='text/css' href='button.css'>
 
 	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
 
@@ -17,40 +18,70 @@
 </head>
 
 <body>
-	<div class='container'>
+	<div class="container">
 
-		<h1>QUIZ GAME</h1>
-		<span id='num_right_answer'>0</span>
-		<br>
-		<span id='num_false_answer'>0</span>
+
+		<h2>QUIZ GAME</h2>
+		<h3 id='num_right_answer' style="color:#0DFF92;">0</h3>
+		<h3 id='num_false_answer' style="color:#ff7f82;">0</h3>
 		<hr>
 
-		<p id='questionId'></p>
-		<p id='question'></p>
+		<h3 id='questionId'></h3>
+		<h3 id='question'></h3>
 
-		<form action=''>
-			<input type='radio' name='user_answer' value='1' id='answer_A'>
-			<label id='des_A_right' class='right_des'></label>
-			<label id='des_A_false' class='false_des'></label>
-			<br>
-			<input type='radio' name='user_answer' value='2' id='answer_B'>
-			<label id='des_B_right' class='right_des'></label>
-			<label id='des_B_false' class='false_des'></label>
-			<br>
-			<input type='radio' name='user_answer' value='3' id='answer_C'>
-			<label id='des_C_right' class='right_des'></label>
-			<label id='des_C_false' class='false_des'></label>
-			<br>
-			<input type='radio' name='user_answer' value='4' id='answer_D'>
-			<label id='des_D_right' class='right_des'></label>
-			<label id='des_D_false' class='false_des'></label>
-			<br>
-		</form>
+		<img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif">
 
-		<button id='btn_submit'>START</button>
-		<br>
-		<br>
-		<button id='btn_reset'>RESET THE QUESTION</button>
+
+		<ul>
+			<li>
+				<input type="radio" id="answer_A" name="user_answer" value='1'>
+				<label for="answer_A" id='a'></label>
+				<h5 id='des_A_right' class='right_des' style="color:#0DFF92;"></h5>
+				<h5 id='des_A_false' class='false_des' style="color:#ff7f82;"></h5>
+
+				<div class="check">
+					<div class="inside"></div>
+				</div>
+			</li>
+
+			<li>
+				<input type="radio" id="answer_B" name="user_answer" value='2'>
+				<label for="answer_B" id='b'></label>
+				<h5 id='des_B_right' class='right_des' style="color:#0DFF92;"></h5>
+				<h5 id='des_B_right' class='false_des' style="color:#ff7f82;"></h5>
+
+
+				<div class="check">
+					<div class="inside"></div>
+				</div>
+			</li>
+
+			<li>
+				<input type="radio" id="answer_C" name="user_answer" value='3'>
+				<label for="answer_C" id='c'></label>
+				<h5 id='des_C_right' class='right_des' style="color:#0DFF92;"></h5>
+				<h5 id='des_C_false' class='false_des' style="color:#ff7f82;"></h5>
+
+
+				<div class="check">
+					<div class="inside"></div>
+				</div>
+			</li>
+
+			<li>
+				<input type="radio" id="answer_D" name="user_answer" value='4'>
+				<label for="answer_D" id='c'></label>
+				<h5 id='des_D_right' class='right_des' style="color:#0DFF92;"></h5>
+				<h5 id='des_D_false' class='false_des' style="color:#ff7f82;"></h5>
+
+				<div class="check">
+					<div class="inside"></div>
+				</div>
+			</li>
+		</ul>
+
+		<button id='btn_submit' class="raise">START</button>
+		<button id='btn_reload' class="raise">RELOAD THE QUESTION</button>
 
 	</div>
 
@@ -310,6 +341,7 @@
 
 			//show info including name-age or error.
 			if (!error) {
+
 				//the quiz is answered.
 				sessionStorage.setItem('user_quiz_id', -1);
 
@@ -321,8 +353,10 @@
 					sessionStorage.setItem('user_quiz_id', -2);
 					// console.log('510, end game');
 				} else {
+					$("#loader").hide();
 					$('#btn_submit').html('NEXT');
 				}
+
 
 				//update info
 				//#start region:              
@@ -334,9 +368,9 @@
 					case 1:
 						if (result.args.isRight) {
 							$('#des_A_right').html('Correct');
-							$('#des_A_false').html('')
+							$('#des_A_false').html('');
 						} else {
-							$('#des_A_right').html('')
+							$('#des_A_right').html('');
 							$('#des_A_false').html('False');
 						}
 
@@ -345,9 +379,9 @@
 					case 2:
 						if (result.args.isRight) {
 							$('#des_B_right').html('Correct');
-							$('#des_B_false').html('')
+							$('#des_B_false').html('');
 						} else {
-							$('#des_B_right').html('')
+							$('#des_B_right').html('');
 							$('#des_B_false').html('False');
 						}
 
@@ -357,9 +391,9 @@
 					case 3:
 						if (result.args.isRight) {
 							$('#des_C_right').html('Correct');
-							$('#des_C_false').html('')
+							$('#des_C_false').html('');
 						} else {
-							$('#des_C_right').html('')
+							$('#des_C_right').html('');
 							$('#des_C_false').html('False');
 						}
 
@@ -368,9 +402,9 @@
 					case 4:
 						if (result.args.isRight) {
 							$('#des_D_right').html('Correct');
-							$('#des_D_false').html('')
+							$('#des_D_false').html('');
 						} else {
-							$('#des_D_right').html('')
+							$('#des_D_right').html('');
 							$('#des_D_false').html('False');
 						}
 
@@ -391,23 +425,29 @@
 		//func when have getTheNextQuiz() be called. 
 		update_the_next_quiz_evt.watch(function (error, result) {
 			//hide loader.
-
-			//show info question.			
+			$("#loader").hide();
+			//show info question.
 			if (!error) {
+
 				//if not error and the question is not be answered
 				console.log('409: ' + result.args.quiz_id);
 				//update value of user_quiz_id as runtime variable.						
 				sessionStorage.setItem('user_quiz_id', result.args.quiz_id);
 
+				$("#loader").hide();
 				$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
 				$('#num_false_answer').html('Number false answer: ' + result.args.num_false_answer + '/' + result.args.total_quiz);
 				var question_num = parseInt(result.args.quiz_id) + 1;
 				$('#questionId').html('Question number ' + question_num);
 				$('#question').html(web3.toAscii(result.args.question));
-				$('#answer_A').html(web3.toAscii(result.args.answer_A));
-				$('#answer_B').html(web3.toAscii(result.args.answer_B));
-				$('#answer_C').html(web3.toAscii(result.args.answer_C));
-				$('#answer_D').html(web3.toAscii(result.args.answer_D));
+				var ansA = $('#answer_A').next()[0];
+				var ansB = $('#answer_B').next()[0];
+				var ansC = $('#answer_C').next()[0];
+				var ansD = $('#answer_D').next()[0];
+				ansA.textContent = web3.toAscii(result.args.answer_A);
+				ansB.textContent = web3.toAscii(result.args.answer_B);
+				ansC.textContent = web3.toAscii(result.args.answer_C);
+				ansD.textContent = web3.toAscii(result.args.answer_D);
 				//update button.
 				$('#btn_submit').html('SUBMIT');
 				//reset result.
@@ -427,6 +467,7 @@
 			}
 		});
 
+
 		//reload the page.
 		{
 			var user_quiz_id = sessionStorage.getItem('user_quiz_id');
@@ -440,6 +481,7 @@
 				$('#btn_submit').html('START');
 			}
 		}
+
 
 		//reset the question. for example loading the page.	
 		$('#btn_reset').click(function () {
@@ -455,7 +497,7 @@
 		//after submit we call event.
 		$('#btn_submit').click(function () {
 			//show loader..
-
+			$("#loader").show();
 			//condition.
 			if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {
 				quizInstant.getTheNextQuiz(function (error, result) {
@@ -483,6 +525,7 @@
 						quizInstant.submitAnswer(user_quiz_id, user_answer_id, (err, res) => {
 							if (err) {
 								//hide loader..
+								$("#loader").hide();
 								console.log('error in line 425: ' + err);
 							} else {
 							}
