@@ -13,7 +13,7 @@
 
 	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
 
-	<script type='text/javascript' src='jquery-cookie/src/jquery-3.2.1.slim.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 </head>
 
 <body>
@@ -93,81 +93,6 @@
 					"type": "function"
 				},
 				{
-					"constant": true,
-					"inputs": [],
-					"name": "getCurrentQuizId",
-					"outputs": [
-						{
-							"name": "",
-							"type": "uint8"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"constant": true,
-					"inputs": [],
-					"name": "getDefaultTotalQuiz",
-					"outputs": [
-						{
-							"name": "",
-							"type": "uint8"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"constant": true,
-					"inputs": [
-						{
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"name": "quiz_set",
-					"outputs": [
-						{
-							"name": "id",
-							"type": "uint8"
-						},
-						{
-							"name": "question",
-							"type": "bytes"
-						},
-						{
-							"name": "answer_A",
-							"type": "bytes"
-						},
-						{
-							"name": "answer_B",
-							"type": "bytes"
-						},
-						{
-							"name": "answer_C",
-							"type": "bytes"
-						},
-						{
-							"name": "answer_D",
-							"type": "bytes"
-						},
-						{
-							"name": "answer_check",
-							"type": "bytes"
-						},
-						{
-							"name": "answer_check_id",
-							"type": "uint8"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
 					"constant": false,
 					"inputs": [
 						{
@@ -184,12 +109,6 @@
 					"payable": false,
 					"stateMutability": "nonpayable",
 					"type": "function"
-				},
-				{
-					"inputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "constructor"
 				},
 				{
 					"anonymous": false,
@@ -284,12 +203,93 @@
 					],
 					"name": "update_the_next_quiz_evt",
 					"type": "event"
+				},
+				{
+					"inputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "constructor"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getCurrentQuizId",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint8"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getDefaultTotalQuiz",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint8"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"name": "quiz_set",
+					"outputs": [
+						{
+							"name": "id",
+							"type": "uint8"
+						},
+						{
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_D",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check_id",
+							"type": "uint8"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
 				}
 			]
 		);
 
 		//fill address in the quote.
-		var quizInstant = quizContract.at('0x1c5abf7df4b0fd0051bab711c5c0ea189172f8a3');
+		var quizInstant = quizContract.at('0x7a9ad6f4468bce1576949cbe33f3b823a85d521f');
 
 		console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
@@ -430,14 +430,14 @@
 		//reload the page.
 		{
 			var user_quiz_id = sessionStorage.getItem('user_quiz_id');
-			if (user_quiz_id >= 0) {				
+			if (user_quiz_id >= 0) {
 				console.log('478: reload');
 				quizInstant.getTheNextQuizById(user_quiz_id);
 				//update button		
 				$('#btn_submit').html('SUBMIT');
 			} else if (user_quiz_id != -2) {
 				//update button				
-				$('#btn_submit').html('START');								
+				$('#btn_submit').html('START');
 			}
 		}
 
