@@ -322,7 +322,7 @@
 		//fill address in the quote.
 		var quizInstant = quizContract.at('0x7a9ad6f4468bce1576949cbe33f3b823a85d521f');
 
-		console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
+		//console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
 		if (sessionStorage.getItem('user_quiz_id') == null) {
 			sessionStorage.setItem('user_quiz_id', -1);
@@ -330,6 +330,14 @@
 
 		if (sessionStorage.getItem('default_total_quiz') == null) {
 			sessionStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
+		}
+
+		if (sessionStorage.getItem('user_correct_answer') == null) {
+			sessionStorage.setItem('user_correct_answer', 0);
+		}
+		
+		if (sessionStorage.getItem('user_wrong_answer') == null) {
+			sessionStorage.setItem('user_wrong_answer', 0);
 		}
 
 		//using event to update the quiz.
@@ -341,6 +349,13 @@
 
 			//show info including name-age or error.
 			if (!error) {
+
+				//increase and decrease wrong_answer or correct_answer.
+				if (result.isRight) {
+				   sessionStorage.setItem('user_correct_answer', sessionStorage.getItem('user_correct_answer') + 1);
+				} else {
+				   sessionStorage.setItem('user_wrong_answer', sessionStorage.getItem('user_wrong_answer') + 1);	
+				}				 					
 
 				//the quiz is answered.
 				sessionStorage.setItem('user_quiz_id', -1);
@@ -359,9 +374,17 @@
 
 
 				//update info
-				//#start region:              
+				///#start region:
+				
+				//game_num_right_answer              
 				$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
+				//game_num_false_answer
 				$('#num_false_answer').html('Number false answer: ' + result.args.num_false_answer + '/' + result.args.total_quiz);
+			        //user_num_correct_answer
+				//write code here..
+
+				//user_num_wrong_answer
+				//write code here..	
 
 				//update answer.				
 				switch (parseInt(result.args.user_answer_id)) {
