@@ -1,23 +1,18 @@
 pragma solidity ^0.4.21;
 
-contract Owned {
-	address owner;
-	
-	function Owned() public {
-		owner = msg.sender;
-	}
-
-	modifier onlyOwner() {
-		require(owner == msg.sender);
-		_;
-	}
-}
-
-contract Quiz is Owned {
+contract Quiz {
+    //may need to change if increase the total supply.
+    mapping (address => uint8) public balanceOf;
+    
 	//remember string is costly, so we can change it to bytes,...
-	
 	function Quiz() public {
-	    
+	    //init total supply = an amount of free given money.
+	    balanceOf[msg.sender] = 100;
+        initQuizDb();
+	}
+	
+	function initQuizDb() public {
+	    	    //init 
 	    quiz_set.push(quiz_pattern(0, 'When we use "hello"?'
 	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1));
 
@@ -78,7 +73,8 @@ contract Quiz is Owned {
 		uint8 total_quiz,
 		bytes answer_check,
 		uint8 user_answer_id,
-		uint8 server_current_quiz_id
+		uint8 server_current_quiz_id,
+		uint8 balance
 	);
 	
 	
@@ -101,9 +97,13 @@ contract Quiz is Owned {
 		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {
 		    isRight = true;
 		    current_num_right_answer += 1;
+		    //increase one coin if get the correct answer.
+		    balanceOf[msg.sender] += 1;
 		} else {
 		    isRight = false;
 		    current_num_false_answer += 1;
+		    //decrease one coin if get the wrong answer.
+		    balanceOf[msg.sender] -= 1;
 		}
 
        // call event to update info in gui.
@@ -111,16 +111,18 @@ contract Quiz is Owned {
         , current_num_right_answer
         , current_num_false_answer
         , default_total_quiz
-       // current answer_check is useless
+       // current answer_check is useless.
         , quiz_set[quiz_id].answer_check
         , user_answer_id
         //the rule of index in programming.
-        , current_quiz_id - 1);
+        , current_quiz_id - 1
+        , balanceOf[msg.sender]);
 	}
 
 	function getTheNextQuiz() public {
 	    
-	    require(default_total_quiz - current_quiz_id > 0);
+	    require(default_total_quiz - current_quiz_id > 0 
+	    && balanceOf[msg.sender] > 0);
 	    
 	    quiz_pattern storage quiz = quiz_set[current_quiz_id];
 	    current_quiz_id += 1;
@@ -137,6 +139,7 @@ contract Quiz is Owned {
 		, quiz.answer_D);
 	}
 	
+	//get the quiz by its id.
 	function getTheNextQuizById(uint8 quiz_id) public {
 	        
 	    quiz_pattern storage quiz = quiz_set[quiz_id];
@@ -154,7 +157,7 @@ contract Quiz is Owned {
 	}
 	
 	function getCurrentQuizId() public view returns(uint8) {
-	    //because current_quiz_id increased one uint8 after getTheNextQuiz() is called
+	    //because current_quiz_id increased one uint8 after getTheNextQuiz() is called.
 	    if (current_quiz_id > 0) {
 	        return current_quiz_id - 1;
 	    } else {
@@ -164,5 +167,9 @@ contract Quiz is Owned {
 	
 	function getDefaultTotalQuiz() public view returns(uint8) {
 	    return default_total_quiz;
+	}
+	
+	function getCurrentBalance() public view returns(uint8) {
+	    return balanceOf[msg.sender];
 	}
 }

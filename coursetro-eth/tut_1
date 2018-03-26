@@ -1,0 +1,16 @@
+#1
+pragma solidity ^0.4.17 asserts the version of Solidity compiler that is expected.
+
+The view declaration is surprisingly important in Solidity contracts because view functions can be executed for free. But cannot change the value.
+
+smart contract function execution requires payment (in Ether), which is called “gas”.
+
++ Ethereum smart contracts represent persistent code and data on the Ethereum blockchain.
+
++ Once deployed, a contract exists forever, and any public can be invoked by anybody.
+
++ functions without view cost gas(ether) to be executed.
+
++ if a func fails to terminate normally, it will have no persistent side effect.
+
+

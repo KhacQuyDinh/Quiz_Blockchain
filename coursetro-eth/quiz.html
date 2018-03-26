@@ -335,7 +335,7 @@
 		if (sessionStorage.getItem('user_num_correct_answer') == null) {
 			sessionStorage.setItem('user_num_correct_answer', 0);
 		}
-		
+
 		if (sessionStorage.getItem('user_num_wrong_answer') == null) {
 			sessionStorage.setItem('user_num_wrong_answer', 0);
 		}
@@ -352,10 +352,10 @@
 
 				//increase and decrease wrong_answer or correct_answer.
 				if (result.isRight) {
-				   sessionStorage.setItem('user_num_correct_answer', sessionStorage.getItem('user_num_correct_answer') + 1);
+					sessionStorage.setItem('user_num_correct_answer', sessionStorage.getItem('user_num_correct_answer') + 1);
 				} else {
-				   sessionStorage.setItem('user_num_wrong_answer', sessionStorage.getItem('user_num_wrong_answer') + 1);	
-				}				 					
+					sessionStorage.setItem('user_num_wrong_answer', sessionStorage.getItem('user_num_wrong_answer') + 1);
+				}
 
 				//the quiz is answered.
 				sessionStorage.setItem('user_quiz_id', -1);
@@ -375,16 +375,19 @@
 
 				//update info
 				///#start region:
-				
+
 				//game_num_right_answer              
 				$('#num_right_answer').html('Number right answer: ' + result.args.num_right_answer + '/' + result.args.total_quiz);
 				//game_num_false_answer
 				$('#num_false_answer').html('Number false answer: ' + result.args.num_false_answer + '/' + result.args.total_quiz);
-			        //user_num_correct_answer
+				//user_num_correct_answer
 				//write code here..
 
 				//user_num_wrong_answer
 				//write code here..	
+
+				//update balance token.
+				//write code here.. using result.args.balance
 
 				//update answer.				
 				switch (parseInt(result.args.user_answer_id)) {
@@ -502,6 +505,9 @@
 			} else if (user_quiz_id != -2) {
 				//update button				
 				$('#btn_submit').html('START');
+
+				//show the balance 
+				//write code here.. using quizInstant.getCurrentBalance();
 			}
 		}
 

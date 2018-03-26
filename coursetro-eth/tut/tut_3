@@ -1,0 +1,13 @@
+JavaScript VM: This is great for simple testing but doesn’t allow anyone else to interact with your contract.
+
+Injected Web3: Deploy to a test network or the main Ethereum network.
+
+Web3 Provider: This option connects directly to an Ethereum node via HTTP.
+
+  function withdraw() public ownerOnly {
+        msg.sender.transfer(address(this).balance);
+    }
+
+    function deposit(uint256 amount) payable public {
+        require(msg.value == amount);
+    }

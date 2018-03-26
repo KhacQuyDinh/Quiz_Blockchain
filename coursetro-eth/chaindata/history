@@ -1,1 +1,6 @@
 web3.eth.accounts
+exit]
+miner.start(1)
+miner.start(1);
+miner.start(2);
+miner.stop()

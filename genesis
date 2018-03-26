@@ -40,6 +40,10 @@ After installing vim running
 ----------------------------------------------
 miner.start(1);
 ----------------------------------------------
+miner.stop();
+----------------------------------------------
+notice to add 0x... to gaslimit in genesis.json (hexidecimal)
+----------------------------------------------
 Find process with its port
 sudo netstat -nlp | grep :[port] 
 
