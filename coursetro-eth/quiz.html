@@ -332,12 +332,12 @@
 			sessionStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
 		}
 
-		if (sessionStorage.getItem('user_correct_answer') == null) {
-			sessionStorage.setItem('user_correct_answer', 0);
+		if (sessionStorage.getItem('user_num_correct_answer') == null) {
+			sessionStorage.setItem('user_num_correct_answer', 0);
 		}
 		
-		if (sessionStorage.getItem('user_wrong_answer') == null) {
-			sessionStorage.setItem('user_wrong_answer', 0);
+		if (sessionStorage.getItem('user_num_wrong_answer') == null) {
+			sessionStorage.setItem('user_num_wrong_answer', 0);
 		}
 
 		//using event to update the quiz.
@@ -352,9 +352,9 @@
 
 				//increase and decrease wrong_answer or correct_answer.
 				if (result.isRight) {
-				   sessionStorage.setItem('user_correct_answer', sessionStorage.getItem('user_correct_answer') + 1);
+				   sessionStorage.setItem('user_num_correct_answer', sessionStorage.getItem('user_num_correct_answer') + 1);
 				} else {
-				   sessionStorage.setItem('user_wrong_answer', sessionStorage.getItem('user_wrong_answer') + 1);	
+				   sessionStorage.setItem('user_num_wrong_answer', sessionStorage.getItem('user_num_wrong_answer') + 1);	
 				}				 					
 
 				//the quiz is answered.
