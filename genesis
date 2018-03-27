@@ -7,8 +7,8 @@ geth --datadir=./chaindata init genesis.json
 Start private network
 //geth --datadir path/to/custom/data/folder --networkid 15
 //geth --datadir path/to/custom/data/folder
-//geth --datadir=./chaindata/
-geth --datadir=./chaindata/ console -rpc --rpccorsdomain "*"
+//geth --datadir=./chaindata/ console -rpc --rpccorsdomain "*"
+geth --datadir=./chaindata/
 
 //sudo dpkg -i --force-all [file.deb]
 
@@ -60,4 +60,11 @@ we need to continuously mine in order to deploy & confirm contracts
 ----------------------------------------------
 npm install ganache-cli
 ganache-cli -> ethereum simulation about protocols
+----------------------------------------------
 
+#start mist at dir contains geth.ipc if not it will be failed by busy port error.
+#start miner.start(1) or miner.stop() at web3 console not mist.
+# increase gaslimit at genesis.json and it can be decimal.
+
+----------------------------------------------
+web3.personal.unlockAccount(web3.personal.listAccounts[0],"<password>", 15000)

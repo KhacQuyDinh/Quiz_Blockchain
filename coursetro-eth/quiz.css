@@ -16,11 +16,18 @@ body, html{
 }
 
 h2 {
-	color: #AAAAAA;
+  color: #FFFFFF;
+  font-size: 50px;
 }
 
-h3 {
-    color: #AAAAAA;
+.general_num {
+    display: inline;
+    margin-right: 20px;    
+}
+
+.user_num {
+  display: inline;  
+  margin-right: 20px;  
 }
 
 .container ul{

@@ -2,7 +2,7 @@ pragma solidity ^0.4.21;
 
 contract Quiz {
     //may need to change if increase the total supply.
-    mapping (address => uint8) public balanceOf;
+    mapping (address => uint256) public balanceOf;
     
 	//remember string is costly, so we can change it to bytes,...
 	function Quiz() public {
@@ -46,44 +46,44 @@ contract Quiz {
 	}
 	
 	struct quiz_pattern {
-	    uint8 id;
+	    uint256 id;
 	    bytes question;
 	    bytes answer_A;
 	    bytes answer_B;
 	    bytes answer_C;
 	    bytes answer_D;
 	    bytes answer_check;
-	    uint8 answer_check_id;
+	    uint256 answer_check_id;
 	}
 	
 	//like a database.
-	//mapping (uint8 => quiz_pattern) public quiz_set;
+	//mapping (uint256 => quiz_pattern) public quiz_set;
 	quiz_pattern[] public quiz_set;
 	
- 	uint8 current_quiz_id = 0;
-	uint8 current_num_right_answer = 0;
-	uint8 current_num_false_answer = 0;
-	uint8 default_total_quiz = 10;
+ 	uint256 current_quiz_id = 0;
+	uint256 current_general_num_right_answer = 0;
+	uint256 current_general_num_false_answer = 0;
+	uint256 default_total_quiz = 10;
 
 	//call event to update info in gui.
 	event update_answer_evt(
 		bool isRight,
-		uint8 num_right_answer,
-		uint8 num_false_answer,
-		uint8 total_quiz,
+		uint256 general_num_right_answer,
+		uint256 general_num_false_answer,
+		uint256 total_quiz,
 		bytes answer_check,
-		uint8 user_answer_id,
-		uint8 server_current_quiz_id,
-		uint8 balance
+		uint256 user_answer_id,
+		uint256 server_current_quiz_id,
+		uint256 balance
 	);
 	
 	
 	//call event to update the next question in gui.
 	event update_the_next_quiz_evt(
-		uint8 num_right_answer,
-		uint8 num_false_answer,
-		uint8 total_quiz,
-		uint8 quiz_id,
+		uint256 general_num_right_answer,
+		uint256 general_num_false_answer,
+		uint256 total_quiz,
+		uint256 quiz_id,
 		bytes question,
 		bytes answer_A,
 		bytes answer_B,
@@ -92,24 +92,24 @@ contract Quiz {
 	);
 	
 	//set new 
-	function submitAnswer(uint8 quiz_id, uint8 user_answer_id) public {
+	function submitAnswer(uint256 quiz_id, uint256 user_answer_id) public {
 	    bool isRight = false;
 		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {
 		    isRight = true;
-		    current_num_right_answer += 1;
+		    current_general_num_right_answer += 1;
 		    //increase one coin if get the correct answer.
 		    balanceOf[msg.sender] += 1;
 		} else {
 		    isRight = false;
-		    current_num_false_answer += 1;
+		    current_general_num_false_answer += 1;
 		    //decrease one coin if get the wrong answer.
 		    balanceOf[msg.sender] -= 1;
 		}
 
        // call event to update info in gui.
         emit update_answer_evt(isRight
-        , current_num_right_answer
-        , current_num_false_answer
+        , current_general_num_right_answer
+        , current_general_num_false_answer
         , default_total_quiz
        // current answer_check is useless.
         , quiz_set[quiz_id].answer_check
@@ -128,8 +128,8 @@ contract Quiz {
 	    current_quiz_id += 1;
 	   
 		emit update_the_next_quiz_evt(
-		  current_num_right_answer
-		, current_num_false_answer
+		  current_general_num_right_answer
+		, current_general_num_false_answer
 		, default_total_quiz
 		, quiz.id
 		, quiz.question
@@ -140,13 +140,13 @@ contract Quiz {
 	}
 	
 	//get the quiz by its id.
-	function getTheNextQuizById(uint8 quiz_id) public {
+	function getTheNextQuizById(uint256 quiz_id) public {
 	        
 	    quiz_pattern storage quiz = quiz_set[quiz_id];
 		
 		emit update_the_next_quiz_evt(
-		  current_num_right_answer
-		, current_num_false_answer
+		  current_general_num_right_answer
+		, current_general_num_false_answer
 		, default_total_quiz
 		, quiz.id
 		, quiz.question
@@ -156,8 +156,8 @@ contract Quiz {
 		, quiz.answer_D);
 	}
 	
-	function getCurrentQuizId() public view returns(uint8) {
-	    //because current_quiz_id increased one uint8 after getTheNextQuiz() is called.
+	function getCurrentQuizId() public view returns(uint256) {
+	    //because current_quiz_id increased one uint256 after getTheNextQuiz() is called.
 	    if (current_quiz_id > 0) {
 	        return current_quiz_id - 1;
 	    } else {
@@ -165,11 +165,11 @@ contract Quiz {
 	    }
 	}
 	
-	function getDefaultTotalQuiz() public view returns(uint8) {
+	function getDefaultTotalQuiz() public view returns(uint256) {
 	    return default_total_quiz;
 	}
 	
-	function getCurrentBalance() public view returns(uint8) {
+	function getCurrentBalance() public view returns(uint256) {
 	    return balanceOf[msg.sender];
 	}
 }
