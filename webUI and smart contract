@@ -1,0 +1,9 @@
+npm install ganache-cli
+ganache-cli -> ethereum simulation about protocols
+
+npm init -> .json
+npm install web3
+
+Remix (server) and create smart contract using solidity language <-> ganache-cli (network and simulated ethereum protocols) <-> Web  using web3.js(client)
+
+
