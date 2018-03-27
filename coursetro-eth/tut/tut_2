@@ -1,0 +1,24 @@
+pragma solidity ^0.4.17;
+
+contract CommunityChest {
+ function withdraw() public {
+	//transfer address(this).balance(ehter) to msg.sender.
+        //transfer is safer than send because:
+        //send will return true/false but transfer will abort if have some erros.
+        msg.sender.transfer(address(this).balance);
+    }
+
+ //payable to allow transaction with ether.
+ function deposit(uint256 amount) payable public {
+	//msg.value is the ether of the sender.
+        require(msg.value == amount);
+        // nothing else to do!
+    }
+
+
+    function getBalance() public view returns (uint256) {
+	//directly access another account’s ether balance using that other account’s address.
+        return address(this).balance;
+    }
+}
+
