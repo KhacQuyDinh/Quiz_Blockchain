@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
 	<link rel="stylesheet" href="theme.css" type="text/css">
-	<title>Coursetro Smart Contract</title>
+	<title>QUIZZES SMART CONTRACT</title>
 	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
 	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -14,35 +14,6 @@
 
 <body class="bg-dark" style="background-size:cover;">
 	<div class="container">
-<<<<<<< HEAD
-
-
-		<h2>QUIZ GAME</h2>
-		<h3 id='general_num_right_answer' style="color:#0DFF92;" class="general_num">0</h3>
-		<h3 id='general_num_false_answer' style="color:#ff7f82;" class="general_num">0</h3>
-		<br>
-		<h3 id='user_num_right_answer' style="color:#0DFF92;" class="user_num">0</h3>
-		<h3 id='user_num_false_answer' style="color:#ff7f82;" class="user_num">0</h3>
-
-		<h3 id='balance' style="color: #e5ff60">0</h3>
-		<hr>
-
-		<h3 id='questionId'></h3>
-		<h3 id='question'></h3>
-
-		<img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif">
-
-
-		<ul>
-			<li>
-				<input type="radio" id="answer_A" name="user_answer" value='1'>
-				<label for="answer_A" id='a'></label>
-				<h5 id='des_A_right' class='right_des' style="color:#0DFF92;"></h5>
-				<h5 id='des_A_false' class='false_des' style="color:#ff7f82;"></h5>
-
-				<div class="check">
-					<div class="inside"></div>
-=======
 		<div class="row py-5 mx-5">
 			<div class="align-self-center text-white col-md-4 bg-dark">
 				<h1 class="text-center text-md-left display-3 text-light">Quiz Game</h1>
@@ -115,7 +86,6 @@
 							<button class="btn w-50 btn-outline-light m-1" id='btn_reload'>Reload</button>
 						</div>
 					</div>
->>>>>>> origin/lumosnysm
 				</div>
 			</div>
 		</div>
@@ -137,272 +107,6 @@
 		//fill contract description.
 		var quizContract = web3.eth.contract(
 			[
-<<<<<<< HEAD
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "initQuizDb",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "getTheNextQuiz",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getCurrentQuizId",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getDefaultTotalQuiz",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "quiz_id",
-				"type": "uint256"
-			},
-			{
-				"name": "user_answer_id",
-				"type": "uint256"
-			}
-		],
-		"name": "submitAnswer",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getCurrentBalance",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "quiz_id",
-				"type": "uint256"
-			}
-		],
-		"name": "getTheNextQuizById",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "quiz_set",
-		"outputs": [
-			{
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"name": "question",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_A",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_B",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_C",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_D",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_check",
-				"type": "bytes"
-			},
-			{
-				"name": "answer_check_id",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "isRight",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"name": "general_num_right_answer",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "general_num_false_answer",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "total_quiz",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "answer_check",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "user_answer_id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "server_current_quiz_id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "balance",
-				"type": "uint256"
-			}
-		],
-		"name": "update_answer_evt",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "general_num_right_answer",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "general_num_false_answer",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "total_quiz",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "quiz_id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "question",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_A",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_B",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_C",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"name": "answer_D",
-				"type": "bytes"
-			}
-		],
-		"name": "update_the_next_quiz_evt",
-		"type": "event"
-	}
-]
-=======
 				{
 					"constant": false,
 					"inputs": [],
@@ -667,16 +371,11 @@
 					"type": "function"
 				}
 			]
->>>>>>> origin/lumosnysm
 		);
 
 
 		//fill address in the quote.
-<<<<<<< HEAD
-		var quizInstant = quizContract.at("0x0f683341f44fa7e81fb136b128f8168b85c27569");
-=======
 		var quizInstant = quizContract.at("0x3dab1d7aa429699258ffd14e2639b81c185e2745");
->>>>>>> origin/lumosnysm
 
 		//console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
