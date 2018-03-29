@@ -834,8 +834,10 @@
 
 				$("#loader").hide();
 
+				//we need realtime to update here..
 				$('#general_num_right_answer').next().html(result.args.general_num_right_answer + '/' + result.args.total_quiz);
 				$('#general_num_false_answer').next().html(result.args.general_num_false_answer + '/' + result.args.total_quiz);
+				//update balance because the lost token when geting the next quiz.
 				$('#balance').next().html(result.args.balance);
 
 				var question_num = parseInt(result.args.quiz_id) + 1;
