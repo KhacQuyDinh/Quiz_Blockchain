@@ -97,13 +97,13 @@ contract Quiz {
 		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {
 		    isRight = true;
 		    current_general_num_right_answer += 1;
-		    //increase one coin if get the correct answer.
-		    balanceOf[msg.sender] += 1;
+		    //increase two coin if get the correct answer.
+		    balanceOf[msg.sender] += 2;
 		} else {
 		    isRight = false;
 		    current_general_num_false_answer += 1;
 		    //decrease one coin if get the wrong answer.
-		    balanceOf[msg.sender] -= 1;
+		    //balanceOf[msg.sender] -= 1;
 		}
 
        // call event to update info in gui.
@@ -126,6 +126,8 @@ contract Quiz {
 	    
 	    quiz_pattern storage quiz = quiz_set[current_quiz_id];
 	    current_quiz_id += 1;
+	    //spend one coin on geting the next quiz.
+	    balanceOf[msg.sender] -= 1;
 	   
 		emit update_the_next_quiz_evt(
 		  current_general_num_right_answer

@@ -8,7 +8,11 @@ Start private network
 //geth --datadir path/to/custom/data/folder --networkid 15
 //geth --datadir path/to/custom/data/folder
 //geth --datadir=./chaindata/ console -rpc --rpccorsdomain "*"
+<<<<<<< HEAD
 geth --datadir=./chaindata/ #will generate geth.ipc
+=======
+geth --datadir=./chaindata/
+>>>>>>> origin/lumosnysm
 
 //sudo dpkg -i --force-all [file.deb]
 
@@ -68,9 +72,12 @@ ganache-cli -> ethereum simulation about protocols
 
 ----------------------------------------------
 web3.personal.unlockAccount(web3.personal.listAccounts[0],"<password>", 15000)
+<<<<<<< HEAD
 
 ----------------------------------------------
 sudo npm install -g yarn
 ----------------------------------------------
 yarn dev:electron --rpc ~/Library/Ethereum/geth.ipc --node-networkid 1234 --node-datadir ~/Library/Ethereum/privatenet
 ----------------------------------------------
+=======
+>>>>>>> origin/lumosnysm

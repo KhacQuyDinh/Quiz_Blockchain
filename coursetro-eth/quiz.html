@@ -1,24 +1,20 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html>
 
 <head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-	<meta http-equiv='X-UA-Compatible' content='ie=edge'>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="theme.css" type="text/css">
 	<title>Coursetro Smart Contract</title>
-
-	<link rel='stylesheet' type='text/css' href='quiz.css'>
-	<link rel='stylesheet' type='text/css' href='button.css'>
-
 	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
-
 	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
-<body>
+<body class="bg-dark" style="background-size:cover;">
 	<div class="container">
+<<<<<<< HEAD
 
 
 		<h2>QUIZ GAME</h2>
@@ -46,49 +42,85 @@
 
 				<div class="check">
 					<div class="inside"></div>
+=======
+		<div class="row py-5 mx-5">
+			<div class="align-self-center text-white col-md-4 bg-dark">
+				<h1 class="text-center text-md-left display-3 text-light">Quiz Game</h1>
+				<!-- <p id='general_num_right_answer' style="color:#0DFF92;">General number correct answer: </p>
+                <p id='general_num_false_answer' style="color:#ff7f82;">General number wrong answer: </p>
+                <p id='user_num_right_answer' style="color:#0DFF92;">User number correct answer:</p>
+                <p id='user_num_false_answer' style="color:#ff7f82;">User number wrong answer: </p>
+				<p id='balance' style="color: #e5ff60">Balance: </p> -->
+				<table class="table table-hover table-striped table-sm table-bordered">
+					<tbody>
+						<tr>
+							<td  id='general_num_right_answer' style="color:#0DFF92;">General num correct ans:</td>
+							<td class="w-25 text-center"></td>
+						</tr>
+						<tr>
+							<td id='general_num_false_answer' style="color:#ff7f82;">General num wrong ans:</td>
+							<td class="text-center"></td>
+						</tr>
+						<tr>
+							<td id='user_num_right_answer'  style="color:#0DFF92;">User num correct ans:</td>
+							<td class="text-center"> </td>
+						</tr>
+						<tr>
+							<td id='user_num_false_answer' style="color:#ff7f82;" >User num wrong ans:</td>
+							<td class="text-center"></td>
+						</tr>
+						<tr>
+							<td id='balance' style="color: #e5ff60;">Balance:</td>
+							<td class="text-center"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-body bg-dark w-100">
+						<h3 class="pb-3 text-center" id='questionId'>Question Number</h3>
+						<p class="text-center m-0" id='question'>This Is The Question ?</p>
+						<div class="text-center">
+							<img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" class="" width="10%">
+						</div>
+						<div class="mx-3 px-5">
+							<label>
+								<input type="radio" class="option-input radio" id="answer_A" name="user_answer" value="1">
+								<span></span>
+								<div id='des_A_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_A_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+							<label>
+								<input type="radio" class="option-input radio" id="answer_B" name="user_answer" value="2">
+								<span></span>
+								<div id='des_B_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_B_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+							<label>
+								<input type="radio" class="option-input radio" id="answer_C" name="user_answer" value="3">
+								<span></span>
+								<div id='des_C_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_C_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+							<label>
+								<input type="radio" class="option-input radio" id="answer_D" name="user_answer" value="4">
+								<span></span>
+								<div id='des_D_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_D_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+						</div>
+						<div class="text-center">
+							<button class="btn w-50 btn-outline-light m-1" id='btn_submit'>Submit</button>
+							<button class="btn w-50 btn-outline-light m-1" id='btn_reload'>Reload</button>
+						</div>
+					</div>
+>>>>>>> origin/lumosnysm
 				</div>
-			</li>
-
-			<li>
-				<input type="radio" id="answer_B" name="user_answer" value='2'>
-				<label for="answer_B" id='b'></label>
-				<h5 id='des_B_right' class='right_des' style="color:#0DFF92;"></h5>
-				<h5 id='des_B_right' class='false_des' style="color:#ff7f82;"></h5>
-
-
-				<div class="check">
-					<div class="inside"></div>
-				</div>
-			</li>
-
-			<li>
-				<input type="radio" id="answer_C" name="user_answer" value='3'>
-				<label for="answer_C" id='c'></label>
-				<h5 id='des_C_right' class='right_des' style="color:#0DFF92;"></h5>
-				<h5 id='des_C_false' class='false_des' style="color:#ff7f82;"></h5>
-
-
-				<div class="check">
-					<div class="inside"></div>
-				</div>
-			</li>
-
-			<li>
-				<input type="radio" id="answer_D" name="user_answer" value='4'>
-				<label for="answer_D" id='c'></label>
-				<h5 id='des_D_right' class='right_des' style="color:#0DFF92;"></h5>
-				<h5 id='des_D_false' class='false_des' style="color:#ff7f82;"></h5>
-
-				<div class="check">
-					<div class="inside"></div>
-				</div>
-			</li>
-		</ul>
-
-		<button id='btn_submit' class="raise">START</button>
-		<button id='btn_reload' class="raise">RELOAD THE QUESTION</button>
-
+			</div>
+		</div>
 	</div>
+
 
 	<script>		
 		//web3 is already set provider.
@@ -105,6 +137,7 @@
 		//fill contract description.
 		var quizContract = web3.eth.contract(
 			[
+<<<<<<< HEAD
 	{
 		"constant": false,
 		"inputs": [],
@@ -369,11 +402,281 @@
 		"type": "event"
 	}
 ]
+=======
+				{
+					"constant": false,
+					"inputs": [],
+					"name": "getTheNextQuiz",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						}
+					],
+					"name": "getTheNextQuizById",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [],
+					"name": "initQuizDb",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"name": "user_answer_id",
+							"type": "uint256"
+						}
+					],
+					"name": "submitAnswer",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "isRight",
+							"type": "bool"
+						},
+						{
+							"indexed": false,
+							"name": "general_num_right_answer",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "general_num_false_answer",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "total_quiz",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "user_answer_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "server_current_quiz_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "balance",
+							"type": "uint256"
+						}
+					],
+					"name": "update_answer_evt",
+					"type": "event"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "general_num_right_answer",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "general_num_false_answer",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "total_quiz",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_D",
+							"type": "bytes"
+						}
+					],
+					"name": "update_the_next_quiz_evt",
+					"type": "event"
+				},
+				{
+					"inputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "constructor"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
+							"name": "",
+							"type": "address"
+						}
+					],
+					"name": "balanceOf",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getCurrentBalance",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getCurrentQuizId",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getDefaultTotalQuiz",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"name": "quiz_set",
+					"outputs": [
+						{
+							"name": "id",
+							"type": "uint256"
+						},
+						{
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_D",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check_id",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				}
+			]
+>>>>>>> origin/lumosnysm
 		);
 
 
 		//fill address in the quote.
+<<<<<<< HEAD
 		var quizInstant = quizContract.at("0x0f683341f44fa7e81fb136b128f8168b85c27569");
+=======
+		var quizInstant = quizContract.at("0x3dab1d7aa429699258ffd14e2639b81c185e2745");
+>>>>>>> origin/lumosnysm
 
 		//console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
@@ -434,41 +737,44 @@
 				///#start region:
 
 				//game_general_num_right_answer              
-				$('#general_num_right_answer').html('General number correct answer: ' + result.args.general_num_right_answer + '/' + result.args.total_quiz);
-				
+				$('#general_num_right_answer').next().html(result.args.general_num_right_answer + '/' + result.args.total_quiz);
+
 				//game_general_num_false_answer
-				$('#general_num_false_answer').html('General number wrong answer: ' + result.args.general_num_false_answer + '/' + result.args.total_quiz);
-				
+				$('#general_num_false_answer').next().html(result.args.general_num_false_answer + '/' + result.args.total_quiz);
+
 				//user_num_correct_answer
-				$('#user_num_right_answer').html('User number correct answer: ' + sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
-
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
-				$('#user_num_false_answer').html('User number wrong answer: ' + sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
-
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 
 				//update balance token.
-				$('#balance').html('Balance: ' + result.args.balance);
+				$('#balance').next().html(""+ result.args.balance);
 
 				//update answer.				
 				switch (parseInt(result.args.user_answer_id)) {
 					case 1:
 						if (result.args.isRight) {
-							$('#des_A_right').html('Correct');
-							$('#des_A_false').html('');
+							$('#des_A_right').fadeIn(1000);
+							$('#des_A_right').delay(500);
+							$('#des_A_right').slideUp();
+
 						} else {
-							$('#des_A_right').html('');
-							$('#des_A_false').html('False');
+							$('#des_A_false').fadeIn(1000);
+							$('#des_A_false').delay(500);
+							$('#des_A_false').slideUp();
 						}
 
 						break;
 
 					case 2:
 						if (result.args.isRight) {
-							$('#des_B_right').html('Correct');
-							$('#des_B_false').html('');
+							$('#des_B_right').fadeIn(1000);
+							$('#des_B_right').delay(500);
+							$('#des_B_right').slideUp();
 						} else {
-							$('#des_B_right').html('');
-							$('#des_B_false').html('False');
+							$('#des_B_false').fadeIn(1000);
+							$('#des_B_false').delay(500);
+							$('#des_B_false').slideUp();
 						}
 
 						break;
@@ -476,22 +782,26 @@
 
 					case 3:
 						if (result.args.isRight) {
-							$('#des_C_right').html('Correct');
-							$('#des_C_false').html('');
+							$('#des_C_right').fadeIn(1000);
+							$('#des_C_right').delay(500);
+							$('#des_C_right').slideUp();
 						} else {
-							$('#des_C_right').html('');
-							$('#des_C_false').html('False');
+							$('#des_C_false').fadeIn(1000);
+							$('#des_C_false').delay(500);
+							$('#des_C_false').slideUp();
 						}
 
 						break;
 
 					case 4:
 						if (result.args.isRight) {
-							$('#des_D_right').html('Correct');
-							$('#des_D_false').html('');
+							$('#des_D_right').fadeIn(1000);
+							$('#des_D_right').delay(500);
+							$('#des_D_right').slideUp();
 						} else {
-							$('#des_D_right').html('');
-							$('#des_D_false').html('False');
+							$('#des_D_false').fadeIn(1000);
+							$('#des_D_false').delay(500);
+							$('#des_D_false').slideUp();
 						}
 
 						break;
@@ -523,9 +833,11 @@
 				sessionStorage.setItem('user_total_answer', parseInt(sessionStorage.getItem('user_total_answer')) + 1);
 
 				$("#loader").hide();
-				$('#general_num_right_answer').html('Number right answer: ' + result.args.general_num_right_answer + '/' + result.args.total_quiz);
-				$('#general_num_false_answer').html('Number false answer: ' + result.args.general_num_false_answer + '/' + result.args.total_quiz);
-				$('#general_num_false_answer').html('Balance: ');
+
+				$('#general_num_right_answer').next().html(result.args.general_num_right_answer + '/' + result.args.total_quiz);
+				$('#general_num_false_answer').next().html(result.args.general_num_false_answer + '/' + result.args.total_quiz);
+				$('#balance').next().html(result.args.balance);
+
 				var question_num = parseInt(result.args.quiz_id) + 1;
 				$('#questionId').html('Question number ' + question_num);
 				$('#question').html(web3.toAscii(result.args.question));
@@ -540,14 +852,6 @@
 				//update button.
 				$('#btn_submit').html('SUBMIT');
 				//reset result.
-				$('#des_A_right').html('');
-				$('#des_A_false').html('');
-				$('#des_B_right').html('');
-				$('#des_B_false').html('');
-				$('#des_C_right').html('');
-				$('#des_C_false').html('');
-				$('#des_D_right').html('');
-				$('#des_D_false').html('');
 				//uncheck all radio buttons.
 				$('#answer_A').prop('checked', false);
 				$('#answer_B').prop('checked', false);
@@ -628,6 +932,10 @@
 		});
 
 	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
 </body>
 
 </html>
