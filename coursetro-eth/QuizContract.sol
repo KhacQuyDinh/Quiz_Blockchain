@@ -14,34 +14,34 @@ contract Quiz {
 	function initQuizDb() public {
 	    	    //init 
 	    quiz_set.push(quiz_pattern(0, 'When we use "hello"?'
-	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1));
+	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1, false));
 
 	    quiz_set.push(quiz_pattern(1, 'What is pig?'
-	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2));
+	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2, false));
 
 	     quiz_set.push(quiz_pattern(2, 'What is clever?'
-	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1));
+	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1, false));
 
 	     quiz_set.push(quiz_pattern(3, 'Who is Washington?'
-	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3));
+	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3, false));
 
 	     quiz_set.push(quiz_pattern(4, 'What is DellInspiron 3552?'
-	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4));
+	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4, false));
 
 	     quiz_set.push(quiz_pattern(5, 'Who is the president of Vietnam in 2018?'
-	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1));
+	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1, false));
 
 	     quiz_set.push(quiz_pattern(6, 'Which word is adjective?'
-	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1));
+	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1, false));
 	   
 	     quiz_set.push(quiz_pattern(7, 'What should use do when you feel bored?'
-	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something boring', '', 1));
+	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something boring', '', 1, false));
 	   
       	 quiz_set.push(quiz_pattern(8, 'Who is Thomas Edison?'
-	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1));
+	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1, false));
 
 	     quiz_set.push(quiz_pattern(9, 'What is the fourth industrial revolution?'
-	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1));
+	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1, false));
 
 	}
 	
@@ -54,6 +54,7 @@ contract Quiz {
 	    bytes answer_D;
 	    bytes answer_check;
 	    uint256 answer_check_id;
+	    bool isClosed;
 	}
 	
 	//like a database.
@@ -89,6 +90,10 @@ contract Quiz {
 		bytes answer_B,
 		bytes answer_C,
 		bytes answer_D
+	);
+	
+	event update_quiz_closed_evt(
+		bool isClosed
 	);
 	
 	//set new 
@@ -139,6 +144,10 @@ contract Quiz {
 		, quiz.answer_B
 		, quiz.answer_C
 		, quiz.answer_D);
+		
+		emit update_quiz_closed_evt(
+		    quiz.isClosed
+		);
 	}
 	
 	//get the quiz by its id.
@@ -156,7 +165,19 @@ contract Quiz {
 		, quiz.answer_B
 		, quiz.answer_C
 		, quiz.answer_D);
+		
+		emit update_quiz_closed_evt(
+		    quiz.isClosed
+		);
 	}
+	
+	function closeQuizById(uint256 quiz_id) public {
+	    quiz_set[quiz_id].isClosed = true;
+	    emit update_quiz_closed_evt(
+		    true
+		);
+	}
+	
 	
 	function getCurrentQuizId() public view returns(uint256) {
 	    //because current_quiz_id increased one uint256 after getTheNextQuiz() is called.
