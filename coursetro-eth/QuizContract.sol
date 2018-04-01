@@ -14,34 +14,34 @@ contract Quiz {
 	function initQuizDb() public {
 	    	    //init 
 	    quiz_set.push(quiz_pattern(0, 'When we use "hello"?'
-	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1, false));
+	    , 'For the meeting someone', 'Feel sad', 'Feel fun', 'Feel bored', '', 1, 0));
 
 	    quiz_set.push(quiz_pattern(1, 'What is pig?'
-	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2, false));
+	    , 'River', 'Animal', 'Tree', 'A kind of worm', '', 2, 0));
 
 	     quiz_set.push(quiz_pattern(2, 'What is clever?'
-	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1, false));
+	    , 'Skills in reality', 'Just like intelligent ', 'Skills but cannot use', 'Silly', '', 1, 0));
 
 	     quiz_set.push(quiz_pattern(3, 'Who is Washington?'
-	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3, false));
+	    , 'The first president of India', 'The first president of England', 'The first president of America', 'The first president of Cubai', '', 3, 0));
 
 	     quiz_set.push(quiz_pattern(4, 'What is DellInspiron 3552?'
-	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4, false));
+	    , 'A book', 'A desk', 'A chair', 'A computer', '', 4, 0));
 
 	     quiz_set.push(quiz_pattern(5, 'Who is the president of Vietnam in 2018?'
-	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1, false));
+	    , 'Mr. Truong Tan Sang', 'Mrs. Nguyen Thi Kim Ngan', 'Mr. Vu Duc Dam', 'Mrs. Phung Thi Tien', '', 1, 0));
 
 	     quiz_set.push(quiz_pattern(6, 'Which word is adjective?'
-	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1, false));
+	    , 'Bored', 'Action', 'Cut', 'Slowly', '', 1, 0));
 	   
 	     quiz_set.push(quiz_pattern(7, 'What should use do when you feel bored?'
-	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something boring', '', 1, false));
+	    , 'Relax', 'Work hard', 'Hear something bad', 'Hear something boring', '', 1, 0));
 	   
       	 quiz_set.push(quiz_pattern(8, 'Who is Thomas Edison?'
-	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1, false));
+	    , 'Who invented many good things', 'A psychology', 'A kind of Internet', 'A kind of cat', '', 1, 0));
 
 	     quiz_set.push(quiz_pattern(9, 'What is the fourth industrial revolution?'
-	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1, false));
+	    , 'Everything be smart and self thinking', 'Just like the third revolution', 'Use computer', 'Use a motorbike', '', 1, 0));
 
 	}
 	
@@ -54,7 +54,7 @@ contract Quiz {
 	    bytes answer_D;
 	    bytes answer_check;
 	    uint256 answer_check_id;
-	    bool isClosed;
+	    uint256 startingTime;
 	}
 	
 	//like a database.
@@ -93,7 +93,7 @@ contract Quiz {
 	);
 	
 	event update_quiz_closed_evt(
-		bool isClosed
+		uint256 startingTime
 	);
 	
 	//set new 
@@ -124,7 +124,7 @@ contract Quiz {
         , balanceOf[msg.sender]);
 	}
 
-	function getTheNextQuiz() public {
+	function getTheNextQuiz(uint256 time) public {
 	    
 	    require(default_total_quiz - current_quiz_id > 0 
 	    && balanceOf[msg.sender] > 0);
@@ -133,6 +133,9 @@ contract Quiz {
 	    current_quiz_id += 1;
 	    //spend one coin on geting the next quiz.
 	    balanceOf[msg.sender] -= 1;
+	    
+	    //update startingTime
+	    quiz.startingTime = time;
 	   
 		emit update_the_next_quiz_evt(
 		  current_general_num_right_answer
@@ -144,10 +147,6 @@ contract Quiz {
 		, quiz.answer_B
 		, quiz.answer_C
 		, quiz.answer_D);
-		
-		emit update_quiz_closed_evt(
-		    quiz.isClosed
-		);
 	}
 	
 	//get the quiz by its id.
@@ -166,16 +165,17 @@ contract Quiz {
 		, quiz.answer_C
 		, quiz.answer_D);
 		
-		emit update_quiz_closed_evt(
-		    quiz.isClosed
-		);
+		emit update_quiz_closed_evt(quiz.startingTime);
 	}
-	
-	function closeQuizById(uint256 quiz_id) public {
-	    quiz_set[quiz_id].isClosed = true;
-	    emit update_quiz_closed_evt(
-		    true
-		);
+	// call this method when timer count to 00:00  , update the submit button to next button
+	function messageToServerWhenTimeOut(uint256 quiz_id) public {
+	    quiz_pattern storage quiz = quiz_set[quiz_id];
+	    emit update_quiz_closed_evt(quiz.startingTime);
+	}
+
+	// useless
+	function getQuizStartingTimeById(uint256 quiz_id) public view returns(uint256) {
+	    return quiz_set[quiz_id].startingTime;
 	}
 	
 	

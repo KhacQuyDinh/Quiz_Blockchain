@@ -10,12 +10,55 @@
 	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
 	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<!-- SCRIPT FOR COUNTING TIME-->
+	<script>
+		let limitTime;
+		function startTimer(duration, display) {
+			let timer = duration, minutes, seconds;
+			let timeOut = false;
+			let myTimer = setInterval(function () {
+				minutes = parseInt(timer / 60, 10)
+				seconds = parseInt(timer % 60, 10);
+
+				minutes = minutes < 10 ? "0" + minutes : minutes;
+				seconds = seconds < 10 ? "0" + seconds : seconds;
+
+				if (!timeOut) {
+					if (timer == 0) {
+						timeOut = true;
+					} else {
+						display.textContent =  minutes + ":" + seconds;
+					}
+				} else {
+					display.textContent = "Question Closed";
+					quizInstant.messageToServerWhenTimeOut(localStorage.getItem('user_quiz_id'));
+					clearInterval(myTimer);
+				}
+
+				if (--timer < 0) {
+					timer = duration;
+				}
+
+				if (localStorage.getItem('timeleft') > 0) {
+					localStorage.setItem('timeleft', localStorage.getItem('timeleft') - 1);
+				}
+
+			}, 1000);
+		}
+
+		function startCountDown(timeLeft) {
+			display = document.querySelector('#time');
+			if (timeLeft > 0) {
+				startTimer(timeLeft, display);
+			} else {
+				display.textContent = "Question Closed";
+				$('#btn_submit').html("NEXT");
+			}
+		};
+	</script>
 </head>
 
 <body class="bg-dark" style="background-size:cover;">
-	<div>
-		<span id="time"></span>
-	</div>
 	<div class="container">
 		<div class="row py-5 mx-5">
 			<div class="align-self-center text-white col-md-4 bg-dark">
@@ -49,6 +92,9 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="w-100 text-center">
+					<h3 id="time">00:00</h3>
+				  </div>
 			</div>
 			<div class="col-md-8">
 				<div class="card">
@@ -112,19 +158,10 @@
 					"constant": false,
 					"inputs": [
 						{
-							"name": "quiz_id",
+							"name": "time",
 							"type": "uint256"
 						}
 					],
-					"name": "closeQuizById",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"constant": false,
-					"inputs": [],
 					"name": "getTheNextQuiz",
 					"outputs": [],
 					"payable": false,
@@ -144,45 +181,6 @@
 					"payable": false,
 					"stateMutability": "nonpayable",
 					"type": "function"
-				},
-				{
-					"constant": false,
-					"inputs": [],
-					"name": "initQuizDb",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"constant": false,
-					"inputs": [
-						{
-							"name": "quiz_id",
-							"type": "uint256"
-						},
-						{
-							"name": "user_answer_id",
-							"type": "uint256"
-						}
-					],
-					"name": "submitAnswer",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
-							"name": "isClosed",
-							"type": "bool"
-						}
-					],
-					"name": "update_quiz_closed_evt",
-					"type": "event"
 				},
 				{
 					"anonymous": false,
@@ -284,6 +282,59 @@
 					"type": "event"
 				},
 				{
+					"constant": false,
+					"inputs": [],
+					"name": "initQuizDb",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						}
+					],
+					"name": "messageToServerWhenTimeOut",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"name": "user_answer_id",
+							"type": "uint256"
+						}
+					],
+					"name": "submitAnswer",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "startingTime",
+							"type": "uint256"
+						}
+					],
+					"name": "update_quiz_closed_evt",
+					"type": "event"
+				},
+				{
 					"inputs": [],
 					"payable": false,
 					"stateMutability": "nonpayable",
@@ -354,6 +405,25 @@
 					"constant": true,
 					"inputs": [
 						{
+							"name": "quiz_id",
+							"type": "uint256"
+						}
+					],
+					"name": "getQuizStartingTimeById",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
 							"name": "",
 							"type": "uint256"
 						}
@@ -393,8 +463,8 @@
 							"type": "uint256"
 						},
 						{
-							"name": "isClosed",
-							"type": "bool"
+							"name": "startingTime",
+							"type": "uint256"
 						}
 					],
 					"payable": false,
@@ -404,7 +474,7 @@
 			]
 		);
 		//fill address in the quote.
-		var quizInstant = quizContract.at("0x2d0d7eccfabafc0585c6cedd0f9351e18dc1ce63");
+		var quizInstant = quizContract.at("0x474730f6bd9ddb443cd04906bb12f93012df0197");
 		//console.log('318: ' + localStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
 		if (localStorage.getItem('user_quiz_id') == null) {
@@ -526,7 +596,6 @@
 				console.log('409: ' + result.args.quiz_id);
 				//update value of user_quiz_id as runtime variable.						
 				localStorage.setItem('user_quiz_id', result.args.quiz_id);
-
 				$("#loader").hide();
 				//we need realtime to update here..
 				$('#general_num_right_answer').next().html(result.args.general_num_right_answer + '/' + result.args.total_quiz);
@@ -561,6 +630,19 @@
 				$('#answer_D').prop('checked', false);
 			}
 		});
+
+		var update_quiz_closed_evt = quizInstant.update_quiz_closed_evt();
+
+		//func when have closedQuizById() or GetQuizById() be called. 
+		update_quiz_closed_evt.watch(function (error, result) {
+			if (!error) {
+				// Time counting
+				startCountDown(Math.floor(30 - (Date.now() - Number(result.args.startingTime)) / 1000));
+				// console.log((Date.now() - Number(result.args.startingTime))/ 1000);
+			}
+		});
+
+
 		//reload the page.
 		{
 			var user_quiz_id = localStorage.getItem('user_quiz_id');
@@ -578,22 +660,6 @@
 		}
 
 
-		var update_quiz_closed_evt = quizInstant.update_quiz_closed_evt();
-
-		//func when have closedQuizById() or GetQuizById() be called. 
-		update_quiz_closed_evt.watch(function (error, result) {
-			if (!error) {
-				// Time counting
-				if (!result.args.isClosed) {
-					startCountDown();
-				} else {
-					$('#time')[0].textContent = "Question closed";
-					$('#btn_submit').html('NEXT');
-				}
-			}
-		});
-
-
 		//reset the question. for example loading the page.	
 		$('#btn_reset').click(function () {
 			//get user_quiz_id as runtime variable.
@@ -609,13 +675,17 @@
 			$("#loader").show();
 			//condition.
 			if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {
-				quizInstant.getTheNextQuiz(function (error, result) {
+				quizInstant.getTheNextQuiz(Date.now(), function (error, result) {
 					if (!error) {
 						console.log('485: get new quiz');
 						//for total questions that user submited.
 						localStorage.setItem('user_total_answer', parseInt(localStorage.getItem('user_total_answer')) + 1);
 						//will call event to update gui and cookie_quiz_id (user_quiz_id).
 						//console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);
+
+						// set the start time right after take a new quiz.
+						// quizInstant.setQuizStartingTimeById(localStorage.getItem('user_quiz_id'), Date.now());
+						startCountDown(30);
 					} else {
 						//when server throw error that means have no more quiz.
 						console.log('error in line 413: ' + error);
@@ -644,52 +714,6 @@
 				}
 			}
 		});
-	</script>
-	<!-- SCRIPT FOR COUNTING TIME-->
-	<script>
-		let limitTime;
-		function startTimer(duration, display) {
-			let timer = duration, minutes, seconds;
-			let timeOut = false;
-			let myTimer = setInterval(function () {
-				minutes = parseInt(timer / 60, 10)
-				seconds = parseInt(timer % 60, 10);
-
-				minutes = minutes < 10 ? "0" + minutes : minutes;
-				seconds = seconds < 10 ? "0" + seconds : seconds;
-
-				if (!timeOut) {
-					if (timer == 0) {
-						timeOut = true;
-					} else {
-						display.textContent = "Question closes in " + minutes + ":" + seconds + " seconds!";
-					}
-				} else {
-					display.textContent = "Question Closed";
-					clearInterval(myTimer);
-					quizInstant.closeQuizById(user_quiz_id);
-					localStorage.setItem('timeleft', 30);
-				}
-
-				if (--timer < 0) {
-					timer = duration;
-				}
-
-				if (localStorage.getItem('timeleft') > 0) {
-					localStorage.setItem('timeleft', localStorage.getItem('timeleft') - 1);
-				}
-
-			}, 1000);
-		}
-
-		function startCountDown() {
-			if (localStorage.getItem('timeleft') == null) {
-				localStorage.setItem('timeleft', 30);
-			}
-			limitTime = localStorage.getItem('timeleft');
-			display = document.querySelector('#time');
-			startTimer(limitTime, display);
-		};
 	</script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
