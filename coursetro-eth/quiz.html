@@ -13,10 +13,11 @@
 	<!-- SCRIPT FOR COUNTING TIME-->
 	<script>
 		let limitTime;
+		let myTimer;
 		function startTimer(duration, display) {
 			let timer = duration, minutes, seconds;
 			let timeOut = false;
-			let myTimer = setInterval(function () {
+			myTimer = setInterval(function () {
 				minutes = parseInt(timer / 60, 10)
 				seconds = parseInt(timer % 60, 10);
 
@@ -27,7 +28,7 @@
 					if (timer == 0) {
 						timeOut = true;
 					} else {
-						display.textContent =  minutes + ":" + seconds;
+						display.textContent = minutes + ":" + seconds;
 					}
 				} else {
 					display.textContent = "Question Closed";
@@ -94,7 +95,7 @@
 				</table>
 				<div class="w-100 text-center">
 					<h3 id="time">00:00</h3>
-				  </div>
+				</div>
 			</div>
 			<div class="col-md-8">
 				<div class="card">
@@ -474,7 +475,7 @@
 			]
 		);
 		//fill address in the quote.
-		var quizInstant = quizContract.at("0x474730f6bd9ddb443cd04906bb12f93012df0197");
+		var quizInstant = quizContract.at("0x87fc75d2eca2963cc473fc5c824572063ffec740");
 		//console.log('318: ' + localStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
 		if (localStorage.getItem('user_quiz_id') == null) {
@@ -483,13 +484,13 @@
 		if (localStorage.getItem('default_total_quiz') == null) {
 			localStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
 		}
-		if (localStorage.getItem('user_num_correct_answer') == null) {
+		if (localStorage.getItem('user_num_correct_answer') == "null" || localStorage.getItem('user_num_correct_answer') == "NaN") {
 			localStorage.setItem('user_num_correct_answer', 0);
 		}
-		if (localStorage.getItem('user_num_wrong_answer') == null) {
+		if (localStorage.getItem('user_num_wrong_answer') == "null" || localStorage.getItem('user_num_wrong_answer') == "NaN") {
 			localStorage.setItem('user_num_wrong_answer', 0);
 		}
-		if (localStorage.getItem('user_total_answer') == null) {
+		if (localStorage.getItem('user_total_answer') == "null" || localStorage.getItem('user_total_answer') == "NaN") {
 			localStorage.setItem('user_total_answer', 0);
 		}
 		//using event to update the quiz.
@@ -700,6 +701,7 @@
 					var user_answer_id = $('input[name=user_answer]:checked').val();
 					//if choosen an answer.
 					if (user_answer_id != undefined) {
+						clearInterval(myTimer);
 						//get user_quiz_id as runtime variable.			
 						var user_quiz_id = localStorage.getItem('user_quiz_id');
 						quizInstant.submitAnswer(user_quiz_id, user_answer_id, (err, res) => {
