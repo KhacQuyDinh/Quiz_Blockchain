@@ -92,10 +92,6 @@ contract Quiz {
 		bytes answer_D
 	);
 	
-	event update_quiz_closed_evt(
-		uint256 startingTime
-	);
-	
 	//set new 
 	function submitAnswer(uint256 quiz_id, uint256 user_answer_id) public {
 	    bool isRight = false;
@@ -149,29 +145,7 @@ contract Quiz {
 		, quiz.answer_D);
 	}
 	
-	//get the quiz by its id.
-	function getTheNextQuizById(uint256 quiz_id) public {
-	        
-	    quiz_pattern storage quiz = quiz_set[quiz_id];
-		
-		emit update_the_next_quiz_evt(
-		  current_general_num_right_answer
-		, current_general_num_false_answer
-		, default_total_quiz
-		, quiz.id
-		, quiz.question
-		, quiz.answer_A
-		, quiz.answer_B
-		, quiz.answer_C
-		, quiz.answer_D);
-		
-		emit update_quiz_closed_evt(quiz.startingTime);
-	}
-	// call this method when timer count to 00:00  , update the submit button to next button
-	function messageToServerWhenTimeOut(uint256 quiz_id) public {
-	    quiz_pattern storage quiz = quiz_set[quiz_id];
-	    emit update_quiz_closed_evt(quiz.startingTime);
-	}
+
 
 	// useless
 	function getQuizStartingTimeById(uint256 quiz_id) public view returns(uint256) {
