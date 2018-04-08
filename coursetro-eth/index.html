@@ -120,7 +120,7 @@
                             </label>
                         </div>
                         <div class="text-center">
-                            <button class="btn w-50 btn-outline-light m-1" id='btn_submit'>Submit</button>
+                            <button class="btn w-50 btn-outline-light m-1" id='btn_submit'>SUBMIT</button>
                             <button class="btn w-50 btn-outline-light m-1" id='btn_reload'>Reload</button>
                         </div>
                     </div>
@@ -422,7 +422,7 @@
             ]
         );
         //fill address in the quote.
-        var quizInstant = quizContract.at("0x0804f024e9b8451ffce3d7b877551ce485a97f00");
+        var quizInstant = quizContract.at("0xcd7b1c94bc7f981500ae54c9b723e6a90f2749e3");
         //console.log('318: ' + localStorage.getItem('user_quiz_id'));
         //if the cookie is not set, init cookie.				
         //using event to update the quiz.
@@ -517,7 +517,7 @@
             $("#loader").hide();
             //show info question.
             if (result) {
-                if (result.args.quiz_id > localStorage.getItem('user_quiz_id')) {
+                if (result.args.quiz_id != localStorage.getItem('user_quiz_id')) {
                     startCountDown(30);
                 }
                 //if not error and the question is not be answered
@@ -616,7 +616,9 @@
             $('#questionId').html(localStorage.getItem('questionNumber'));
             $('#question').html(localStorage.getItem('question'));
             // clearInterval(myTimer);
-            startCountDown(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
+            if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000 )) > 0) {
+                startCountDown(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
+            }
             console.log(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
         }
 
