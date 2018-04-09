@@ -422,7 +422,7 @@
             ]
         );
         //fill address in the quote.
-        var quizInstant = quizContract.at("0x6387d8214cabcc1022a25a350ea9b49fb1f2a5b4");
+        var quizInstant = quizContract.at("0x6ea35a24d50993e8481c20741777aaac58d3b769");
         //console.log('318: ' + localStorage.getItem('user_quiz_id'));
         //if the cookie is not set, init cookie.				
         //using event to update the quiz.
@@ -608,7 +608,11 @@
     <script>
         // Run on page load
         window.onload = function () {
-
+            if (document.querySelector('#time').textContent === "00:00") {
+                $('#btn_submit').html("NEXT");
+                console.log('reload');
+            }
+            // console.log('reload');
             var ansA = $('#answer_A').next()[0];
             var ansB = $('#answer_B').next()[0];
             var ansC = $('#answer_C').next()[0];
