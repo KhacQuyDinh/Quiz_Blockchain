@@ -422,7 +422,7 @@
             ]
         );
         //fill address in the quote.
-        var quizInstant = quizContract.at("0xcd7b1c94bc7f981500ae54c9b723e6a90f2749e3");
+        var quizInstant = quizContract.at("0x6387d8214cabcc1022a25a350ea9b49fb1f2a5b4");
         //console.log('318: ' + localStorage.getItem('user_quiz_id'));
         //if the cookie is not set, init cookie.				
         //using event to update the quiz.
@@ -519,6 +519,10 @@
             if (result) {
                 if (result.args.quiz_id != localStorage.getItem('user_quiz_id')) {
                     startCountDown(30);
+                } else {
+                    if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000 )) > 0) {
+                        startCountDown(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
+                    }
                 }
                 //if not error and the question is not be answered
                 console.log('409: ' + result.args.quiz_id);
@@ -616,9 +620,9 @@
             $('#questionId').html(localStorage.getItem('questionNumber'));
             $('#question').html(localStorage.getItem('question'));
             // clearInterval(myTimer);
-            if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000 )) > 0) {
-                startCountDown(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
-            }
+            // if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000 )) > 0) {
+            //     startCountDown(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
+            // }
             console.log(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
         }
 
