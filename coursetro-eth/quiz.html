@@ -32,7 +32,7 @@
 					}
 				} else {
 					display.textContent = "Question Closed";
-					quizInstant.messageToServerWhenTimeOut(localStorage.getItem('user_quiz_id'));
+					quizInstant.messageToServerWhenTimeOut(sessionStorage.getItem('user_quiz_id'));
 					clearInterval(myTimer);
 				}
 
@@ -40,8 +40,8 @@
 					timer = duration;
 				}
 
-				if (localStorage.getItem('timeleft') > 0) {
-					localStorage.setItem('timeleft', localStorage.getItem('timeleft') - 1);
+				if (sessionStorage.getItem('timeleft') > 0) {
+					sessionStorage.setItem('timeleft', sessionStorage.getItem('timeleft') - 1);
 				}
 
 			}, 1000);
@@ -184,6 +184,111 @@
 					"type": "function"
 				},
 				{
+					"constant": false,
+					"inputs": [],
+					"name": "initQuizDb",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						}
+					],
+					"name": "messageToServerWhenTimeOut",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"name": "user_answer_id",
+							"type": "uint256"
+						}
+					],
+					"name": "submitAnswer",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "isRight",
+							"type": "bool"
+						},
+						{
+							"indexed": false,
+							"name": "general_num_right_answer",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "general_num_false_answer",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "total_quiz",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "user_answer_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "server_current_quiz_id",
+							"type": "uint256"
+						}
+					],
+					"name": "update_answer_evt",
+					"type": "event"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "isSpend",
+							"type": "bool"
+						},
+						{
+							"indexed": false,
+							"name": "player",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "token",
+							"type": "uint256"
+						}
+					],
+					"name": "update_money_evt",
+					"type": "event"
+				},
+				{
 					"anonymous": false,
 					"inputs": [
 						{
@@ -240,94 +345,6 @@
 					"inputs": [
 						{
 							"indexed": false,
-							"name": "isRight",
-							"type": "bool"
-						},
-						{
-							"indexed": false,
-							"name": "general_num_right_answer",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "general_num_false_answer",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "total_quiz",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "answer_check",
-							"type": "bytes"
-						},
-						{
-							"indexed": false,
-							"name": "user_answer_id",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "server_current_quiz_id",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"name": "balance",
-							"type": "uint256"
-						}
-					],
-					"name": "update_answer_evt",
-					"type": "event"
-				},
-				{
-					"constant": false,
-					"inputs": [],
-					"name": "initQuizDb",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"constant": false,
-					"inputs": [
-						{
-							"name": "quiz_id",
-							"type": "uint256"
-						}
-					],
-					"name": "messageToServerWhenTimeOut",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"constant": false,
-					"inputs": [
-						{
-							"name": "quiz_id",
-							"type": "uint256"
-						},
-						{
-							"name": "user_answer_id",
-							"type": "uint256"
-						}
-					],
-					"name": "submitAnswer",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"anonymous": false,
-					"inputs": [
-						{
-							"indexed": false,
 							"name": "startingTime",
 							"type": "uint256"
 						}
@@ -340,25 +357,6 @@
 					"payable": false,
 					"stateMutability": "nonpayable",
 					"type": "constructor"
-				},
-				{
-					"constant": true,
-					"inputs": [
-						{
-							"name": "",
-							"type": "address"
-						}
-					],
-					"name": "balanceOf",
-					"outputs": [
-						{
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
 				},
 				{
 					"constant": true,
@@ -474,24 +472,27 @@
 				}
 			]
 		);
+
+		var defaultTotalTime = 30;
+
 		//fill address in the quote.
-		var quizInstant = quizContract.at("0x87fc75d2eca2963cc473fc5c824572063ffec740");
-		//console.log('318: ' + localStorage.getItem('user_quiz_id'));
+		var quizInstant = quizContract.at("0x82094709bad1f51bb9055fa64f01efbef156903e");
+		//console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
 		//if the cookie is not set, init cookie.				
-		if (localStorage.getItem('user_quiz_id') == null) {
-			localStorage.setItem('user_quiz_id', -1);
+		if (sessionStorage.getItem('user_quiz_id') == null) {
+			sessionStorage.setItem('user_quiz_id', -1);
 		}
-		if (localStorage.getItem('default_total_quiz') == null) {
-			localStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
+		if (sessionStorage.getItem('default_total_quiz') == null) {
+			sessionStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
 		}
-		if (localStorage.getItem('user_num_correct_answer') == "null" || localStorage.getItem('user_num_correct_answer') == "NaN") {
-			localStorage.setItem('user_num_correct_answer', 0);
+		if (sessionStorage.getItem('user_num_correct_answer') == null) {
+			sessionStorage.setItem('user_num_correct_answer', 0);
 		}
-		if (localStorage.getItem('user_num_wrong_answer') == "null" || localStorage.getItem('user_num_wrong_answer') == "NaN") {
-			localStorage.setItem('user_num_wrong_answer', 0);
+		if (sessionStorage.getItem('user_num_wrong_answer') == null) {
+			sessionStorage.setItem('user_num_wrong_answer', 0);
 		}
-		if (localStorage.getItem('user_total_answer') == "null" || localStorage.getItem('user_total_answer') == "NaN") {
-			localStorage.setItem('user_total_answer', 0);
+		if (sessionStorage.getItem('user_total_answer') == null) {
+			sessionStorage.setItem('user_total_answer', 0);
 		}
 		//using event to update the quiz.
 		var update_answer_evt = quizInstant.update_answer_evt();
@@ -502,18 +503,18 @@
 			if (!error) {
 				//increase and decrease wrong_answer or correct_answer.
 				if (result.args.isRight) {
-					localStorage.setItem('user_num_correct_answer', parseInt(localStorage.getItem('user_num_correct_answer')) + 1);
+					sessionStorage.setItem('user_num_correct_answer', parseInt(sessionStorage.getItem('user_num_correct_answer')) + 1);
 				} else {
-					localStorage.setItem('user_num_wrong_answer', parseInt(localStorage.getItem('user_num_wrong_answer')) + 1);
+					sessionStorage.setItem('user_num_wrong_answer', parseInt(sessionStorage.getItem('user_num_wrong_answer')) + 1);
 				}
 				//the quiz is answered.
-				localStorage.setItem('user_quiz_id', -1);
+				sessionStorage.setItem('user_quiz_id', -1);
 				//check end.
-				if (localStorage.getItem('default_total_quiz')
+				if (sessionStorage.getItem('default_total_quiz')
 					- result.args.server_current_quiz_id - 1 == 0) {
 					$('#btn_submit').html('GAME END');
 					//delete cookie everytime endgame.
-					localStorage.setItem('user_quiz_id', -2);
+					sessionStorage.setItem('user_quiz_id', -2);
 					// console.log('510, end game');
 				} else {
 					$("#loader").hide();
@@ -526,11 +527,11 @@
 				//game_general_num_false_answer
 				$('#general_num_false_answer').next().html(result.args.general_num_false_answer + '/' + result.args.total_quiz);
 				//user_num_correct_answer
-				$('#user_num_right_answer').next().html(localStorage.getItem('user_num_correct_answer') + '/' + localStorage.getItem('user_total_answer'));
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
-				$('#user_num_false_answer').next().html(localStorage.getItem('user_num_wrong_answer') + '/' + localStorage.getItem('user_total_answer'));
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//update balance token.
-				$('#balance').next().html("" + result.args.balance);
+				$('#balance').next().html('' + quizInstant.getCurrentBalance() + ' wei');
 				//update answer.				
 				switch (parseInt(result.args.user_answer_id)) {
 					case 1:
@@ -593,23 +594,31 @@
 			$("#loader").hide();
 			//show info question.
 			if (!error) {
+				//send lost money to host.
+
+				sessionStorage.setItem('user_quiz_starting_time', Date.now());
 				//if not error and the question is not be answered
 				console.log('409: ' + result.args.quiz_id);
 				//update value of user_quiz_id as runtime variable.						
-				localStorage.setItem('user_quiz_id', result.args.quiz_id);
+				sessionStorage.setItem('user_quiz_id', result.args.quiz_id);
+
+				//active interval event for 30s
+				// set the start time right after take a new quiz.				
+				startCountDown(defaultTotalTime);
+
 				$("#loader").hide();
 				//we need realtime to update here..
 				$('#general_num_right_answer').next().html(result.args.general_num_right_answer + '/' + result.args.total_quiz);
 				$('#general_num_false_answer').next().html(result.args.general_num_false_answer + '/' + result.args.total_quiz);
 
 				//user_num_correct_answer
-				$('#user_num_right_answer').next().html(localStorage.getItem('user_num_correct_answer') + '/' + localStorage.getItem('user_total_answer'));
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
-				$('#user_num_false_answer').next().html(localStorage.getItem('user_num_wrong_answer') + '/' + localStorage.getItem('user_total_answer'));
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//update balance because the lost token when geting the next quiz.
 				//the view func doesn't cost ether
-				console.log('balance: ' + quizInstant.getCurrentBalance());
-				$('#balance').next().html('' + quizInstant.getCurrentBalance());
+				console.log('balance: ' + quizInstant.getCurrentBalance() + ' wei');
+				$('#balance').next().html('' + quizInstant.getCurrentBalance() + ' wei');
 				var question_num = parseInt(result.args.quiz_id) + 1;
 				$('#questionId').html('Question number ' + question_num);
 				$('#question').html(web3.toAscii(result.args.question));
@@ -633,20 +642,36 @@
 		});
 
 		var update_quiz_closed_evt = quizInstant.update_quiz_closed_evt();
-
 		//func when have closedQuizById() or GetQuizById() be called. 
 		update_quiz_closed_evt.watch(function (error, result) {
 			if (!error) {
 				// Time counting
-				startCountDown(Math.floor(30 - (Date.now() - Number(result.args.startingTime)) / 1000));
+				console.log("update_quiz_close_evt");
+				startCountDown(Math.floor(defaultTotalTime - (Date.now() - Number(result.args.startingTime)) / 1000));
 				// console.log((Date.now() - Number(result.args.startingTime))/ 1000);
 			}
 		});
 
+		var update_money_evt = quizInstant.update_money_evt();
+		update_money_evt.watch(function (error, result) {
+			if (!error) {
+				//send lost money to host.
+				console.log(result.args.token);
+				if (result.args.token > 0) {
+					console.log('spending token');
+					if (result.args.isSpend) {
+						web3.eth.sendTransaction({ from: result.args.player, to: web3.eth.defaultAccount, value: result.args.token });
+					} else {
+						web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: result.args.player, value: result.args.token });
+					}
+					console.log('end spending token');
+				}
+			}
+		});
 
 		//reload the page.
 		{
-			var user_quiz_id = localStorage.getItem('user_quiz_id');
+			var user_quiz_id = sessionStorage.getItem('user_quiz_id');
 			if (user_quiz_id >= 0) {
 				console.log('478: reload');
 				quizInstant.getTheNextQuizById(user_quiz_id);
@@ -664,8 +689,8 @@
 		//reset the question. for example loading the page.	
 		$('#btn_reset').click(function () {
 			//get user_quiz_id as runtime variable.
-			var user_quiz_id = localStorage.getItem('user_quiz_id');
-			if (user_quiz_id >= 0 && localStorage.getItem('default_total_quiz') - user_quiz_id > 0) {
+			var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+			if (user_quiz_id >= 0 && sessionStorage.getItem('default_total_quiz') - user_quiz_id > 0) {
 				//reload the quiz
 				quizInstant.getTheNextQuizById(user_quiz_id);
 			}
@@ -680,30 +705,27 @@
 					if (!error) {
 						console.log('485: get new quiz');
 						//for total questions that user submited.
-						localStorage.setItem('user_total_answer', parseInt(localStorage.getItem('user_total_answer')) + 1);
+						sessionStorage.setItem('user_total_answer', parseInt(sessionStorage.getItem('user_total_answer')) + 1);
 						//will call event to update gui and cookie_quiz_id (user_quiz_id).
-						//console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);
-
-						// set the start time right after take a new quiz.
-						// quizInstant.setQuizStartingTimeById(localStorage.getItem('user_quiz_id'), Date.now());
-						startCountDown(30);
+						//console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);						
 					} else {
 						//when server throw error that means have no more quiz.
 						console.log('error in line 413: ' + error);
 						$('#btn_submit').html('GAME END');
 						//delete cookie everytime endgame.
-						localStorage.setItem('user_quiz_id', -2);
+						sessionStorage.setItem('user_quiz_id', -2);
 						// console.log('510, end game');
 					}
 				});
 			} else {
 				if ($('#btn_submit').text() == 'SUBMIT') {
 					var user_answer_id = $('input[name=user_answer]:checked').val();
-					//if choosen an answer.
+					//if choosen an answer.					
 					if (user_answer_id != undefined) {
 						clearInterval(myTimer);
 						//get user_quiz_id as runtime variable.			
-						var user_quiz_id = localStorage.getItem('user_quiz_id');
+						var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+						console.log('submit: ' + user_quiz_id);
 						quizInstant.submitAnswer(user_quiz_id, user_answer_id, (err, res) => {
 							if (err) {
 								//hide loader..
