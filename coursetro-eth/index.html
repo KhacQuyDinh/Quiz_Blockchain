@@ -188,6 +188,70 @@
                     "inputs": [
                         {
                             "indexed": false,
+                            "name": "isRight",
+                            "type": "bool"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "general_num_right_answer",
+                            "type": "uint256"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "general_num_false_answer",
+                            "type": "uint256"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "total_quiz",
+                            "type": "uint256"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "answer_check",
+                            "type": "bytes"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "user_answer_id",
+                            "type": "uint256"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "server_current_quiz_id",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "update_answer_evt",
+                    "type": "event"
+                },
+                {
+                    "anonymous": false,
+                    "inputs": [
+                        {
+                            "indexed": false,
+                            "name": "isSpend",
+                            "type": "bool"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "player",
+                            "type": "address"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "token",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "update_money_evt",
+                    "type": "event"
+                },
+                {
+                    "anonymous": false,
+                    "inputs": [
+                        {
+                            "indexed": false,
                             "name": "general_num_right_answer",
                             "type": "uint256"
                         },
@@ -236,76 +300,10 @@
                     "type": "event"
                 },
                 {
-                    "anonymous": false,
-                    "inputs": [
-                        {
-                            "indexed": false,
-                            "name": "isRight",
-                            "type": "bool"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "general_num_right_answer",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "general_num_false_answer",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "total_quiz",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "answer_check",
-                            "type": "bytes"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "user_answer_id",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "server_current_quiz_id",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "balance",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "update_answer_evt",
-                    "type": "event"
-                },
-                {
                     "inputs": [],
                     "payable": false,
                     "stateMutability": "nonpayable",
                     "type": "constructor"
-                },
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "balanceOf",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
                 },
                 {
                     "constant": true,
@@ -422,7 +420,7 @@
             ]
         );
         //fill address in the quote.
-        var quizInstant = quizContract.at("0x14506462bb8306d91fef5d49f2a2833c5adf9299");
+        var quizInstant = quizContract.at("0x76976a57e47e835cbcf658165ce02802b0ea68ce");
         //console.log('318: ' + localStorage.getItem('user_quiz_id'));
         //if the cookie is not set, init cookie.				
         //using event to update the quiz.
@@ -453,7 +451,8 @@
                 //game_general_num_false_answer
                 $('#general_num_false_answer').next().html(result.args.general_num_false_answer + '/' + result.args.total_quiz);
                 //update balance token.
-                $('#balance').next().html("" + result.args.balance);
+                // $('#balance').next().html("" + result.args.balance);
+                $('#balance').next().html('' + quizInstant.getCurrentBalance() + ' wei');
                 //update answer.				
                 switch (parseInt(result.args.user_answer_id)) {
                     case 1:
@@ -508,6 +507,27 @@
                 console.log(error);
             }
         });
+
+
+        var update_money_evt = quizInstant.update_money_evt();
+        update_money_evt.watch(function (error, result) {
+            if (!error) {
+                //send lost money to host.
+                console.log(result.args.token);
+                if (result.args.token > 0) {
+                    console.log('spending token');
+                    if (result.args.isSpend) {
+                        web3.eth.sendTransaction({ from: result.args.player, to: web3.eth.defaultAccount, value: result.args.token });
+                    } else {
+                        web3.eth.sendTransaction({ from: web3.eth.defaultAccount, to: result.args.player, value: result.args.token });
+                    }
+                    console.log('end spending token');
+                }
+            }
+        });
+
+
+
         //using event to update the quiz.
         var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
         //func when have getTheNextQuiz() be called. 
@@ -520,7 +540,7 @@
                 if (result.args.quiz_id != localStorage.getItem('user_quiz_id')) {
                     startCountDown(30);
                 } else {
-                    if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000 )) > 0) {
+                    if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000)) > 0) {
                         startCountDown(Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000));
                     }
                 }
@@ -535,8 +555,8 @@
 
                 //update balance because the lost token when geting the next quiz.
                 //the view func doesn't cost ether
-                console.log('balance: ' + quizInstant.getCurrentBalance());
-                $('#balance').next().html('' + quizInstant.getCurrentBalance());
+                // console.log('balance: ' + quizInstant.getCurrentBalance());
+                // $('#balance').next().html('' + quizInstant.getCurrentBalance());
                 var question_num = parseInt(result.args.quiz_id) + 1;
                 $('#questionId').html('Question number ' + question_num);
                 $('#question').html(web3.toAscii(result.args.question));
@@ -549,7 +569,7 @@
                 ansC.textContent = web3.toAscii(result.args.answer_C);
                 ansD.textContent = web3.toAscii(result.args.answer_D);
                 //update button.
-                if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000 )) > 0) {
+                if ((Math.floor(30 - (Date.now() - Number(localStorage.getItem('startTime'))) / 1000)) > 0) {
                     $('#btn_submit').html('SUBMIT');
                 } else {
                     $('#btn_submit').html('NEXT');
