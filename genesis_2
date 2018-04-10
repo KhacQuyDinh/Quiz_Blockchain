@@ -1,0 +1,4 @@
+payable is a modifier that can be added to a function. It's impossible to have payable() as a function name as it is a reserved keyword. You may use payable only in addition to existing functions
+
+send ether.
+
