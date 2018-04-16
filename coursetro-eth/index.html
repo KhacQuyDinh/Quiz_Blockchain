@@ -583,7 +583,7 @@
 			]
 		);
 
-		var quizInstant = quizContract.at('0x98d2c8057eb1da2f76cd802e25f608c2e49c8c11');
+		var quizInstant = quizContract.at('0x383d569ce04f0212bc0d86e207e6639c16cad76b');
 
 		//console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -827,6 +827,8 @@
 				sessionStorage.setItem('answer_C', web3.toAscii(result.args.answer_C));
 				sessionStorage.setItem('answer_D', web3.toAscii(result.args.answer_D));
 
+				sessionStorage.setItem('question_number', 1 + parseInt(sessionStorage.getItem('user_quiz_id')));
+
 				//update game_general_num_right_answer              
 				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
 				//update game_general_num_false_answer
@@ -934,7 +936,7 @@
 			//get the old quiz.						
 			if (sessionStorage.getItem('question_des') != null
 				&& sessionStorage.getItem('question_des') != 'null') {
-				$('#questionId').html('Question number ' + sessionStorage.getItem('user_quiz_id'));
+				$('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
 				$('#question').html('' + sessionStorage.getItem('question_des'));
 				var ansA = $('#answer_A').next()[0];
 				var ansB = $('#answer_B').next()[0];
