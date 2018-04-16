@@ -1,0 +1,17 @@
+Based on this, here's some advice on reducing gas cost:
+
+Only write to storage when you are finished with your computations, use local variables to remember your progress (if applicable)
+
+Avoid too much writing to and reading from storage
+
+Avoid creating too many new contracts
+
+Avoid reading too much global state (for example getting the balance of an address)
+
+Avoid too many transactions
+
+Use bytes32 instead of string for small strings
+
+Avoid loops that run too many times, especially if they contain expensive instructions
+
+
