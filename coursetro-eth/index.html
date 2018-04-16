@@ -667,7 +667,7 @@
 				seconds = seconds < 10 ? "0" + seconds : seconds;
 
 				if (!timeOut) {
-					if (timer == 0) {
+					if (timer <= 0) {
 						timeOut = true;						
 					} else {
 						display.textContent = seconds;
