@@ -2,614 +2,1085 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="theme.css" type="text/css">
-    <title>Coursetro Smart Contract</title>
-    <script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
-    <script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="theme.css" type="text/css">
+	<title>QUIZZES SMART CONTRACT</title>
+	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
+	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
 <body class="bg-dark" style="background-size:cover;">
-    <div class="container">
-        <div class="row py-5 mx-5">
-            <div class="align-self-center text-white col-md-4 bg-dark">
-                <h1 class="text-center text-md-left display-3 text-light">Quiz Game</h1>
-                <p id='general_num_right_answer' style="color:#0DFF92;">General number correct answer: </p>
+	<div class="container">
+		<div class="row py-5 mx-5">
+			<div class="align-self-center text-white col-md-4 bg-dark">
+				<h1 class="text-center text-md-left display-3 text-light">Quiz Game</h1>
+				<!-- <p id='general_num_right_answer' style="color:#0DFF92;">General number correct answer: </p>
                 <p id='general_num_false_answer' style="color:#ff7f82;">General number wrong answer: </p>
                 <p id='user_num_right_answer' style="color:#0DFF92;">User number correct answer:</p>
                 <p id='user_num_false_answer' style="color:#ff7f82;">User number wrong answer: </p>
-                <p id='balance' style="color: #e5ff60">Balance: </p>
-            </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body bg-dark w-100">
-                        <h3 class="pb-3 text-center" id='questionId'>Question Number</h3>
-                        <p class="text-center m-0" id='question'>This Is The Question ?</p>
-                        <div class="text-center">
-                            <img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" class="" width="10%">
-                          </div>
-                        <div class="mx-3 px-5">
-                            <label>
-                                <input type="radio" class="option-input radio" id="answer_A" name="user_answer" value="1">
-                                <span></span>
-                                <div id='des_A_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
-                                <div id='des_A_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
-                            </label>
-                            <label>
-                                <input type="radio" class="option-input radio" id="answer_B" name="user_answer" value="2">
-                                <span></span>
-                                <div id='des_B_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
-                                <div id='des_B_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
-                            </label>
-                            <label>
-                                <input type="radio" class="option-input radio" id="answer_C" name="user_answer" value="3">
-                                <span></span>
-                                <div id='des_C_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
-                                <div id='des_C_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
-                            </label>
-                            <label>
-                                <input type="radio" class="option-input radio" id="answer_D" name="user_answer" value="4">
-                                <span></span>
-                                <div id='des_D_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
-                                <div id='des_D_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
-                            </label>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn w-50 btn-outline-light m-1" id='btn_submit'>Submit</button>
-                            <button class="btn w-50 btn-outline-light m-1" id='btn_reload'>Reload</button>
-                        </div>
-                    </div>
+				<p id='balance' style="color: #e5ff60">Balance: </p> -->
+				<table class="table table-hover table-striped table-sm table-bordered">
+					<tbody>
+						<tr>
+							<td id='general_num_right_answer' style="color:#0DFF92;">General num correct answer:</td>
+							<td class="w-25 text-center"></td>
+						</tr>
+						<tr>
+							<td id='general_num_false_answer' style="color:#ff7f82;">General num wrong answer:</td>
+							<td class="text-center"></td>
+						</tr>
+						<tr>
+							<td id='user_num_right_answer' style="color:#0DFF92;">User num correct answer:</td>
+							<td class="text-center"> </td>
+						</tr>
+						<tr>
+							<td id='user_num_false_answer' style="color:#ff7f82;">User num wrong answer:</td>
+							<td class="text-center"></td>
+						</tr>
+					</tbody>
+                </table>
+                <table class="table table-hover table-striped table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td id='balance' style="color: #e5ff60;">Balance:</td>
+                                <td class="w-50 text-center"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+				<div class="w-100 text-center">
+                    <h3 id="time">00:00</h3>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-body bg-dark w-100">
+						<h3 class="pb-3 text-center" id='questionId'>Question Number</h3>
+						<p class="text-center m-0" id='question'>This Is The Question ?</p>
+						<div class="text-center">
+							<img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" class="" width="10%">
+						</div>
+						<div class="mx-3 px-5">
+							<label>
+								<input type="radio" class="option-input radio" id="answer_A" name="user_answer" value="1">
+								<span></span>
+								<div id='des_A_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_A_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+							<label>
+								<input type="radio" class="option-input radio" id="answer_B" name="user_answer" value="2">
+								<span></span>
+								<div id='des_B_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_B_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+							<label>
+								<input type="radio" class="option-input radio" id="answer_C" name="user_answer" value="3">
+								<span></span>
+								<div id='des_C_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_C_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+							<label>
+								<input type="radio" class="option-input radio" id="answer_D" name="user_answer" value="4">
+								<span></span>
+								<div id='des_D_right' class='right_des' style="color:#0DFF92;display:none;">Correct</div>
+								<div id='des_D_false' class='false_des' style="color:#ff7f82;display:none;">Wrong</div>
+							</label>
+						</div>
+						<div class="text-center">
+							<button class="btn w-50 btn-outline-light m-1" id='btn_submit'>Submit</button>
+							<button class="btn w-50 btn-outline-light m-1" id='btn_reload'>Reload</button>
+						</div>
+					</div>
                 </div>
-            </div>
-        </div>
+			</div>
+		</div>
     </div>
 
+	<script>		
+		//web3 is already set provider.
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			//else create new one.
+			web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+		}
+		//get the first account as defaultAccount in total 10 accounts which localhost gives.
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		//fill contract description.
+		var quizContract = web3.eth.contract(
+			[
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"name": "user_answer_id",
+							"type": "uint256"
+						}
+					],
+					"name": "submitAnswer2Server",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [],
+					"name": "initServerUserStorage",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [],
+					"name": "initQuizDb",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserQuizStartingTime",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserNumWrongAnswer",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "isInit",
+							"type": "bool"
+						}
+					],
+					"name": "setServerUserStorageInit",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserQuizIsAnswered",
+					"outputs": [
+						{
+							"name": "",
+							"type": "bool"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [],
+					"name": "getServerTheNextQuiz",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "isServerUserStorageInit",
+					"outputs": [
+						{
+							"name": "",
+							"type": "bool"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserNumCorrectAnswer",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserQuizId",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerGeneralNumRightAnswer",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerCurrentQuizId",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerDefaultTotalQuiz",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "isServerCloseGame",
+					"outputs": [
+						{
+							"name": "",
+							"type": "bool"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": false,
+					"inputs": [
+						{
+							"name": "quiz_id",
+							"type": "uint256"
+						}
+					],
+					"name": "getServerTheOldQuizById",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"name": "quiz_set",
+					"outputs": [
+						{
+							"name": "id",
+							"type": "uint256"
+						},
+						{
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_D",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"name": "answer_check_id",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserWalletBalance",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerUserTotalAnswer",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [],
+					"name": "getServerGeneralNumFalseAnswer",
+					"outputs": [
+						{
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"constant": true,
+					"inputs": [
+						{
+							"name": "",
+							"type": "address"
+						}
+					],
+					"name": "userStorage",
+					"outputs": [
+						{
+							"name": "isInit",
+							"type": "bool"
+						},
+						{
+							"name": "user_quiz_id",
+							"type": "uint256"
+						},
+						{
+							"name": "user_num_correct_answer",
+							"type": "uint256"
+						},
+						{
+							"name": "user_num_wrong_answer",
+							"type": "uint256"
+						},
+						{
+							"name": "user_total_answer",
+							"type": "uint256"
+						},
+						{
+							"name": "user_quiz_starting_time",
+							"type": "uint256"
+						},
+						{
+							"name": "isAnswered",
+							"type": "bool"
+						}
+					],
+					"payable": false,
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "constructor"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "isRight",
+							"type": "bool"
+						},
+						{
+							"indexed": false,
+							"name": "answer_check",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "user_answer_id",
+							"type": "uint256"
+						}
+					],
+					"name": "update_answer_evt",
+					"type": "event"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_D",
+							"type": "bytes"
+						}
+					],
+					"name": "update_the_next_quiz_evt",
+					"type": "event"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "quiz_id",
+							"type": "uint256"
+						},
+						{
+							"indexed": false,
+							"name": "question",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_A",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_B",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_C",
+							"type": "bytes"
+						},
+						{
+							"indexed": false,
+							"name": "answer_D",
+							"type": "bytes"
+						}
+					],
+					"name": "update_the_old_quiz_evt",
+					"type": "event"
+				},
+				{
+					"anonymous": false,
+					"inputs": [
+						{
+							"indexed": false,
+							"name": "isSpend",
+							"type": "bool"
+						},
+						{
+							"indexed": false,
+							"name": "player",
+							"type": "address"
+						},
+						{
+							"indexed": false,
+							"name": "token",
+							"type": "uint256"
+						}
+					],
+					"name": "update_money_evt",
+					"type": "event"
+				}
+			]
+		);
 
-    <script>		
-        //web3 is already set provider.
-        if (typeof web3 !== 'undefined') {
-            web3 = new Web3(web3.currentProvider);
-        } else {
-            //else create new one.
-            web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-        }
+		var quizInstant = quizContract.at('0x383d569ce04f0212bc0d86e207e6639c16cad76b');
 
-        //get the first account as defaultAccount in total 10 accounts which localhost gives.
-        web3.eth.defaultAccount = web3.eth.accounts[0];
+		//console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
-        //fill contract description.
-        var quizContract = web3.eth.contract(
-            [
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "getTheNextQuiz",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "quiz_id",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "getTheNextQuizById",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "initQuizDb",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "quiz_id",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "user_answer_id",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "submitAnswer",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [
-                        {
-                            "indexed": false,
-                            "name": "isRight",
-                            "type": "bool"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "general_num_right_answer",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "general_num_false_answer",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "total_quiz",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "answer_check",
-                            "type": "bytes"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "user_answer_id",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "server_current_quiz_id",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "balance",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "update_answer_evt",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [
-                        {
-                            "indexed": false,
-                            "name": "general_num_right_answer",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "general_num_false_answer",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "total_quiz",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "quiz_id",
-                            "type": "uint256"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "question",
-                            "type": "bytes"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "answer_A",
-                            "type": "bytes"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "answer_B",
-                            "type": "bytes"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "answer_C",
-                            "type": "bytes"
-                        },
-                        {
-                            "indexed": false,
-                            "name": "answer_D",
-                            "type": "bytes"
-                        }
-                    ],
-                    "name": "update_the_next_quiz_evt",
-                    "type": "event"
-                },
-                {
-                    "inputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "constructor"
-                },
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "balanceOf",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "getCurrentBalance",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "getCurrentQuizId",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "getDefaultTotalQuiz",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "quiz_set",
-                    "outputs": [
-                        {
-                            "name": "id",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "question",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "answer_A",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "answer_B",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "answer_C",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "answer_D",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "answer_check",
-                            "type": "bytes"
-                        },
-                        {
-                            "name": "answer_check_id",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                }
-            ]
-        );
+		var default_total_time = 30;//30s
 
+		//need to call quizInstant.initServerUserStorage(); firstly.		
+		function initClientStorage() {
+			if (quizInstant.isServerUserStorageInit() == false) {
+				//to init user storage in the server.
+				quizInstant.initServerUserStorage();
+			}
 
-        //fill address in the quote.
-        var quizInstant = quizContract.at("0x2e55bd34b938727925bc2f371bb7cdd00169a0ff");
+			if (sessionStorage.getItem('default_total_quiz') == null
+				|| sessionStorage.getItem('default_total_quiz') == 'null') {
+				sessionStorage.setItem('default_total_quiz', quizInstant.getServerDefaultTotalQuiz());
+			}
 
-        //console.log('318: ' + sessionStorage.getItem('user_quiz_id'));
-        //if the cookie is not set, init cookie.				
-        if (sessionStorage.getItem('user_quiz_id') == null) {
-            sessionStorage.setItem('user_quiz_id', -1);
-        }
+			if (sessionStorage.getItem('user_quiz_id') == null
+				|| sessionStorage.getItem('user_quiz_id') == 'null') {
+				var server_user_quiz_id = parseInt(quizInstant.getServerUserQuizId());
+				var total_quiz = parseInt(sessionStorage.getItem('default_total_quiz'));
+				//console.log('568: ' + (server_user_quiz_id  == 1 + total_quiz));
+				if (server_user_quiz_id == total_quiz + 1) {
+					sessionStorage.setItem('user_quiz_id', -3); //start game.
+				} else if (server_user_quiz_id == total_quiz - 1) {
+					sessionStorage.setItem('user_quiz_id', -2); //end game.
+				} else if (quizInstant.getServerUserQuizIsAnswered() == true) {
+					sessionStorage.setItem('user_quiz_id', -1); //next.
+				} else {
+					sessionStorage.setItem('user_quiz_id', server_user_quiz_id); //submit
+				}
+			}
 
-        if (sessionStorage.getItem('default_total_quiz') == null) {
-            sessionStorage.setItem('default_total_quiz', quizInstant.getDefaultTotalQuiz());
-        }
+			if (sessionStorage.getItem('user_num_correct_answer') == null
+				|| sessionStorage.getItem('user_num_correct_answer') == 'null') {
+				sessionStorage.setItem('user_num_correct_answer', quizInstant.getServerUserNumCorrectAnswer());
+			}
+			if (sessionStorage.getItem('user_num_wrong_answer') == null
+				|| sessionStorage.getItem('user_num_wrong_answer') == 'null') {
+				sessionStorage.setItem('user_num_wrong_answer', quizInstant.getServerUserNumWrongAnswer());
+			}
+			if (sessionStorage.getItem('user_total_answer') == null
+				|| sessionStorage.getItem('user_total_answer') == 'null') {
+				sessionStorage.setItem('user_total_answer', quizInstant.getServerUserTotalAnswer());
+			}
+			if (sessionStorage.getItem('user_quiz_starting_time') == null
+				|| sessionStorage.getItem('user_quiz_starting_time') == 'null') {
+				console.log('user_quiz_starting_time: ' + quizInstant.getServerUserQuizStartingTime());
+				sessionStorage.setItem('user_quiz_starting_time', quizInstant.getServerUserQuizStartingTime());
+			}
+			if (sessionStorage.getItem('user_wallet_balance') == null
+				|| sessionStorage.getItem('user_wallet_balance') == 'null') {
+				sessionStorage.setItem('user_wallet_balance', (quizInstant.getServerUserWalletBalance() / web3.toWei(1)).toFixed(2));
+			}
+		}
 
-        if (sessionStorage.getItem('user_num_correct_answer') == null) {
-            sessionStorage.setItem('user_num_correct_answer', 0);
-        }
+		function refreshClientStorage() {
+			sessionStorage.setItem('default_total_quiz', null);
+			sessionStorage.setItem('user_num_correct_answer', null);
+			sessionStorage.setItem('user_num_wrong_answer', null);
+			sessionStorage.setItem('user_total_answer', null);
+			sessionStorage.setItem('user_quiz_starting_time', null);
+			sessionStorage.setItem('user_wallet_balance', null);
 
-        if (sessionStorage.getItem('user_num_wrong_answer') == null) {
-            sessionStorage.setItem('user_num_wrong_answer', 0);
-        }
+			//for the quiz (id, question_des, answer_A, answer_B, answer_C, answer_D)
+			sessionStorage.setItem('user_quiz_id', null);
+			sessionStorage.setItem('question_des', null);
+			sessionStorage.setItem('answer_A', null);
+			sessionStorage.setItem('answer_B', null);
+			sessionStorage.setItem('answer_C', null);
+			sessionStorage.setItem('answer_D', null);
+		}
 
-        if (sessionStorage.getItem('user_total_answer') == null) {
-            sessionStorage.setItem('user_total_answer', 0);
-        }
+		///#START: COUNTDOWN TIMER.
+		var myTimer;
+		function startTimer(duration, display) {
+			let timer = duration, minutes, seconds;
+			let timeOut = false;
+			myTimer = setInterval(function () {
+				seconds = parseInt(timer % 60, 10);
+				seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        //using event to update the quiz.
-        var update_answer_evt = quizInstant.update_answer_evt();
+				if (!timeOut) {
+					if (timer <= 0) {
+						timeOut = true;						
+					} else {
+						display.textContent = seconds;
+					}
+				} else {
+					display.textContent = "Question Closed";
+					//to close quiz.
+					$('#btn_submit').html("NEXT");
+					clearInterval(myTimer);
+				}
 
-        //func when have instructorEvent be called. 
-        update_answer_evt.watch(function (error, result) {
-            //hide loader.
+				if (--timer < 0) {					
+					console.log(timer);
+				}
+			}, 1000);
+		}
 
-            //show info including name-age or error.
-            if (!error) {
+		//To use countdown timer event		
+		function startCountDown(totalSecond) {
+			clearInterval(myTimer);
+			display = document.querySelector('#time');
+			if (totalSecond > 0 && default_total_time - totalSecond >= 0) {
+				startTimer(totalSecond, display);
+			} else {
+				console.log('countdown timer - question close - next');
+				display.textContent = "Question Closed";
+				$('#btn_submit').html("NEXT");
+			}
+		};
+		///#END: COUNTDOWN TIMER.
 
-                //increase and decrease wrong_answer or correct_answer.
-                if (result.args.isRight) {
-                    sessionStorage.setItem('user_num_correct_answer', parseInt(sessionStorage.getItem('user_num_correct_answer')) + 1);
-                } else {
-                    sessionStorage.setItem('user_num_wrong_answer', parseInt(sessionStorage.getItem('user_num_wrong_answer')) + 1);
-                }
+		//using event to update the quiz.
+		var update_answer_evt = quizInstant.update_answer_evt();
+		//func when have instructorEvent be called. 
+		update_answer_evt.watch(function (error, result) {
+			//hide loader.
+			//show info including name-age or error.
+			if (!error) {
+				console.log(result.args.isRight);
+				//increase and decrease wrong_answer or correct_answer.
+				if (result.args.isRight) {
+					sessionStorage.setItem('user_num_correct_answer', parseInt(sessionStorage.getItem('user_num_correct_answer')) + 1);
+				} else {
+					sessionStorage.setItem('user_num_wrong_answer', parseInt(sessionStorage.getItem('user_num_wrong_answer')) + 1);
+				}
 
-                //the quiz is answered.
-                sessionStorage.setItem('user_quiz_id', -1);
+				//update user_quiz_starting_time to zero.
+				sessionStorage.setItem('user_quiz_starting_time', -1);
 
-                //check end.
-                if (sessionStorage.getItem('default_total_quiz')
-                    - result.args.server_current_quiz_id - 1 == 0) {
-                    $('#btn_submit').html('GAME END');
-                    //delete cookie everytime endgame.
-                    sessionStorage.setItem('user_quiz_id', -2);
-                    // console.log('510, end game');
-                } else {
-                    $("#loader").hide();
-                    $('#btn_submit').html('NEXT');
-                }
+				//clear interval.
+				clearInterval(myTimer);
 
+				//the quiz is answered.
+				sessionStorage.setItem('user_quiz_id', -1);
 
-                //update info
-                ///#start region:
+				//check end.
+				if (sessionStorage.getItem('default_total_quiz') - result.args.getServerCurrentQuizId - 1 == 0) {
+					$('#btn_submit').html('GAME END');
 
-                //game_general_num_right_answer              
-                $('#general_num_right_answer').html('General number correct answer: ' + result.args.general_num_right_answer + '/' + result.args.total_quiz);
+					//adjust value of user_quiz_id endgame.
+					sessionStorage.setItem('user_quiz_id', -2);
 
-                //game_general_num_false_answer
-                $('#general_num_false_answer').html('General number wrong answer: ' + result.args.general_num_false_answer + '/' + result.args.total_quiz);
+					//refreshClientStorage();					
+				} else {
+					$("#loader").hide();
+					$('#btn_submit').html('NEXT');
+				}
 
-                //user_num_correct_answer
-                $('#user_num_right_answer').html('User number correct answer: ' + sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
+				//update info
+				///#start region:				
+				//update game_general_num_right_answer              
+				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
+				//update game_general_num_false_answer
+				$('#general_num_false_answer').next().html(quizInstant.getServerGeneralNumFalseAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
+				//update user_num_correct_answer
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
+				//update user_num_wrong_answer
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 
-                //user_num_wrong_answer
-                $('#user_num_false_answer').html('User number wrong answer: ' + sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
+				console.log('user_answer_id: ' + parseInt(result.args.user_answer_id));
+				//update answer.				
+				switch (parseInt(result.args.user_answer_id)) {
+					case 1:
+						if (result.args.isRight) {
+                            $('#answer_A').css('background', '#0DFF92');
+							$('#des_A_right').fadeIn(1000);
+							$('#des_A_right').delay(500);
+							$('#des_A_right').slideUp();
+						} else {
+                            $('#answer_A').css('background', '#ff7f82');
+							$('#des_A_false').fadeIn(1000);
+							$('#des_A_false').delay(500);
+							$('#des_A_false').slideUp();
+						}
+						break;
+					case 2:
+						if (result.args.isRight) {
+                            $('#answer_B').css('background', '#0DFF92');
+							$('#des_B_right').fadeIn(1000);
+							$('#des_B_right').delay(500);
+							$('#des_B_right').slideUp();
+						} else {
+                            $('#answer_B').css('background', '#ff7f82');
+							$('#des_B_false').fadeIn(1000);
+							$('#des_B_false').delay(500);
+							$('#des_B_false').slideUp();
+						}
+						break;
+					case 3:
+						if (result.args.isRight) {
+                            $('#answer_C').css('background', '#0DFF92');
+							$('#des_C_right').fadeIn(1000);
+							$('#des_C_right').delay(500);
+							$('#des_C_right').slideUp();
+						} else {
+                            $('#answer_C').css('background', '#ff7f82');
+							$('#des_C_false').fadeIn(1000);
+							$('#des_C_false').delay(500);
+							$('#des_C_false').slideUp();
+						}
+						break;
+					case 4:
+						if (result.args.isRight) {
+                            $('#answer_D').css('background', '#0DFF92');
+							$('#des_D_right').fadeIn(1000);
+							$('#des_D_right').delay(500);
+							$('#des_D_right').slideUp();
+						} else {
+                            $('#answer_D').css('background', '#ff7f82');
+							$('#des_D_false').fadeIn(1000);
+							$('#des_D_false').delay(500);
+							$('#des_D_false').slideUp();
+						}
+						break;
+					default:
+						console.log('in default');
+				}
+				//#end region.              
+			} else {
+				console.log(error);
+			}
+		});
 
+		//using event to update the quiz.
+		var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
+		update_the_next_quiz_evt.watch(function (error, result) {
+			//hide loader.
+			$("#loader").hide();
 
-                //update balance token.
-                $('#balance').html('Balance: ' + result.args.balance);
+			//show info question.
+			if (!error) {
+				//update value of quiz in client storage.
+				sessionStorage.setItem('user_quiz_id', parseInt(result.args.quiz_id));
+				sessionStorage.setItem('question_des', web3.toAscii(result.args.question));
+				sessionStorage.setItem('answer_A', web3.toAscii(result.args.answer_A));
+				sessionStorage.setItem('answer_B', web3.toAscii(result.args.answer_B));
+				sessionStorage.setItem('answer_C', web3.toAscii(result.args.answer_C));
+				sessionStorage.setItem('answer_D', web3.toAscii(result.args.answer_D));
 
-                //update answer.				
-                switch (parseInt(result.args.user_answer_id)) {
-                    case 1:
-                        if (result.args.isRight) {
-                            $('#des_A_right').fadeIn(2000);
-                            $('#des_A_right').delay(500);
-                            $('#des_A_right').slideUp();
+				sessionStorage.setItem('question_number', 1 + parseInt(sessionStorage.getItem('user_quiz_id')));
 
-                        } else {
-                            $('#des_A_false').fadeIn(2000);
-                            $('#des_A_false').delay(500);
-                            $('#des_A_false').slideUp();
-                        }
+				//update game_general_num_right_answer              
+				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
+				//update game_general_num_false_answer
+				$('#general_num_false_answer').next().html(quizInstant.getServerGeneralNumFalseAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
 
-                        break;
+				//user_num_correct_answer
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
+				//user_num_wrong_answer
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 
-                    case 2:
-                        if (result.args.isRight) {
-                            $('#des_B_right').fadeIn(2000);
-                            $('#des_B_right').delay(500);
-                            $('#des_B_right').slideUp();
-                        } else {
-                            $('#des_B_false').fadeIn(2000);
-                            $('#des_B_false').delay(500);
-                            $('#des_B_false').slideUp();
-                        }
+				var question_num = parseInt(result.args.quiz_id) + 1;
+				$('#questionId').html('Question number ' + question_num);
+				$('#question').html(web3.toAscii(result.args.question));
+				var ansA = $('#answer_A').next()[0];
+				var ansB = $('#answer_B').next()[0];
+				var ansC = $('#answer_C').next()[0];
+				var ansD = $('#answer_D').next()[0];
+				ansA.textContent = web3.toAscii(result.args.answer_A);
+				ansB.textContent = web3.toAscii(result.args.answer_B);
+				ansC.textContent = web3.toAscii(result.args.answer_C);
+				ansD.textContent = web3.toAscii(result.args.answer_D);
 
-                        break;
+				//update button.
+				$('#btn_submit').html('SUBMIT');
 
+				//uncheck all radio buttons.
+				$('#answer_A').prop('checked', false);
+				$('#answer_B').prop('checked', false);
+				$('#answer_C').prop('checked', false);
+				$('#answer_D').prop('checked', false);
 
-                    case 3:
-                        if (result.args.isRight) {
-                            $('#des_C_right').fadeIn(2000);
-                            $('#des_C_right').delay(500);
-                            $('#des_C_right').slideUp();
-                        } else {
-                            $('#des_C_false').fadeIn(2000);
-                            $('#des_C_false').delay(500);
-                            $('#des_C_false').slideUp();
-                        }
+				sessionStorage.setItem('user_quiz_starting_time', Date.now() / 1000);
+				//active interval event for 30s
+				console.log('start count down with default_total_time');
 
-                        break;
+				startCountDown(default_total_time);
+			}
+		});
 
-                    case 4:
-                        if (result.args.isRight) {
-                            $('#des_D_right').fadeIn(2000);
-                            $('#des_D_right').delay(500);
-                            $('#des_D_right').slideUp();
-                        } else {
-                            $('#des_D_false').fadeIn(2000);
-                            $('#des_D_false').delay(500);
-                            $('#des_D_false').slideUp();
-                        }
+		var update_the_old_quiz_evt = quizInstant.update_the_old_quiz_evt();
+		update_the_old_quiz_evt.watch(function (error, result) {
+			//hide loader.
+			$("#loader").hide();
 
-                        break;
+			//show info question.
+			if (!error) {
+				//update value of quiz in client storage.
+				sessionStorage.setItem('user_quiz_id', parseInt(result.args.quiz_id));
+				sessionStorage.setItem('question_des', web3.toAscii(result.args.question));
+				sessionStorage.setItem('answer_A', web3.toAscii(result.args.answer_A));
+				sessionStorage.setItem('answer_B', web3.toAscii(result.args.answer_B));
+				sessionStorage.setItem('answer_C', web3.toAscii(result.args.answer_C));
+				sessionStorage.setItem('answer_D', web3.toAscii(result.args.answer_D));
 
-                    default:
-                        console.log('in default');
-                }
-                //#end region.              
-            } else {
-                console.log(error);
-            }
-        });
+				//update game_general_num_right_answer              
+				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
+				//update game_general_num_false_answer
+				$('#general_num_false_answer').next().html(quizInstant.getServerGeneralNumFalseAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
 
-        //using event to update the quiz.
-        var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
+				//user_num_correct_answer
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
+				//user_num_wrong_answer
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 
-        //func when have getTheNextQuiz() be called. 
-        update_the_next_quiz_evt.watch(function (error, result) {
-            //hide loader.
-            $("#loader").hide();
-            //show info question.
-            if (!error) {
+				var question_num = parseInt(result.args.quiz_id) + 1;
+				$('#questionId').html('Question number ' + question_num);
+				$('#question').html(web3.toAscii(result.args.question));
+				var ansA = $('#answer_A').next()[0];
+				var ansB = $('#answer_B').next()[0];
+				var ansC = $('#answer_C').next()[0];
+				var ansD = $('#answer_D').next()[0];
+				ansA.textContent = web3.toAscii(result.args.answer_A);
+				ansB.textContent = web3.toAscii(result.args.answer_B);
+				ansC.textContent = web3.toAscii(result.args.answer_C);
+				ansD.textContent = web3.toAscii(result.args.answer_D);
+			}
+		});
 
-                //if not error and the question is not be answered
-                console.log('409: ' + result.args.quiz_id);
-                //update value of user_quiz_id as runtime variable.						
-                sessionStorage.setItem('user_quiz_id', result.args.quiz_id);
-                //for total questions that user submited.
-                sessionStorage.setItem('user_total_answer', parseInt(sessionStorage.getItem('user_total_answer')) + 1);
+		var update_money_evt = quizInstant.update_money_evt();
+		update_money_evt.watch(function (error, result) {
+			if (!error) {
+				console.log('isSpend: ' + result.args.isSpend);
+				console.log('have token: ' + result.args.token);
+				console.log('addess: ' + result.args.player);
+				console.log('default account:' + web3.eth.accounts[1])
+				//send lost money to host.	
+				if (result.args.token > 0) {
+					if (result.args.isSpend) {
+						web3.eth.sendTransaction({ from: result.args.player, to: web3.eth.accounts[1], value: web3.toWei(result.args.token, "ether")});
+					} else {
+						web3.eth.sendTransaction({ from: web3.eth.accounts[1], to: result.args.player, value: web3.toWei(result.args.token, "ether")});
+					}
+				}
 
-                $("#loader").hide();
-                $('#general_num_right_answer').html('General number correct answer: ' + result.args.general_num_right_answer + '/' + result.args.total_quiz);
-                $('#general_num_false_answer').html('General number wrong answer: ' + result.args.general_num_false_answer + '/' + result.args.total_quiz);
-                var question_num = parseInt(result.args.quiz_id) + 1;
-                $('#questionId').html('Question number ' + question_num);
-                $('#question').html(web3.toAscii(result.args.question));
-                var ansA = $('#answer_A').next()[0];
-                var ansB = $('#answer_B').next()[0];
-                var ansC = $('#answer_C').next()[0];
-                var ansD = $('#answer_D').next()[0];
-                ansA.textContent = web3.toAscii(result.args.answer_A);
-                ansB.textContent = web3.toAscii(result.args.answer_B);
-                ansC.textContent = web3.toAscii(result.args.answer_C);
-                ansD.textContent = web3.toAscii(result.args.answer_D);
-                //update button.
-                $('#btn_submit').html('SUBMIT');
-                //reset result.
-                //uncheck all radio buttons.
-                $('#answer_A').prop('checked', false);
-                $('#answer_B').prop('checked', false);
-                $('#answer_C').prop('checked', false);
-                $('#answer_D').prop('checked', false);
-            }
-        });
+				//update balance token = must use web3.eth.getBalance because it lately update to server.
+				sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) /web3.toWei(1)).toFixed(2));
+				$('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+			}
+		});
 
+		function reloadQuizContent() {
+			//hide loader.
+			$("#loader").hide();
 
-        //reload the page.
-        {
-            var user_quiz_id = sessionStorage.getItem('user_quiz_id');
-            if (user_quiz_id >= 0) {
-                console.log('478: reload');
-                quizInstant.getTheNextQuizById(user_quiz_id);
-                //update button		
-                $('#btn_submit').html('SUBMIT');
-            } else if (user_quiz_id != -2) {
-                //update button				
-                $('#btn_submit').html('START');
+			//get the old quiz.						
+			if (sessionStorage.getItem('question_des') != null
+				&& sessionStorage.getItem('question_des') != 'null') {
+				$('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
+				$('#question').html('' + sessionStorage.getItem('question_des'));
+				var ansA = $('#answer_A').next()[0];
+				var ansB = $('#answer_B').next()[0];
+				var ansC = $('#answer_C').next()[0];
+				var ansD = $('#answer_D').next()[0];
+				ansA.textContent = '' + sessionStorage.getItem('answer_A');
+				ansB.textContent = '' + sessionStorage.getItem('answer_B');
+				ansC.textContent = '' + sessionStorage.getItem('answer_C');
+				ansD.textContent = '' + sessionStorage.getItem('answer_D');
 
-                //show the balance 
-                //write code here.. using quizInstant.getCurrentBalance();
-            }
-        }
+				//update game_general_num_right_answer              
+				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
+				//update game_general_num_false_answer
+				$('#general_num_false_answer').next().html(quizInstant.getServerGeneralNumFalseAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
+				//user_num_correct_answer
+				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
+				//user_num_wrong_answer
+				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 
+				console.log("run reload quiz content");
+			} else {
+				var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+				console.log('reload: ' + user_quiz_id);
+				if (user_quiz_id >= 0) {
+					quizInstant.getServerTheOldQuizById(user_quiz_id);
+				}
+			}
+		}
 
-        //reset the question. for example loading the page.	
-        $('#btn_reset').click(function () {
-            //get user_quiz_id as runtime variable.
-            var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+		//refresh the page.
+		window.onload = function () {
+			if (quizInstant.isServerCloseGame()) {
+				//time out of whole game.											
+				$('#btn_submit').html('GAME END');
 
-            if (user_quiz_id >= 0 && sessionStorage.getItem('default_total_quiz') - user_quiz_id > 0) {
-                //reload the quiz
-                quizInstant.getTheNextQuizById(user_quiz_id);
-            }
-        });
+			} else {
+				//init clientStorage with serverStorage.
+				initClientStorage();
 
-        //after submit we call event.
-        $('#btn_submit').click(function () {
-            //show loader..
-            $("#loader").show();
-            //condition.
-            if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {
-                quizInstant.getTheNextQuiz(function (error, result) {
-                    if (!error) {
-                        console.log('485: get new quiz');
-                        //will call event to update gui and cookie_quiz_id (user_quiz_id).
-                        //console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);
-                    } else {
-                        //when server throw error that means have no more quiz.
-                        console.log('error in line 413: ' + error);
-                        $('#btn_submit').html('GAME END');
-                        //delete cookie everytime endgame.
-                        sessionStorage.setItem('user_quiz_id', -2);
-                        // console.log('510, end game');
-                    }
-                });
+				reloadQuizContent();
 
-            } else {
-                if ($('#btn_submit').text() == 'SUBMIT') {
-                    var user_answer_id = $('input[name=user_answer]:checked').val();
-                    //if choosen an answer.
-                    if (user_answer_id != undefined) {
-                        //get user_quiz_id as runtime variable.			
-                        var user_quiz_id = sessionStorage.getItem('user_quiz_id');
-                        quizInstant.submitAnswer(user_quiz_id, user_answer_id, (err, res) => {
-                            if (err) {
-                                //hide loader..
-                                $("#loader").hide();
-                                console.log('error in line 425: ' + err);
-                            } else {
-                            }
-                        });
-                    }
-                }
-            }
-        });
+				//for update the old quiz.
+				var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+				console.log(user_quiz_id);
 
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+				//update button.		
+				if (user_quiz_id >= 0
+					&& sessionStorage.getItem('default_total_quiz') - user_quiz_id > 0) {
+
+					$('#btn_submit').html('SUBMIT');
+
+				} else if (user_quiz_id == -2) {
+					$('#btn_submit').html('GAME END');
+
+				} else if (user_quiz_id == -1) {
+					$('#btn_submit').html('NEXT');
+
+				} else if (user_quiz_id == -3) {
+					$('#btn_submit').html('START');
+				}
+
+				//show the balance 				
+				$('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+
+				if ($('#btn_submit').text() == 'SUBMIT') {
+					console.log('run refresh timer');
+					//for update the old timer 			
+					var savedTime = sessionStorage.getItem('user_quiz_starting_time');
+					console.log('savedTime: ' + savedTime);
+					console.log('time: ' + (Date.now() / 1000 - savedTime));
+					var leftDuration = default_total_time - (Date.now() / 1000 - savedTime);
+					//this func will check leftDuration valid or not.							
+					startCountDown(leftDuration);
+				}
+			}
+		}
+
+		//reset the question. for example loading the page.	
+		$('#btn_reload').click(function () {
+			console.log('run');
+
+			//just skip the first quiz.
+			if (sessionStorage.getItem('user_quiz_id') != sessionStorage.getItem('default_total_quiz')) {
+				reloadQuizContent();
+			}
+		});
+
+		//after submit we call event.
+		$('#btn_submit').click(function () {
+			//show loader..
+			$("#loader").show();
+            $('.option-input').css('background', 'gray');
+			//condition.
+			if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {
+				quizInstant.getServerTheNextQuiz(function (error, result) {
+					if (!error) {
+						console.log('485: get new quiz');
+
+						//for total questions that user submited.
+						sessionStorage.setItem('user_total_answer', parseInt(sessionStorage.getItem('user_total_answer')) + 1);
+						//will call event to update gui and cookie_quiz_id (user_quiz_id).
+						//console.log('result: ' + result[0] + ' -> ' + result[1] + ' -> ' + result[2] + ' -> ' + result[3]);						
+					} else {
+						//when server throw error that means have no more quiz or do not have enough money.
+						console.log(parseInt(quizInstant.getServerCurrentQuizId()));
+
+						console.log('error in line 413: ' + error);
+						$('#btn_submit').html('GAME END');
+
+						//refreshClientStorage();
+
+						//adjust value for user_quiz_id.
+						sessionStorage.setItem('user_quiz_id', -2);
+						// console.log('510, end game');
+					}
+				});
+			} else {
+				if ($('#btn_submit').text() == 'SUBMIT') {
+					var user_answer_id = $('input[name=user_answer]:checked').val();
+					//if choosen an answer.
+					if (user_answer_id != undefined) {
+						//get user_quiz_id as runtime variable.			
+						var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+
+						console.log('line 929: ' + user_quiz_id + " " + user_answer_id);
+
+						quizInstant.submitAnswer2Server(user_quiz_id, user_answer_id, (err, res) => {
+							if (err) {
+								//hide loader..
+								$("#loader").hide();
+								console.log('error in line 425: ' + err);
+							} else {
+							}
+						});
+					}
+				}
+			}
+		});
+	</script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
 </body>
 
 </html>
