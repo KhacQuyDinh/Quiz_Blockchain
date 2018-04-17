@@ -1,7 +1,7 @@
 pragma solidity ^0.4.21;
 
 contract Quiz {
-	uint256 priceEachQuiz = 1000000000000000;
+	uint256 priceEachQuiz = 1;
     uint256 openTimeContract;
     
 	//remember string is costly, so we can change it to bytes,...

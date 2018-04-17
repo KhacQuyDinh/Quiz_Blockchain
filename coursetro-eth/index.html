@@ -636,7 +636,7 @@
 			}
 			if (sessionStorage.getItem('user_wallet_balance') == null
 				|| sessionStorage.getItem('user_wallet_balance') == 'null') {
-				sessionStorage.setItem('user_wallet_balance', (quizInstant.getServerUserWalletBalance() / web3.toWei(1)).toFixed(2));
+					sessionStorage.setItem('user_wallet_balance', (quizInstant.getServerUserWalletBalance() / web3.toWei(1)).toFixed(2));
 			}
 		}
 
@@ -1027,7 +1027,7 @@
 		//after submit we call event.
 		$('#btn_submit').click(function () {
 			//show loader..
-			$("#loader").show();
+			$("#loader").show();			
             $('.option-input').css('background', 'gray');
 			//condition.
 			if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {

@@ -9,7 +9,7 @@
 	<title>QUIZZES SMART CONTRACT</title>
 	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
 	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="/home/quy/Desktop/Quiz_Blockchain_git/coursetro-eth/jquery-cookie/src/jquery-3.2.1.slim.min.js"></script>
 </head>
 
 <body class="bg-dark" style="background-size:cover;">
@@ -40,9 +40,13 @@
 							<td id='user_num_false_answer' style="color:#ff7f82;">User num wrong answer:</td>
 							<td class="text-center"></td>
 						</tr>
+					</tbody>
+				</table>
+				<table class="table table-hover table-striped table-sm table-bordered">
+					<tbody>
 						<tr>
 							<td id='balance' style="color: #e5ff60;">Balance:</td>
-							<td class="text-center"></td>
+							<td class="w-50 text-center"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -93,7 +97,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<script>		
 		//web3 is already set provider.
@@ -580,7 +583,7 @@
 			]
 		);
 
-		var quizInstant = quizContract.at('0xe3376dec37f620b1347aa9e040829efd7ceedcbb');
+		var quizInstant = quizContract.at('0x7506de06d6d9f34a0957c5e8dc2e6c530a0c047c');
 
 		//console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -610,7 +613,7 @@
 				} else if (quizInstant.getServerUserQuizIsAnswered() == true) {
 					sessionStorage.setItem('user_quiz_id', -1); //next.
 				} else {
-					sessionStorage.setItem('user_quiz_id', server_user_quiz_id); //submit
+					sessionStorage.setItem('user_quiz_id', server_user_quiz_id); //submit					
 				}
 			}
 
@@ -633,7 +636,7 @@
 			}
 			if (sessionStorage.getItem('user_wallet_balance') == null
 				|| sessionStorage.getItem('user_wallet_balance') == 'null') {
-				sessionStorage.setItem('user_wallet_balance', quizInstant.getServerUserWalletBalance());
+				sessionStorage.setItem('user_wallet_balance', (quizInstant.getServerUserWalletBalance() / web3.toWei(1)).toFixed(2));
 			}
 		}
 
@@ -663,21 +666,16 @@
 				seconds = parseInt(timer % 60, 10);
 				seconds = seconds < 10 ? "0" + seconds : seconds;
 
-				if (!timeOut) {
-					if (timer == 0) {
-						timeOut = true;						
-					} else {
-						display.textContent = seconds;
-					}
-				} else {
+				display.textContent = seconds;
+
+				timer -= 1;
+
+				if (timer < 0) {
+					console.log(timer);
+					clearInterval(myTimer);
 					display.textContent = "Question Closed";
 					//to close quiz.
 					$('#btn_submit').html("NEXT");
-					clearInterval(myTimer);
-				}
-
-				if (--timer < 0) {					
-					console.log(timer);
 				}
 			}, 1000);
 		}
@@ -749,10 +747,12 @@
 				switch (parseInt(result.args.user_answer_id)) {
 					case 1:
 						if (result.args.isRight) {
+							$('#answer_A').css('background', '#0DFF92');
 							$('#des_A_right').fadeIn(1000);
 							$('#des_A_right').delay(500);
 							$('#des_A_right').slideUp();
 						} else {
+							$('#answer_A').css('background', '#ff7f82');
 							$('#des_A_false').fadeIn(1000);
 							$('#des_A_false').delay(500);
 							$('#des_A_false').slideUp();
@@ -760,10 +760,12 @@
 						break;
 					case 2:
 						if (result.args.isRight) {
+							$('#answer_B').css('background', '#0DFF92');
 							$('#des_B_right').fadeIn(1000);
 							$('#des_B_right').delay(500);
 							$('#des_B_right').slideUp();
 						} else {
+							$('#answer_B').css('background', '#ff7f82');
 							$('#des_B_false').fadeIn(1000);
 							$('#des_B_false').delay(500);
 							$('#des_B_false').slideUp();
@@ -771,10 +773,12 @@
 						break;
 					case 3:
 						if (result.args.isRight) {
+							$('#answer_C').css('background', '#0DFF92');
 							$('#des_C_right').fadeIn(1000);
 							$('#des_C_right').delay(500);
 							$('#des_C_right').slideUp();
 						} else {
+							$('#answer_C').css('background', '#ff7f82');
 							$('#des_C_false').fadeIn(1000);
 							$('#des_C_false').delay(500);
 							$('#des_C_false').slideUp();
@@ -782,10 +786,12 @@
 						break;
 					case 4:
 						if (result.args.isRight) {
+							$('#answer_D').css('background', '#0DFF92');
 							$('#des_D_right').fadeIn(1000);
 							$('#des_D_right').delay(500);
 							$('#des_D_right').slideUp();
 						} else {
+							$('#answer_D').css('background', '#ff7f82');
 							$('#des_D_false').fadeIn(1000);
 							$('#des_D_false').delay(500);
 							$('#des_D_false').slideUp();
@@ -816,6 +822,10 @@
 				sessionStorage.setItem('answer_C', web3.toAscii(result.args.answer_C));
 				sessionStorage.setItem('answer_D', web3.toAscii(result.args.answer_D));
 
+				var question_num = parseInt(result.args.quiz_id) + 1;
+				sessionStorage.setItem('question_number', question_num);
+				$('#questionId').html('Question number ' + question_num);
+				
 				//update game_general_num_right_answer              
 				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
 				//update game_general_num_false_answer
@@ -825,9 +835,7 @@
 				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
 				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
-
-				var question_num = parseInt(result.args.quiz_id) + 1;
-				$('#questionId').html('Question number ' + question_num);
+								
 				$('#question').html(web3.toAscii(result.args.question));
 				var ansA = $('#answer_A').next()[0];
 				var ansB = $('#answer_B').next()[0];
@@ -879,9 +887,11 @@
 				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
 				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
-
+				
 				var question_num = parseInt(result.args.quiz_id) + 1;
+				sessionStorage.setItem('question_number', question_num);
 				$('#questionId').html('Question number ' + question_num);
+
 				$('#question').html(web3.toAscii(result.args.question));
 				var ansA = $('#answer_A').next()[0];
 				var ansB = $('#answer_B').next()[0];
@@ -904,15 +914,15 @@
 				//send lost money to host.	
 				if (result.args.token > 0) {
 					if (result.args.isSpend) {
-						web3.eth.sendTransaction({ from: result.args.player, to: web3.eth.accounts[1], value: result.args.token });
+						web3.eth.sendTransaction({ from: result.args.player, to: web3.eth.accounts[1], value: web3.toWei(result.args.token, "ether") });
 					} else {
-						web3.eth.sendTransaction({ from: web3.eth.accounts[1], to: result.args.player, value: result.args.token });
+						web3.eth.sendTransaction({ from: web3.eth.accounts[1], to: result.args.player, value: web3.toWei(result.args.token, "ether") });
 					}
 				}
 
 				//update balance token = must use web3.eth.getBalance because it lately update to server.
-				sessionStorage.setItem("user_wallet_balance", web3.eth.getBalance(result.args.player));
-				$('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance"));
+				sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
+				$('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
 			}
 		});
 
@@ -922,8 +932,8 @@
 
 			//get the old quiz.						
 			if (sessionStorage.getItem('question_des') != null
-				&& sessionStorage.getItem('question_des') != 'null') {
-				$('#questionId').html('Question number ' + sessionStorage.getItem('user_quiz_id'));
+				|| sessionStorage.getItem('question_des') != 'null') {
+				$('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
 				$('#question').html('' + sessionStorage.getItem('question_des'));
 				var ansA = $('#answer_A').next()[0];
 				var ansB = $('#answer_B').next()[0];
@@ -986,7 +996,7 @@
 				}
 
 				//show the balance 				
-				$('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance"));
+				$('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
 
 				if ($('#btn_submit').text() == 'SUBMIT') {
 					console.log('run refresh timer');
@@ -1015,6 +1025,8 @@
 		$('#btn_submit').click(function () {
 			//show loader..
 			$("#loader").show();
+			$('.option-input').css('background', 'gray');
+
 			//condition.
 			if (($('#btn_submit').text() == 'NEXT' || $('#btn_submit').text() == 'START')) {
 				quizInstant.getServerTheNextQuiz(function (error, result) {
