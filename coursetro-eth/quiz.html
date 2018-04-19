@@ -9,7 +9,7 @@
 	<title>QUIZZES SMART CONTRACT</title>
 	<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
 	<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
-	<script src="/home/quy/Desktop/Quiz_Blockchain_git/coursetro-eth/jquery-cookie/src/jquery-3.2.1.slim.min.js"></script>
+	<script src="/home/quy/Desktop/Quiz_Blockchain_git/coursetro-eth/jquery-cookie/src/jquery-3.3.1.min.js"></script>
 </head>
 
 <body class="bg-dark" style="background-size:cover;">
@@ -241,6 +241,15 @@
 					"type": "function"
 				},
 				{
+					"constant": false,
+					"inputs": [],
+					"name": "Constructor",
+					"outputs": [],
+					"payable": false,
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
 					"constant": true,
 					"inputs": [],
 					"name": "getServerUserQuizId",
@@ -457,12 +466,6 @@
 					"type": "function"
 				},
 				{
-					"inputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "constructor"
-				},
-				{
 					"anonymous": false,
 					"inputs": [
 						{
@@ -573,6 +576,11 @@
 						},
 						{
 							"indexed": false,
+							"name": "creator",
+							"type": "address"
+						},
+						{
+							"indexed": false,
 							"name": "token",
 							"type": "uint256"
 						}
@@ -583,7 +591,7 @@
 			]
 		);
 
-		var quizInstant = quizContract.at('0x7506de06d6d9f34a0957c5e8dc2e6c530a0c047c');
+		var quizInstant = quizContract.at('0x5fe7fc3bbc236d3dfee10593e3780711e7a86be1');
 
 		//console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -825,7 +833,7 @@
 				var question_num = parseInt(result.args.quiz_id) + 1;
 				sessionStorage.setItem('question_number', question_num);
 				$('#questionId').html('Question number ' + question_num);
-				
+
 				//update game_general_num_right_answer              
 				$('#general_num_right_answer').next().html(quizInstant.getServerGeneralNumRightAnswer() + '/' + sessionStorage.getItem('default_total_quiz'));
 				//update game_general_num_false_answer
@@ -835,7 +843,7 @@
 				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
 				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
-								
+
 				$('#question').html(web3.toAscii(result.args.question));
 				var ansA = $('#answer_A').next()[0];
 				var ansB = $('#answer_B').next()[0];
@@ -887,7 +895,7 @@
 				$('#user_num_right_answer').next().html(sessionStorage.getItem('user_num_correct_answer') + '/' + sessionStorage.getItem('user_total_answer'));
 				//user_num_wrong_answer
 				$('#user_num_false_answer').next().html(sessionStorage.getItem('user_num_wrong_answer') + '/' + sessionStorage.getItem('user_total_answer'));
-				
+
 				var question_num = parseInt(result.args.quiz_id) + 1;
 				sessionStorage.setItem('question_number', question_num);
 				$('#questionId').html('Question number ' + question_num);
@@ -909,14 +917,14 @@
 			if (!error) {
 				console.log('isSpend: ' + result.args.isSpend);
 				console.log('have token: ' + result.args.token);
-				console.log('addess: ' + result.args.player);
-				console.log('default account:' + web3.eth.accounts[1])
+				console.log('player: ' + result.args.player);
+				console.log('creator:' + result.args.creator)
 				//send lost money to host.	
 				if (result.args.token > 0) {
 					if (result.args.isSpend) {
-						web3.eth.sendTransaction({ from: result.args.player, to: web3.eth.accounts[1], value: web3.toWei(result.args.token, "ether") });
+						web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(result.args.token, "ether") });
 					} else {
-						web3.eth.sendTransaction({ from: web3.eth.accounts[1], to: result.args.player, value: web3.toWei(result.args.token, "ether") });
+						web3.eth.sendTransaction({ from: result.args.creator, to: result.args.player, value: web3.toWei(result.args.token, "ether") });
 					}
 				}
 

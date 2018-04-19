@@ -1,6 +1,7 @@
 pragma solidity ^0.4.21;
 
 contract Quiz {
+	address creator;
 	uint256 priceEachQuiz = 1;
     uint256 openTimeContract;
     
@@ -8,8 +9,9 @@ contract Quiz {
 	function Quiz() public {
 	    openTimeContract = now;
         initQuizDb();
+		creator = msg.sender;
 	}
-	
+
 	function initQuizDb() public {
 	    //init 
 	    quiz_set.push(quiz_pattern(0, 'When we use "hello"?'
@@ -182,6 +184,7 @@ contract Quiz {
 	event update_money_evt(
 	    bool isSpend,
 		address player,
+		address creator,
 		uint256 token
 	);
 	
@@ -195,7 +198,7 @@ contract Quiz {
 		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {
 		    isRight = true;
 		    //increase awardMoney
-		    emit update_money_evt(false, msg.sender, priceEachQuiz * 2);
+		    emit update_money_evt(false, msg.sender, creator, priceEachQuiz * 2);
 		    current_general_num_right_answer += 1;
 		    userStorage[msg.sender].user_num_correct_answer += 1;
 		} else {
@@ -229,7 +232,7 @@ contract Quiz {
 	    current_quiz_id += 1;	    	
 	   
 	   	//decrease awardMoney
-		emit update_money_evt(true, msg.sender, priceEachQuiz);
+		emit update_money_evt(true, msg.sender, creator, priceEachQuiz);
 		
 	    //will decrease ether.
 		emit update_the_next_quiz_evt(
