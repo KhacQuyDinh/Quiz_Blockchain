@@ -2330,7 +2330,7 @@
 		display: block;
 		font-size: 1.1em;
 	}
-
+	input[type="number"],
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
