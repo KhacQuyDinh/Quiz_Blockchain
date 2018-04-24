@@ -140,24 +140,11 @@ contract Quiz {
 	
 	quiz_pattern[] public quiz_set;
 	
- 	uint256 current_quiz_id = 0;
-	uint256 current_general_num_right_answer = 0;
-	uint256 current_general_num_false_answer = 0;
-
-
-	function getServerGeneralNumRightAnswer() public view returns(uint256) {
-	    return current_general_num_right_answer;
-	}
-	
-	function getServerGeneralNumFalseAnswer() public view returns(uint256) {
-	    return current_general_num_false_answer;
-	}
+ 	uint256 current_quiz_id = 0;		
 	
 	//call event to update info in gui.
-	event update_answer_evt(
-		bool isRight,
-		bytes answer_check,
-		uint256 user_answer_id
+	event update_answer_evt(		
+		uint256 answer_check_id		
 	);
 	
 	
@@ -181,40 +168,33 @@ contract Quiz {
 		bytes answer_D
 	);
 	
-	event update_money_evt(
-	    bool isSpend,
+	event update_money_evt(	    
 		address player,
-		address creator,
-		uint256 token
+		address creator		
 	);
 	
 	//set new 
 	function submitAnswer2Server(uint256 quiz_id, uint256 user_answer_id) public {
-	    require(isServerCloseGame() == false);
+	    
+		require(isServerCloseGame() == false);
 	    
 	    userStorage[msg.sender].isAnswered = true;
-	    
-	    bool isRight = false;
-		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {
-		    isRight = true;
-		    //increase awardMoney
-		    emit update_money_evt(false, msg.sender, creator, priceEachQuiz * 2);
-		    current_general_num_right_answer += 1;
+	    	    
+		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {		    
 		    userStorage[msg.sender].user_num_correct_answer += 1;
-		} else {
-		    isRight = false;
-		    current_general_num_false_answer += 1;	
+		} else {		    
 		    userStorage[msg.sender].user_num_wrong_answer += 1;
 		}
 
-       // call event to update info in gui.
-        emit update_answer_evt(
-          isRight
-        , quiz_set[quiz_id].answer_check
-        , user_answer_id);
+		// process money in client side
+		emit update_money_evt(msg.sender, creator);		    
+
+        // call event to update info in gui.
+        emit update_answer_evt(quiz_set[quiz_id].answer_check_id);
 	}
 
 	function getServerTheNextQuiz() public {
+		
 		require(default_total_quiz - current_quiz_id > 0 
 	    && msg.sender.balance >= priceEachQuiz 
 	    && isServerCloseGame() == false);
@@ -230,9 +210,8 @@ contract Quiz {
 	    userStorage[msg.sender].user_quiz_starting_time = now;
 	    
 	    current_quiz_id += 1;	    	
-	   
-	   	//decrease awardMoney
-		emit update_money_evt(true, msg.sender, creator, priceEachQuiz);
+	
+		//take money from users through client side.
 		
 	    //will decrease ether.
 		emit update_the_next_quiz_evt(
