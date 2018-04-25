@@ -59,9 +59,6 @@ contract Quiz {
 	struct user_storage_pattern {
 	   bool isInit;
 	   uint256 user_quiz_id;
-	   uint256 user_num_correct_answer;
-	   uint256 user_num_wrong_answer;
-	   uint256 user_total_answer;
 	   uint256 user_quiz_starting_time;
 	   bool isAnswered;
 	}
@@ -75,9 +72,6 @@ contract Quiz {
 	   if (userStorage[msg.sender].isInit == false) {
 	     userStorage[msg.sender].isInit = true;     
 	     userStorage[msg.sender].user_quiz_id = default_total_quiz + 1;  
-	     userStorage[msg.sender].user_num_correct_answer = 0;     
-	     userStorage[msg.sender].user_num_wrong_answer = 0;     
-	     userStorage[msg.sender].user_total_answer = 0;     
 	     userStorage[msg.sender].user_quiz_starting_time = 0;
 	     userStorage[msg.sender].isAnswered = false;
 	   } 
@@ -94,18 +88,6 @@ contract Quiz {
 	
 	function getServerUserQuizId() public view returns(uint256) {
 	    return userStorage[msg.sender].user_quiz_id;
-	}
-	
-	function getServerUserNumCorrectAnswer() public view returns(uint256) {
-	    return userStorage[msg.sender].user_num_correct_answer;
-	} 
-	 
-	function getServerUserNumWrongAnswer() public view returns(uint256) {
-	    return userStorage[msg.sender].user_num_wrong_answer;
-	}
-	
-	function getServerUserTotalAnswer() public view returns(uint256) {
-	    return userStorage[msg.sender].user_total_answer;
 	}
 	
 	function getServerUserQuizStartingTime() public view returns(uint256) {
@@ -143,8 +125,10 @@ contract Quiz {
  	uint256 current_quiz_id = 0;		
 	
 	//call event to update info in gui.
-	event update_answer_evt(		
-		uint256 answer_check_id		
+	event update_answer_evt(	
+		uint256 answer_check_id,
+		address player,
+		address creator		
 	);
 	
 	
@@ -168,29 +152,15 @@ contract Quiz {
 		bytes answer_D
 	);
 	
-	event update_money_evt(	    
-		address player,
-		address creator		
-	);
-	
 	//set new 
-	function submitAnswer2Server(uint256 quiz_id, uint256 user_answer_id) public {
+	function submitAnswer2Server(uint256 quiz_id) public {
 	    
 		require(isServerCloseGame() == false);
 	    
 	    userStorage[msg.sender].isAnswered = true;
 	    	    
-		if (quiz_set[quiz_id].answer_check_id == user_answer_id) {		    
-		    userStorage[msg.sender].user_num_correct_answer += 1;
-		} else {		    
-		    userStorage[msg.sender].user_num_wrong_answer += 1;
-		}
-
-		// process money in client side
-		emit update_money_evt(msg.sender, creator);		    
-
         // call event to update info in gui.
-        emit update_answer_evt(quiz_set[quiz_id].answer_check_id);
+        emit update_answer_evt(quiz_set[quiz_id].answer_check_id, msg.sender, creator);
 	}
 
 	function getServerTheNextQuiz() public {
@@ -237,3 +207,4 @@ contract Quiz {
 		, quiz.answer_D);			
 	}
 }
+
