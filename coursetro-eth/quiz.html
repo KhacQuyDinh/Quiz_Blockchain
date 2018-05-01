@@ -10,6 +10,12 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script>
+			function ask(pkg_name) {
+				confirm("Are you sure to buy "+ "\"" + pkg_name + "\" " + "?");
+			}
+		</script>
+	</head>
 	<body>
 		<!-- Sidebar -->
 			<section id="sidebar">
@@ -56,17 +62,17 @@
 								<tr>
 									<td style="color: white">B.</td>
 									<td style="color: wheat" id="answerB">This is the answer B</td>
-									<td><input id="betA" type="number"style="color: white" min="1" max="100"></td>
+									<td><input id="betB" type="number"style="color: white" min="1" max="100"></td>
 								</tr>
 								<tr>
 									<td style="color: white">C.</td>
 									<td style="color: wheat" id="answerC">This is the answer C</td>
-									<td><input id="betA" type="number"style="color: white" min="1" max="100"></td>
+									<td><input id="betC" type="number"style="color: white" min="1" max="100"></td>
 								</tr>
 								<tr>
 									<td style="color: white">D.</td>
 									<td style="color: wheat" id="answerD">This is the answer D</td>
-									<td><input id="betA" type="number"style="color: white" min="1" max="100"></td>
+									<td><input id="betD" type="number"style="color: white" min="1" max="100"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -83,39 +89,39 @@
 							<div class="features">
 								<section>
 									<span class="icon major fa-code"></span>
-									<h3>Bronze Package</h3>
+									<h3 id='pkg1'>Bronze Package</h3>
 									<p>1 minutes / 0.99 ETH</p>
-									<button>Buy this</button>
+									<button onclick="ask($('#pkg1').html())">Buy this</button>
 								</section>
 								<section>
 									<span class="icon major fa-lock"></span>
-									<h3>Silver PAckage</h3>
+									<h3 id='pkg2'>Silver PAckage</h3>
 									<p>5 minutes / 4.79 ETH</p>
-									<button>Buy this</button>
+									<button onclick="ask($('#pkg2').html())">Buy this</button>
 								</section>
 								<section>
 									<span class="icon major fa-cog"></span>
-									<h3>Golden Package</h3>
+									<h3 id='pkg3'>Golden Package</h3>
 									<p>20 minutes / 18.99 ETH</p>
-									<button>Buy this</button>
+									<button onclick="ask($('#pkg3').html())">Buy this</button>
 								</section>
 								<section>
 									<span class="icon major fa-desktop"></span>
-									<h3>Platinum Package</h3>
+									<h3 id='pkg4'>Platinum Package</h3>
 									<p>1 hour / 55.99 ETH</p>
-									<button>Buy this</button>
+									<button onclick="ask($('#pkg4').html())">Buy this</button>
 								</section>
 								<section>
 									<span class="icon major fa-chain"></span>
-									<h3>Diamond Package</h3>
+									<h3  id='pkg5'>Diamond Package</h3>
 									<p>6 hours / 334.99 ETH</p>
-									<button>Buy this</button>
+									<button onclick="ask($('#pkg5').html())">Buy this</button>
 								</section>
 								<section>
 									<span class="icon major fa-diamond"></span>
-									<h3>Premium Package</h3>
+									<h3 id='pkg6'>Premium Package</h3>
 									<p>1 day / 1338.99 ETH</p>
-									<button>Buy this</button>
+									<button onclick="ask($('#pkg6').html())">Buy this</button>
 								</section>
 							</div>
 							<ul class="actions">
