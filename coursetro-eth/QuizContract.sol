@@ -134,6 +134,8 @@ contract Quiz {
 	
 	//call event to update the next question in gui.
 	event update_the_next_quiz_evt(
+	    address player,
+		address creator,	
 		uint256 quiz_id,
 		bytes question,
 		bytes answer_A,
@@ -185,7 +187,9 @@ contract Quiz {
 		
 	    //will decrease ether.
 		emit update_the_next_quiz_evt(
-	   	  quiz.id
+		  msg.sender
+		, creator
+	   	, quiz.id
 		, quiz.question
 		, quiz.answer_A
 		, quiz.answer_B
@@ -207,4 +211,5 @@ contract Quiz {
 		, quiz.answer_D);			
 	}
 }
+
 

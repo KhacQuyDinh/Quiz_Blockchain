@@ -1,7 +1,9 @@
-<script>
-    <script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
-    <script src="/home/quy/Desktop/Quiz_Blockchain_git/coursetro-eth/jquery-cookie/src/jquery-3.3.1.min.js"></script>
-</script>
+$(document).ready(function () {
+    $('a').click(function (event) {
+        event.preventDefault();
+        $(this).hide("slow");
+    });
+});
 
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
@@ -306,6 +308,16 @@ var quizContract = web3.eth.contract(
             "inputs": [
                 {
                     "indexed": false,
+                    "name": "player",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "creator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
                     "name": "quiz_id",
                     "type": "uint256"
                 },
@@ -378,7 +390,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x383d569ce04f0212bc0d86e207e6639c16cad76b');
+var quizInstant = quizContract.at('0xf0e8507fbb032dba768fc92ac3c65168a66ce128');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -443,33 +455,31 @@ function startTimer(duration, display) {
     let timer = duration, minutes, seconds;
     let timeOut = false;
     myTimer = setInterval(function () {
+        minutes = "00:"
         seconds = parseInt(timer % 60, 10);
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = seconds;
-
-        timer -= 1;
+        seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;        
 
         if (timer < 0) {
-            console.log(timer);
-            //clearInterval(myTimer);
-            display.textContent = "Question Closed";
             //to close quiz.
+            display.textContent = minutes + seconds + " => Question Closed";
             $('#btn_submit').html("NEXT");
+            //clearInterval(myTimer);    
+        } else {
+            display.textContent = minutes + seconds;
         }
+        
+        timer -= 1;
     }, 1000);
 }
 
 //To use countdown timer event		
 function startCountDown(totalSecond) {
+    //clear the old one.
     clearInterval(myTimer);
-    display = document.querySelector('#time');
-    if (totalSecond > 0 && default_total_time - totalSecond >= 0) {
+
+    display = document.querySelector('#timer');    
+    if (default_total_time - totalSecond >= 0) {
         startTimer(totalSecond, display);
-    } else {
-        console.log('countdown timer - question close - next');
-        display.textContent = "Question Closed";
-        $('#btn_submit').html("NEXT");
     }
 };
 ///#END: COUNTDOWN TIMER.
@@ -484,11 +494,40 @@ update_answer_evt.watch(function (error, result) {
 
         //#UPDATE MONEY FOR TRANSACTION.
         console.log('player: ' + result.args.player);
-        console.log('creator:' + result.args.creator)
+        console.log('creator:' + result.args.creator);
 
-        //send lost money to host. here **
-        //var winningMoney = 
-        //var losingMoney = 
+        //send lost money to host. 
+        var betA_money = parseFloat($('#betA').val());
+        var betB_money = parseFloat($('#betB').val());
+        var betC_money = parseFloat($('#betC').val());
+        var betD_money = parseFloat($('#betD').val());
+        var winningMoney = 0
+        var losingMoney = betA_money + betB_money + betC_money + betD_money
+
+        switch (parseInt(result.args.answer_check_id)) {
+            case 1:
+                winningMoney = betA_money
+                losingMoney -= betA_money
+                break;
+            case 2:
+                winningMoney = betB_money
+                losingMoney -= betB_money
+                break;
+            case 3:
+                winningMoney = betC_money
+                losingMoney -= betC_money
+                break;
+            case 4:
+                winningMoney = betD_money
+                losingMoney -= betD_money
+                break;
+            default:
+                console.log('in default');
+        }
+
+        console.log("winning money: " + winningMoney)
+        console.log("losing money: " + losingMoney)
+        
         if (winningMoney < losingMoney) {
             web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(losingMoney - winningMoney, "ether") });
         } else if (winningMoney > losingMoney) {
@@ -521,9 +560,9 @@ update_answer_evt.watch(function (error, result) {
             $("#loader").hide();
             $('#btn_submit').html('NEXT');
         }
-
+         
         //#UPDATE INTERFACE        
-        console.log('user_answer_id: ' + parseInt(result.args.user_answer_id));
+        console.log('answer_check_id: ' + parseInt(result.args.answer_check_id));
 
         //change all to wrong color.
         $('#answer_A').css('background', '#ff7f82');
@@ -532,7 +571,7 @@ update_answer_evt.watch(function (error, result) {
         $('#answer_D').css('background', '#ff7f82');
 
         //update answer -> update interface here **
-        switch (parseInt(result.args.user_answer_id)) {
+        switch (parseInt(result.args.answer_check_id)) {
             case 1:
                 $('#answer_A').css('background', '#0DFF92');
                 break;
@@ -561,12 +600,19 @@ update_the_next_quiz_evt.watch(function (error, result) {
     $("#loader").hide();
 
     //show info question.
-    if (!error) {
-
+    if (!error) {        
         //change here **
+        //#UPDATE INTERFACE
+        $('#answer_A').css('background', 'none');
+        $('#answer_B').css('background', 'none');
+        $('#answer_C').css('background', 'none');
+        $('#answer_D').css('background', 'none');
+        //#END UPDATE INTERFACE
+        
         //#START MONEY TRANSACTION
-        var moneyForAQuiz = 0.2
+        var moneyForAQuiz = 0.2 //0.2 ether
         web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(moneyForAQuiz, "ether") });
+        console.log("player money: "+ web3.toWei(web3.eth.getBalance(result.args.player), "ether"))
         //#END MONEY TRANSACTION
 
         //update value of quiz in client storage.
@@ -582,14 +628,10 @@ update_the_next_quiz_evt.watch(function (error, result) {
         $('#questionId').html('Question number ' + question_num);
 
         $('#question').html(web3.toAscii(result.args.question));
-        var ansA = $('#answer_A').next()[0];
-        var ansB = $('#answer_B').next()[0];
-        var ansC = $('#answer_C').next()[0];
-        var ansD = $('#answer_D').next()[0];
-        ansA.textContent = web3.toAscii(result.args.answer_A);
-        ansB.textContent = web3.toAscii(result.args.answer_B);
-        ansC.textContent = web3.toAscii(result.args.answer_C);
-        ansD.textContent = web3.toAscii(result.args.answer_D);
+        $('#answer_A').html(web3.toAscii(result.args.answer_A));
+        $('#answer_B').html(web3.toAscii(result.args.answer_B));
+        $('#answer_C').html(web3.toAscii(result.args.answer_C));
+        $('#answer_D').html(web3.toAscii(result.args.answer_D));
 
         //update button.
         $('#btn_submit').html('SUBMIT');
@@ -648,14 +690,10 @@ function reloadQuizContent() {
         || sessionStorage.getItem('question_des') != 'null') {
         $('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
         $('#question').html('' + sessionStorage.getItem('question_des'));
-        var ansA = $('#answer_A').next()[0];
-        var ansB = $('#answer_B').next()[0];
-        var ansC = $('#answer_C').next()[0];
-        var ansD = $('#answer_D').next()[0];
-        ansA.textContent = '' + sessionStorage.getItem('answer_A');
-        ansB.textContent = '' + sessionStorage.getItem('answer_B');
-        ansC.textContent = '' + sessionStorage.getItem('answer_C');
-        ansD.textContent = '' + sessionStorage.getItem('answer_D');
+        $('#answer_A').html('' + sessionStorage.getItem('answer_A'));
+        $('#answer_B').html('' + sessionStorage.getItem('answer_B'));
+        $('#answer_C').html('' + sessionStorage.getItem('answer_C'));
+        $('#answer_D').html('' + sessionStorage.getItem('answer_D'));
 
         console.log("run reload quiz content");
     } else {
@@ -725,7 +763,11 @@ $('#btn_reload').click(function () {
     }
 });
 
-//change here **
+function isValidBetMoney(money) {
+    console.log("isValidBetMoney: " + (money >= 0.1 && money <= 1.0))
+    return money >= 0.1 && money <= 1.0;
+}
+
 //after submit we call event.
 $('#btn_submit').click(function () {
     //show loader..
@@ -755,16 +797,26 @@ $('#btn_submit').click(function () {
             }
         });
     } else {
+        //change here **
         if ($('#btn_submit').text() == 'SUBMIT') {
-            var user_answer_id = $('input[name=user_answer]:checked').val();
+            var betA_money = parseFloat($('#betA').val());
+            var betB_money = parseFloat($('#betB').val());
+            var betC_money = parseFloat($('#betC').val());
+            var betD_money = parseFloat($('#betD').val());
+            console.log(betA_money + ":" + betB_money + ":" + betC_money + ":" + betD_money)
+
             //if choosen an answer.
-            if (user_answer_id != undefined) {
+            if (isValidBetMoney(betA_money)
+                && isValidBetMoney(betB_money)
+                && isValidBetMoney(betC_money)
+                && isValidBetMoney(betD_money)) {
+
                 //get user_quiz_id as runtime variable.			
                 var user_quiz_id = sessionStorage.getItem('user_quiz_id');
 
-                console.log('line 929: ' + user_quiz_id + " " + user_answer_id);
+                console.log('line 929: ' + user_quiz_id);
 
-                quizInstant.submitAnswer2Server(user_quiz_id, user_answer_id, (err, res) => {
+                quizInstant.submitAnswer2Server(user_quiz_id, (err, res) => {
                     if (err) {
                         //hide loader..
                         $("#loader").hide();
@@ -772,6 +824,8 @@ $('#btn_submit').click(function () {
                     } else {
                     }
                 });
+            } else {
+                alert('please enter valid bet money - money from 0.1 to 1.0')
             }
         }
     }
