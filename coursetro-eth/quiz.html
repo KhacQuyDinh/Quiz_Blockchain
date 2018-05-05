@@ -10,9 +10,20 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			.line{
+				display: inline;
+			}
+			#balance {
+				margin-left: 30%;
+			}
+		</style>
 		<script>
 			function ask(pkg_name) {
 				confirm("Are you sure to buy "+ "\"" + pkg_name + "\" " + "?");
+			}
+			function btn_balance(value) {
+				confirm("Your balance is " + value);
 			}
 		</script>
 		<script src="assets/js/jquery.min.js"></script>
@@ -89,18 +100,19 @@
 				<!-- Three -->
 					<section id="three" class="wrapper style2 fade-up">
 						<div class="inner">
-							<h2 id='questionId'>Question</h2>
+							<h2 id='questionId' class="line">Question</h2>
+							<button class='line' id='balance' onclick="btn_balance($('#balance').html())">Balance</button>
 							<p id='question'>QUestion Here</p>
 							<img id="loader" src="loader.gif" class="" width="10%">
 							<div class="split style1">
 								<section>
 									<form method="post" action="#">
 										<div class="field half first">
-											<label for="name">Time</label>
+											<label>Time</label>
 											<input type="text" id="timer" readonly/>
 										</div>
 										<div class="field half">
-											<label for="email">Time Out</label>
+											<label>Time Out</label>
 											<input type="text" id="timeout" value = 'NO' color='#0DFF92' readonly/>
 										</div>
 										<section>

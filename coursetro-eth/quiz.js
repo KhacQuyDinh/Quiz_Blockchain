@@ -390,7 +390,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x8c8a3d7a61a24de19fdd49caa004457578dd3fc2');
+var quizInstant = quizContract.at('0x394d08c9246a46f582763a3c80a5ca130d7d9c93');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -540,7 +540,7 @@ update_answer_evt.watch(function (error, result) {
 
         //update balance token = must use web3.eth.getBalance because it lately update to server.
         sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
-        $('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+        $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
         //#END UPDATE MONEY 
 
         //update user_quiz_starting_time to zero.
@@ -746,7 +746,7 @@ window.onload = function () {
         }
 
         //show the balance 				
-        $('#balance').next().html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+        $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
 
         if ($('#btn_submit').text() == 'SUBMIT') {
             console.log('run refresh timer');
