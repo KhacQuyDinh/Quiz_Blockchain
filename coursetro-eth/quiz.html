@@ -15,6 +15,10 @@
 				confirm("Are you sure to buy "+ "\"" + pkg_name + "\" " + "?");
 			}
 		</script>
+		<script src="assets/js/jquery.min.js"></script>
+		<script type='text/javascript' src='./node_modules/web3/dist/web3.min.js'></script>
+		<script type='text/javascript' src='./node_modules/truffle-contract/dist/truffle-contract.min.js'></script>
+		<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
 		<script src='/home/quy/Desktop/Quiz_Blockchain_git/coursetro-eth/node_modules/web3/dist/web3.min.js'></script>
 		<script src='/home/quy/Desktop/Quiz_Blockchain_git/coursetro-eth/jquery-cookie/src/jquery-3.3.1.min.js'></script>		
 	</head>
@@ -25,9 +29,9 @@
 					<nav>
 						<ul>
 							<li><a href="#intro">Welcome</a></li>
-							<li><a href="#one">Play</a></li>
-							<li><a href="#two">Store</a></li>
-							<li><a href="#three">Get in touch</a></li>
+							<li><a href="#three">Play</a></li>
+							<!-- <li><a href="#two">Store</a></li>
+							<li><a href="#three">Get in touch</a></li> -->
 						</ul>
 					</nav>
 				</div>
@@ -48,9 +52,8 @@
 					</section>
 
 				<!-- One -->
-					<section id="one" class="wrapper style2 fullscreen fade-up">
+					<!-- <section id="one" class="wrapper style2 fullscreen fade-up">
 						<h3 id='timer' style="color:aqua">Time: 00:00:00</h3>
-						<!-- Question Here -->
 						<div align = "center" class="inner" id="questionfld">
 						<h3 id='questionId'>Question Number</h3>
 						<p id='question'>This Is The Question</p>
@@ -81,109 +84,85 @@
 						<button id='btn_submit'>Submit</button>
 						<button id='btn_reload'>Reload</button>
 						</div>
-					</section>
-
-				<!-- Two -->
-					<section id="two" class="wrapper style3 fade-up">
-						<div class="inner">
-							<h2>Our Store</h2>
-							<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
-							<div class="features">
-								<section>
-									<span class="icon major fa-code"></span>
-									<h3 id='pkg1'>Bronze Package</h3>
-									<p>1 minutes / 0.99 ETH</p>
-									<button onclick="ask($('#pkg1').html())">Buy this</button>
-								</section>
-								<section>
-									<span class="icon major fa-lock"></span>
-									<h3 id='pkg2'>Silver PAckage</h3>
-									<p>5 minutes / 4.79 ETH</p>
-									<button onclick="ask($('#pkg2').html())">Buy this</button>
-								</section>
-								<section>
-									<span class="icon major fa-cog"></span>
-									<h3 id='pkg3'>Golden Package</h3>
-									<p>20 minutes / 18.99 ETH</p>
-									<button onclick="ask($('#pkg3').html())">Buy this</button>
-								</section>
-								<section>
-									<span class="icon major fa-desktop"></span>
-									<h3 id='pkg4'>Platinum Package</h3>
-									<p>1 hour / 55.99 ETH</p>
-									<button onclick="ask($('#pkg4').html())">Buy this</button>
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3  id='pkg5'>Diamond Package</h3>
-									<p>6 hours / 334.99 ETH</p>
-									<button onclick="ask($('#pkg5').html())">Buy this</button>
-								</section>
-								<section>
-									<span class="icon major fa-diamond"></span>
-									<h3 id='pkg6'>Premium Package</h3>
-									<p>1 day / 1338.99 ETH</p>
-									<button onclick="ask($('#pkg6').html())">Buy this</button>
-								</section>
-							</div>
-							<ul class="actions">
-								<li><a href="#" class="button">Learn more</a></li>
-							</ul>
-						</div>
-					</section>
+					</section> -->
 
 				<!-- Three -->
-					<section id="three" class="wrapper style1 fade-up">
+					<section id="three" class="wrapper style2 fade-up">
 						<div class="inner">
-							<h2>Get in touch</h2>
-							<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+							<h2 id='questionId'>Question</h2>
+							<p id='question'>QUestion Here</p>
+							<img id="loader" src="loader.gif" class="" width="10%">
 							<div class="split style1">
 								<section>
 									<form method="post" action="#">
 										<div class="field half first">
-											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
+											<label for="name">Time</label>
+											<input type="text" id="timer" readonly/>
 										</div>
 										<div class="field half">
-											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<label for="email">Time Out</label>
+											<input type="text" id="timeout" value = 'NO' color='#0DFF92' readonly/>
 										</div>
-										<div class="field">
-											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="5"></textarea>
-										</div>
-										<ul class="actions">
-											<li><a href="" class="button submit">Send Message</a></li>
-										</ul>
+										<section>
+											<table class="">
+												<tbody>
+													<tr>
+														<td style="color: white; width: 10%;">A.</td>
+														<td style="color: white" align="left" id="answer_A">This is the answer A</td>
+														<td style="width: 25%;"><input id="betA" type="number"style="color: white" min="0.1" max="1" step="0.1" ></td>
+													</tr>
+													<tr>
+														<td style="color: white">B.</td>
+														<td style="color: white" id="answer_B">This is the answer B</td>
+														<td><input id="betB" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
+													</tr>
+													<tr>
+														<td style="color: white">C.</td>
+														<td style="color: white" id="answer_C">This is the answer C</td>
+														<td><input id="betC" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
+													</tr>
+													<tr>
+														<td style="color: white">D.</td>
+														<td style="color: white" id="answer_D">This is the answer D</td>
+														<td><input id="betD" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
+													</tr>
+												</tbody>
+											</table>
+										</section>
 									</form>
+									<div align='center'>
+										<button id='btn_submit'>Submit</button>
+										<button id='btn_reload'>Reload</button>
+									</div>
 								</section>
 								<section>
-									<ul class="contact">
+									<h3>Store</h3>
+									<ul class="">
 										<li>
-											<h3>Address</h3>
-											<span>12345 Somewhere Road #654<br />
-											Nashville, TN 00000-0000<br />
-											USA</span>
+											<h3 id="pkg1">Untitled Pack</h3>
+											<span>???second / ??? ETH</span>
+											<button style="font-size: 10px" onclick="ask($('#pkg1').html())">Buy this</button>
 										</li>
 										<li>
-											<h3>Email</h3>
-											<a href="#">user@untitled.tld</a>
+											<h3 id="pkg2">Untitled Pack</h3>
+											<span>???second / ??? ETH</span>
+											<button onclick="ask($('#pkg2').html())">Buy this</button>
 										</li>
 										<li>
-											<h3>Phone</h3>
-											<span>(000) 000-0000</span>
-										</li>
-										<li>
-											<h3>Social</h3>
-											<ul class="icons">
-												<li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
-												<li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
-												<li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>
-												<li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
-												<li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>
-											</ul>
+											<h3 id="pkg3">Untitled Pack</h3>
+											<span>???second / ??? ETH</span>
+											<button onclick="ask($('#pkg3').html())">Buy this</button>
 										</li>
 									</ul>
+									<h3>Social</h3>
+									<ul class="icons">
+										<li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>
+										<li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>
+									</ul>
+										
 								</section>
 							</div>
 						</div>

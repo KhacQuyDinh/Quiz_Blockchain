@@ -1,9 +1,9 @@
-$(document).ready(function () {
-    $('a').click(function (event) {
-        event.preventDefault();
-        $(this).hide("slow");
-    });
-});
+// $(document).ready(function () {
+//     $('a').click(function (event) {
+//         event.preventDefault();
+//         $(this).hide("slow");
+//     });
+// });
 
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
@@ -390,7 +390,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0xf0e8507fbb032dba768fc92ac3c65168a66ce128');
+var quizInstant = quizContract.at('0x8c8a3d7a61a24de19fdd49caa004457578dd3fc2');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -461,11 +461,15 @@ function startTimer(duration, display) {
 
         if (timer < 0) {
             //to close quiz.
-            display.textContent = minutes + seconds + " => Question Closed";
+            // display.textContent = minutes + seconds + " => Question Closed";
+            display.val(minutes + seconds);
+            $('#timeout').val('YES');
+            $('#timeout').css('color', '#ff7f82');
             $('#btn_submit').html("NEXT");
             //clearInterval(myTimer);    
         } else {
-            display.textContent = minutes + seconds;
+            // display.textContent = minutes + seconds;
+            display.val(minutes + seconds);
         }
         
         timer -= 1;
@@ -477,7 +481,7 @@ function startCountDown(totalSecond) {
     //clear the old one.
     clearInterval(myTimer);
 
-    display = document.querySelector('#timer');    
+    display = $('#timer');    
     if (default_total_time - totalSecond >= 0) {
         startTimer(totalSecond, display);
     }
@@ -565,24 +569,24 @@ update_answer_evt.watch(function (error, result) {
         console.log('answer_check_id: ' + parseInt(result.args.answer_check_id));
 
         //change all to wrong color.
-        $('#answer_A').css('background', '#ff7f82');
-        $('#answer_B').css('background', '#ff7f82');
-        $('#answer_C').css('background', '#ff7f82');
-        $('#answer_D').css('background', '#ff7f82');
+        $('#answer_A').css('color', '#ff7f82');
+        $('#answer_B').css('color', '#ff7f82');
+        $('#answer_C').css('color', '#ff7f82');
+        $('#answer_D').css('color', '#ff7f82');
 
         //update answer -> update interface here **
         switch (parseInt(result.args.answer_check_id)) {
             case 1:
-                $('#answer_A').css('background', '#0DFF92');
+                $('#answer_A').css('color', '#0DFF92');
                 break;
             case 2:
-                $('#answer_B').css('background', '#0DFF92');
+                $('#answer_B').css('color', '#0DFF92');
                 break;
             case 3:
-                $('#answer_C').css('background', '#0DFF92');
+                $('#answer_C').css('color', '#0DFF92');
                 break;
             case 4:
-                $('#answer_D').css('background', '#0DFF92');
+                $('#answer_D').css('color', '#0DFF92');
                 break;
             default:
                 console.log('in default');
@@ -599,14 +603,18 @@ update_the_next_quiz_evt.watch(function (error, result) {
     //hide loader.
     $("#loader").hide();
 
+    $('#timeout').val('NO');
+    $('#timeout').css('color', '#0DFF92');
+
+
     //show info question.
     if (!error) {        
         //change here **
         //#UPDATE INTERFACE
-        $('#answer_A').css('background', 'none');
-        $('#answer_B').css('background', 'none');
-        $('#answer_C').css('background', 'none');
-        $('#answer_D').css('background', 'none');
+        $('#answer_A').css('color', 'wheat');
+        $('#answer_B').css('color', 'wheat');
+        $('#answer_C').css('color', 'wheat');
+        $('#answer_D').css('color', 'wheat');
         //#END UPDATE INTERFACE
         
         //#START MONEY TRANSACTION
