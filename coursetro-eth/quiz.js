@@ -786,11 +786,15 @@ function reloadQuizContent() {
 
 //refresh the page.
 window.onload = function () {
+    //update the balance.
+    $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+
     if (quizInstant.isServerCloseGame()) {
         //time out of whole game.											
         $('#btn_submit').html('GAME END');
 
     } else {
+
         //init clientStorage with serverStorage.
         initClientStorage();
 
