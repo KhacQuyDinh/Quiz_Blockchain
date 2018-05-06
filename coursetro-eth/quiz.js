@@ -434,7 +434,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x9773dc01070ac6d77b9c25a69cb435dd7bcf88ea');
+var quizInstant = quizContract.at('0x7a0739884e716076d4ad7f69a5c45fb5e8a81c03');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -499,7 +499,7 @@ function refreshClientStorage() {
     sessionStorage.setItem('default_total_quiz', null);
     sessionStorage.setItem('user_quiz_starting_time', null);
     sessionStorage.setItem('user_wallet_balance', null);
-    sessionStorage.setItem('isAnswered', null);    
+    sessionStorage.setItem('isAnswered', null);
 
     //for the quiz (id, question_des, answer_A, answer_B, answer_C, answer_D)
     sessionStorage.setItem('user_quiz_id', null);
@@ -546,9 +546,8 @@ function startCountDown(totalSecond) {
     clearInterval(myTimer);
 
     display = $('#timer');
-    if (default_total_time - totalSecond >= 0) {
-        startTimer(totalSecond, display);
-    }
+    totalSecond = totalSecond > default_total_time ? default_total_time : totalSecond;
+    startTimer(totalSecond, display);
 };
 ///#END: COUNTDOWN TIMER.
 
@@ -691,7 +690,10 @@ update_the_next_quiz_evt.watch(function (error, result) {
         //#START MONEY TRANSACTION
         var moneyForAQuiz = 0.2 //0.2 ether
         web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(moneyForAQuiz, "ether") });
-        console.log("player money: " + web3.toWei(web3.eth.getBalance(result.args.player), "ether"))
+        //update balance token = must use web3.eth.getBalance because it lately update to server.
+        sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
+        $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+        //console.log("player money: " + web3.toWei(web3.eth.getBalance(result.args.player), "ether"))
         //#END MONEY TRANSACTION
 
         //update value of quiz in client storage.
@@ -766,7 +768,7 @@ function reloadQuizContent() {
 
     //get the old quiz.						
     if (sessionStorage.getItem('question_des') != null
-        || sessionStorage.getItem('question_des') != 'null') {
+        && sessionStorage.getItem('question_des') != 'null') {
         $('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
         $('#question').html('' + sessionStorage.getItem('question_des'));
         $('#answer_A').html('' + sessionStorage.getItem('answer_A'));
@@ -786,8 +788,6 @@ function reloadQuizContent() {
 
 //refresh the page.
 window.onload = function () {
-    //update the balance.
-    $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
 
     if (quizInstant.isServerCloseGame()) {
         //time out of whole game.											
@@ -834,6 +834,9 @@ window.onload = function () {
             startCountDown(leftDuration);
         }
     }
+
+    //update the balance.
+    $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
 }
 
 //reset the question. for example loading the page.	
@@ -856,7 +859,7 @@ function ask(pkg_name, time, money) {
 }
 
 //boughtTime is count second as well as satisfied the quiz is not answered yet.
-function buyTimeClientEvent(boughtTime, money) {    
+function buyTimeClientEvent(boughtTime, money) {
     if (sessionStorage.getItem('isAnswered') == "false"
         && sessionStorage.getItem('user_wallet_balance') - money >= 0) {
 
@@ -865,14 +868,14 @@ function buyTimeClientEvent(boughtTime, money) {
         //update the sessionStorage for timer.
         var timeNow = parseInt(boughtTime) + parseInt(sessionStorage.getItem('user_quiz_starting_time'));
         sessionStorage.setItem('user_quiz_starting_time', timeNow);
-        
+
         //UPDATE THE TIMER.
         var leftDuration = default_total_time - (Date.now() / 1000 - sessionStorage.getItem('user_quiz_starting_time'));
         console.log("867: left duration: " + leftDuration);
         //this func will check leftDuration valid or not.							    
         startCountDown(leftDuration);
         //END UPDATE THE TIMER.
-        
+
         //update the submit button.
         if (leftDuration > 0) {
             $('#btn_submit').html('SUBMIT');
