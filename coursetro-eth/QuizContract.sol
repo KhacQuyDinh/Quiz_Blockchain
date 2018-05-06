@@ -175,7 +175,7 @@ contract Quiz {
 	}
 
 	function getServerCreatorAddress() public returns(address _address) {
-		return msg.sender;
+		return creator;
 	}
 
 	function getServerTheNextQuiz() public {
