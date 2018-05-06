@@ -19,21 +19,7 @@
 		#balance {
 			margin-left: 30%;
 		}
-	</style>
-	<script>
-		function ask(pkg_name, value) {
-			var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
-			if (buy) {
-				var ether = sessionStorage.getItem("user_wallet_balance");
-				buy_pack(value, ether);
-			} else {
-				confirm("Stop buying " + "\"" + pkg_name + "\" ");
-			}
-		}
-		function btn_balance(value) {
-			confirm("Your balance is " + value);
-		}
-	</script>	
+	</style>	
 	<script src='./node_modules/web3/dist/web3.min.js'></script>
 	<script src='./jquery-cookie/src/jquery-3.3.1.min.js'></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -113,7 +99,7 @@
 		<section id="three" class="wrapper style2 fade-up">
 			<div class="inner">
 				<h2 id='questionId' class="line">Question</h2>
-				<button class='line' id='balance' onclick="btn_balance($('#balance').html())">Balance</button>
+				<button class='line' id='balance'>Balance</button>
 				<p id='question'>Question Here</p>
 				<img id="loader" src="loader.gif" class="" width="10%">
 				<div class="split style1">
@@ -178,12 +164,12 @@
 							<li>
 								<h3 id="pkg2">Untitled Pack</h3>
 								<span>???second / ??? ETH</span>
-								<button onclick="ask($('#pkg1').html(), value)" value="10">Buy this</button>
+								<button onclick="ask($('#pkg2').html(), value)" value="10">Buy this</button>
 							</li>
 							<li>
 								<h3 id="pkg3">Untitled Pack</h3>
 								<span>???second / ??? ETH</span>
-								<button onclick="ask($('#pkg1').html(), value)" value="10">Buy this</button>
+								<button onclick="ask($('#pkg3').html(), value)" value="10">Buy this</button>
 							</li>
 						</ul>
 						<h3>Social</h3>

@@ -5,7 +5,7 @@
 //     });
 // });
 
-var vars = [{key:"pack_name", value:"10"}];
+var vars = [{ key: "pack_name", value: "10" }];
 
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
@@ -428,7 +428,7 @@ function initClientStorage() {
         || sessionStorage.getItem('user_quiz_id') == 'null') {
         var server_user_quiz_id = parseInt(quizInstant.getServerUserQuizId());
         var total_quiz = parseInt(sessionStorage.getItem('default_total_quiz'));
-        console.log('568: ' + (server_user_quiz_id  == 1 + total_quiz));
+        console.log('568: ' + (server_user_quiz_id == 1 + total_quiz));
         if (server_user_quiz_id == total_quiz + 1) {
             sessionStorage.setItem('user_quiz_id', -3); //start game.
         } else if (server_user_quiz_id == total_quiz - 1) {
@@ -478,10 +478,10 @@ function startTimer(duration, display) {
     myTimer = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
-        if (minutes >=0 && minutes < 1) {
+        if (minutes >= 0 && minutes < 1) {
             minutes = "00";
         }
-        seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;        
+        seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;
 
         if (timer < 0) {
             //to close quiz.
@@ -495,7 +495,7 @@ function startTimer(duration, display) {
             // display.textContent = minutes + seconds;
             display.val("" + minutes + ":" + seconds);
         }
-        
+
         timer -= 1;
     }, 1000);
 }
@@ -505,7 +505,7 @@ function startCountDown(totalSecond) {
     //clear the old one.
     clearInterval(myTimer);
 
-    display = $('#timer');    
+    display = $('#timer');
     if (default_total_time - totalSecond >= 0) {
         startTimer(totalSecond, display);
     }
@@ -555,7 +555,7 @@ update_answer_evt.watch(function (error, result) {
 
         console.log("winning money: " + winningMoney)
         console.log("losing money: " + losingMoney)
-        
+
         if (winningMoney < losingMoney) {
             web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(losingMoney - winningMoney, "ether") });
         } else if (winningMoney > losingMoney) {
@@ -565,7 +565,7 @@ update_answer_evt.watch(function (error, result) {
         //update balance token = must use web3.eth.getBalance because it lately update to server.
         sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
         $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
-sessionStorage.getItem("user_wallet_balance")
+        sessionStorage.getItem("user_wallet_balance")
         //update the quiz is answered
         sessionStorage.setItem('isAnswered', true);
 
@@ -592,7 +592,7 @@ sessionStorage.getItem("user_wallet_balance")
             $("#loader").hide();
             $('#btn_submit').html('NEXT');
         }
-         
+
         //#UPDATE INTERFACE        
         console.log('answer_check_id: ' + parseInt(result.args.answer_check_id));
 
@@ -629,14 +629,14 @@ sessionStorage.getItem("user_wallet_balance")
 var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
 update_the_next_quiz_evt.watch(function (error, result) {
     //hide loader.
-    $("#loader").hide();        
+    $("#loader").hide();
 
     //show info question.
-    if (!error) {        
+    if (!error) {
         //update timeout.
         $('#timeout').val('PLEASE GIVE YOUR ANSWER!');
         $('#timeout').css('color', '#0DFF92');
-    
+
         //new quiz is not answered yet.
         sessionStorage.setItem('isAnswered', false);
 
@@ -647,11 +647,11 @@ update_the_next_quiz_evt.watch(function (error, result) {
         $('#answer_C').css('color', 'wheat');
         $('#answer_D').css('color', 'wheat');
         //#END UPDATE INTERFACE
-        
+
         //#START MONEY TRANSACTION
         var moneyForAQuiz = 0.2 //0.2 ether
         web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(moneyForAQuiz, "ether") });
-        console.log("player money: "+ web3.toWei(web3.eth.getBalance(result.args.player), "ether"))
+        console.log("player money: " + web3.toWei(web3.eth.getBalance(result.args.player), "ether"))
         //#END MONEY TRANSACTION
 
         //update value of quiz in client storage.
@@ -802,6 +802,16 @@ $('#btn_reload').click(function () {
     }
 });
 
+function ask(pkg_name, value) {
+    var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
+    if (buy) {
+        var ether = sessionStorage.getItem("user_wallet_balance");
+        buy_pack(value, ether);
+    } else {
+        confirm("Stop buying " + "\"" + pkg_name + "\" ");
+    }
+}
+
 //boughtTime is count second as well as satisfied the quiz is not answered yet.
 function buyTimeClientEvent(boughtTime) {
     //update the StartingTime in server.
@@ -809,9 +819,9 @@ function buyTimeClientEvent(boughtTime) {
     //update the sessionStorage for timer.
     sessionStorage.setItem('user_quiz_starting_time', sessionStorage.getItem('user_quiz_starting_time') + boughtTime);
     //UPDATE THE TIMER.
-    var leftDuration = default_total_time - (Date.now()/1000 - sessionStorage.getItem('user_quiz_starting_time'));
+    var leftDuration = default_total_time - (Date.now() / 1000 - sessionStorage.getItem('user_quiz_starting_time'));
     //this func will check leftDuration valid or not.							    
-    startCountDown(leftDuration);        
+    startCountDown(leftDuration);
     //END UPDATE THE TIMER.
     //update the submit button.
     if (leftDuration > 0) {
