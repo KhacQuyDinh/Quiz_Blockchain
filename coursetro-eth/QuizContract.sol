@@ -93,6 +93,10 @@ contract Quiz {
 	function getServerUserQuizStartingTime() public view returns(uint256) {
 	    return userStorage[msg.sender].user_quiz_starting_time;
 	}
+
+	function setServerUserQuizStartingTime(uint256 boughtTime) public {
+	    userStorage[msg.sender].user_quiz_starting_time += boughtTime;
+	}
 	
 	function getServerUserQuizIsAnswered() public view returns(bool) {
 	    return userStorage[msg.sender].isAnswered;
@@ -157,7 +161,8 @@ contract Quiz {
 	//set new 
 	function submitAnswer2Server(uint256 quiz_id) public {
 	    
-		require(isServerCloseGame() == false);
+		require(isServerCloseGame() == false 
+		&&  userStorage[msg.sender].isAnswered == false);
 	    
 	    userStorage[msg.sender].isAnswered = true;
 	    	    
@@ -211,5 +216,3 @@ contract Quiz {
 		, quiz.answer_D);			
 	}
 }
-
-
