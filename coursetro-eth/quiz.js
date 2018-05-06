@@ -116,6 +116,20 @@ var quizContract = web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": true,
+            "inputs": [],
+            "name": "getServerCreatorAddress",
+            "outputs": [
+                {
+                    "name": "_address",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "constant": false,
             "inputs": [
                 {
@@ -127,6 +141,20 @@ var quizContract = web3.eth.contract(
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getServerUserAddress",
+            "outputs": [
+                {
+                    "name": "_address",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -406,7 +434,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x5468703440df75da0fa4317c58bf22feaa65ed81');
+var quizInstant = quizContract.at('0xd81d6cc88bad46311c98bb2dd71be5e727462707');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -424,6 +452,12 @@ function initClientStorage() {
         sessionStorage.setItem('default_total_quiz', quizInstant.getServerDefaultTotalQuiz());
     }
 
+
+    if (sessionStorage.getItem('isAnswered') == null
+        || sessionStorage.getItem('isAnswered') == 'null') {
+        sessionStorage.setItem('isAnswered', quizInstant.getServerUserQuizIsAnswered());
+    }
+
     if (sessionStorage.getItem('user_quiz_id') == null
         || sessionStorage.getItem('user_quiz_id') == 'null') {
         var server_user_quiz_id = parseInt(quizInstant.getServerUserQuizId());
@@ -433,7 +467,7 @@ function initClientStorage() {
             sessionStorage.setItem('user_quiz_id', -3); //start game.
         } else if (server_user_quiz_id == total_quiz - 1) {
             sessionStorage.setItem('user_quiz_id', -2); //end game.
-        } else if (quizInstant.getServerUserQuizIsAnswered() == true) {
+        } else if (sessionStorage.getItem('isAnswered') == "true") {
             sessionStorage.setItem('user_quiz_id', -1); //next.
         } else {
             sessionStorage.setItem('user_quiz_id', server_user_quiz_id); //submit					
@@ -449,17 +483,23 @@ function initClientStorage() {
         || sessionStorage.getItem('user_wallet_balance') == 'null') {
         sessionStorage.setItem('user_wallet_balance', (quizInstant.getServerUserWalletBalance() / web3.toWei(1)).toFixed(2));
     }
-    if (sessionStorage.getItem('isAnswered') == null
-        || sessionStorage.getItem('isAnswered') == 'null') {
-        sessionStorage.setItem('isAnswered', quizInstant.getServerUserQuizIsAnswered());
+    if (sessionStorage.getItem('user_address') == null
+        || sessionStorage.getItem('user_address') == 'null') {
+        sessionStorage.setItem('user_address', quizInstant.getServerUserAddress());
+    }
+    if (sessionStorage.getItem('creator_address') == null
+        || sessionStorage.getItem('creator_address') == 'null') {
+        sessionStorage.setItem('creator_address', quizInstant.getServerCreatorAddress());
     }
 }
 
 function refreshClientStorage() {
+    sessionStorage.setItem('user_address', null);
+    sessionStorage.setItem('creator_address', null);
     sessionStorage.setItem('default_total_quiz', null);
     sessionStorage.setItem('user_quiz_starting_time', null);
     sessionStorage.setItem('user_wallet_balance', null);
-    sessionStorage.setItem('isAnswered', null);
+    sessionStorage.setItem('isAnswered', null);    
 
     //for the quiz (id, question_des, answer_A, answer_B, answer_C, answer_D)
     sessionStorage.setItem('user_quiz_id', null);
@@ -565,7 +605,7 @@ update_answer_evt.watch(function (error, result) {
         //update balance token = must use web3.eth.getBalance because it lately update to server.
         sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
         $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
-        sessionStorage.getItem("user_wallet_balance")
+
         //update the quiz is answered
         sessionStorage.setItem('isAnswered', true);
 
@@ -634,7 +674,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
     //show info question.
     if (!error) {
         //update timeout.
-        $('#timeout').val('PLEASE GIVE YOUR ANSWER!');
+        $('#timeout').val('PLEASE SUBMIT YOUR ANSWER');
         $('#timeout').css('color', '#0DFF92');
 
         //new quiz is not answered yet.
@@ -736,7 +776,7 @@ function reloadQuizContent() {
 
         console.log("run reload quiz content");
     } else {
-        var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+        var user_quiz_id = parseInt(sessionStorage.getItem('user_quiz_id'));
         console.log('reload: ' + user_quiz_id);
         if (user_quiz_id >= 0) {
             quizInstant.getServerTheOldQuizById(user_quiz_id);
@@ -757,7 +797,7 @@ window.onload = function () {
         reloadQuizContent();
 
         //for update the old quiz.
-        var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+        var user_quiz_id = parseInt(sessionStorage.getItem('user_quiz_id'));
         console.log(user_quiz_id);
 
         //update button.		
@@ -782,7 +822,7 @@ window.onload = function () {
         if ($('#btn_submit').text() == 'SUBMIT') {
             console.log('run refresh timer');
             //for update the old timer 			
-            var savedTime = sessionStorage.getItem('user_quiz_starting_time');
+            var savedTime = parseInt(sessionStorage.getItem('user_quiz_starting_time'));
             console.log('savedTime: ' + savedTime);
             console.log('time: ' + (Date.now() / 1000 - savedTime));
             var leftDuration = default_total_time - (Date.now() / 1000 - savedTime);
@@ -797,35 +837,55 @@ $('#btn_reload').click(function () {
     console.log('run');
 
     //just skip the first quiz.
-    if (sessionStorage.getItem('user_quiz_id') != sessionStorage.getItem('default_total_quiz')) {
+    if (parseInt(sessionStorage.getItem('user_quiz_id')) != parseInt(sessionStorage.getItem('default_total_quiz'))) {
         reloadQuizContent();
     }
 });
 
-function ask(pkg_name, time, ether) {
+function ask(pkg_name, time, money) {
     var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
     if (buy) {
-        buy_pack(time, ether);
+        buyTimeClientEvent(time, money);
     } else {
         confirm("Stop buying " + "\"" + pkg_name + "\" ");
     }
 }
 
 //boughtTime is count second as well as satisfied the quiz is not answered yet.
-function buyTimeClientEvent(boughtTime) {
-    //update the StartingTime in server.
-    quizInstant.setServerUserQuizStartingTime(boughtTime);
-    //update the sessionStorage for timer.
-    sessionStorage.setItem('user_quiz_starting_time', sessionStorage.getItem('user_quiz_starting_time') + boughtTime);
-    //UPDATE THE TIMER.
-    var leftDuration = default_total_time - (Date.now() / 1000 - sessionStorage.getItem('user_quiz_starting_time'));
-    //this func will check leftDuration valid or not.							    
-    startCountDown(leftDuration);
-    //END UPDATE THE TIMER.
-    //update the submit button.
-    if (leftDuration > 0) {
-        $('#btn_submit').html('SUBMIT');
+function buyTimeClientEvent(boughtTime, money) {    
+    if (sessionStorage.getItem('isAnswered') == "false"
+        && sessionStorage.getItem('user_wallet_balance') - money >= 0) {
+
+        //update the StartingTime in server.
+        quizInstant.setServerUserQuizStartingTime(boughtTime);
+        //update the sessionStorage for timer.
+        var timeNow = parseInt(boughtTime) + parseInt(sessionStorage.getItem('user_quiz_starting_time'));
+        sessionStorage.setItem('user_quiz_starting_time', timeNow);
+        
+        //UPDATE THE TIMER.
+        var leftDuration = default_total_time - (Date.now() / 1000 - sessionStorage.getItem('user_quiz_starting_time'));
+        console.log("867: left duration: " + leftDuration);
+        //this func will check leftDuration valid or not.							    
+        startCountDown(leftDuration);
+        //END UPDATE THE TIMER.
+        
+        //update the submit button.
+        if (leftDuration > 0) {
+            $('#btn_submit').html('SUBMIT');
+        }
+
+        //use money to buy pack_time.
+        var userAddress = sessionStorage.getItem('user_address');
+        var creatorAddress = sessionStorage.getItem('creator_address');
+        web3.eth.sendTransaction({ from: userAddress, to: creatorAddress, value: web3.toWei(money, "ether") });
+
+        //update balance interface.
+        sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(userAddress) / web3.toWei(1)).toFixed(2));
+        $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
+    } else {
+        alert("Failed because you've already given answer or you don't have enough money");
     }
+
 }
 
 function isValidBetMoney(money) {
@@ -878,7 +938,7 @@ $('#btn_submit').click(function () {
                 && isValidBetMoney(betD_money)) {
 
                 //get user_quiz_id as runtime variable.			
-                var user_quiz_id = sessionStorage.getItem('user_quiz_id');
+                var user_quiz_id = parseInt(sessionStorage.getItem('user_quiz_id'));
 
                 console.log('line 929: ' + user_quiz_id);
 

@@ -170,6 +170,14 @@ contract Quiz {
         emit update_answer_evt(quiz_set[quiz_id].answer_check_id, msg.sender, creator);
 	}
 
+	function getServerUserAddress() public returns(address _address) {
+		return msg.sender;
+	}
+
+	function getServerCreatorAddress() public returns(address _address) {
+		return msg.sender;
+	}
+
 	function getServerTheNextQuiz() public {
 		
 		require(default_total_quiz - current_quiz_id > 0 
