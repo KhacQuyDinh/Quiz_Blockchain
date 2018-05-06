@@ -404,7 +404,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x0bca254cb9b05d342aab636ceaf5894e33303d6d');
+var quizInstant = quizContract.at('0x5468703440df75da0fa4317c58bf22feaa65ed81');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 

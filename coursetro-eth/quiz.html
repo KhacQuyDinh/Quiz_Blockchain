@@ -22,14 +22,20 @@
 	</style>
 	<script>
 		function ask(pkg_name) {
-			confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
+			var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
+			if (buy) {
+				buy_pack(pkg_name);
+			} else {
+				confirm("Stop buying " + "\"" + pkg_name + "\" ");
+			}
 		}
 		function btn_balance(value) {
 			confirm("Your balance is " + value);
 		}
 	</script>	
 	<script src='./node_modules/web3/dist/web3.min.js'></script>
-	<script src='./jquery-cookie/src/jquery-3.3.1.min.js'></script>		
+	<script src='./jquery-cookie/src/jquery-3.3.1.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
 <body>
