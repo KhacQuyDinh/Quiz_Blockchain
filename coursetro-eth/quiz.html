@@ -24,7 +24,9 @@
 		function ask(pkg_name) {
 			var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
 			if (buy) {
-				buy_pack(pkg_name);
+				var boughtTime = Date.now();
+				var ether = sessionStorage.getItem("user_wallet_balance");
+				buy_pack(pkg_name, boughtTime, ether);
 			} else {
 				confirm("Stop buying " + "\"" + pkg_name + "\" ");
 			}

@@ -563,7 +563,7 @@ update_answer_evt.watch(function (error, result) {
         //update balance token = must use web3.eth.getBalance because it lately update to server.
         sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
         $('#balance').html("" + sessionStorage.getItem("user_wallet_balance") + " ETH");
-
+sessionStorage.getItem("user_wallet_balance")
         //update the quiz is answered
         sessionStorage.setItem('isAnswered', true);
 
