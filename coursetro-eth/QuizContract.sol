@@ -170,11 +170,11 @@ contract Quiz {
         emit update_answer_evt(quiz_set[quiz_id].answer_check_id, msg.sender, creator);
 	}
 
-	function getServerUserAddress() public returns(address _address) {
+	function getServerUserAddress() public view returns(address _address) {
 		return msg.sender;
 	}
 
-	function getServerCreatorAddress() public returns(address _address) {
+	function getServerCreatorAddress() public view returns(address _address) {
 		return creator;
 	}
 
