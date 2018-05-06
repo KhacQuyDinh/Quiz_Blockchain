@@ -802,11 +802,10 @@ $('#btn_reload').click(function () {
     }
 });
 
-function ask(pkg_name, value) {
+function ask(pkg_name, time, ether) {
     var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
     if (buy) {
-        var ether = sessionStorage.getItem("user_wallet_balance");
-        buy_pack(value, ether);
+        buy_pack(time, ether);
     } else {
         confirm("Stop buying " + "\"" + pkg_name + "\" ");
     }
