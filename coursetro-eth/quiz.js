@@ -474,21 +474,24 @@ function startTimer(duration, display) {
     let timer = duration, minutes, seconds;
     let timeOut = false;
     myTimer = setInterval(function () {
-        minutes = "00:"
+        minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
+        if (minutes >=0 && minutes < 1) {
+            minutes = "00";
+        }
         seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;        
 
         if (timer < 0) {
             //to close quiz.
             // display.textContent = minutes + seconds + " => Question Closed";
-            display.val(minutes + seconds);
+            display.val("" + minutes + ":" + seconds);
             $('#timeout').val('QUESTION IS CLOSED');
             $('#timeout').css('color', '#ff7f82');
             $('#btn_submit').html("NEXT");
             //clearInterval(myTimer);    
         } else {
             // display.textContent = minutes + seconds;
-            display.val(minutes + seconds);
+            display.val("" + minutes + ":" + seconds);
         }
         
         timer -= 1;
