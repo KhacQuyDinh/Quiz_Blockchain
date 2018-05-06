@@ -5,6 +5,8 @@
 //     });
 // });
 
+var vars = [{key:"pack_name", value:"10"}];
+
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
 } else {

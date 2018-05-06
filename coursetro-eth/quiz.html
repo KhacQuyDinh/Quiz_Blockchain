@@ -21,12 +21,11 @@
 		}
 	</style>
 	<script>
-		function ask(pkg_name) {
+		function ask(pkg_name, value) {
 			var buy = confirm("Are you sure to buy " + "\"" + pkg_name + "\" " + "?");
 			if (buy) {
-				var boughtTime = Date.now() / 1000;
 				var ether = sessionStorage.getItem("user_wallet_balance");
-				buy_pack(pkg_name, boughtTime, ether);
+				buy_pack(value, ether);
 			} else {
 				confirm("Stop buying " + "\"" + pkg_name + "\" ");
 			}
@@ -174,17 +173,17 @@
 							<li>
 								<h3 id="pkg1">Untitled Pack</h3>
 								<span>???second / ??? ETH</span>
-								<button style="font-size: 10px" onclick="ask($('#pkg1').html())">Buy this</button>
+								<button style="font-size: 10px" onclick="ask($('#pkg1').html(), value)" value="10">Buy this</button>
 							</li>
 							<li>
 								<h3 id="pkg2">Untitled Pack</h3>
 								<span>???second / ??? ETH</span>
-								<button onclick="ask($('#pkg2').html())">Buy this</button>
+								<button onclick="ask($('#pkg1').html(), value)" value="10">Buy this</button>
 							</li>
 							<li>
 								<h3 id="pkg3">Untitled Pack</h3>
 								<span>???second / ??? ETH</span>
-								<button onclick="ask($('#pkg3').html())">Buy this</button>
+								<button onclick="ask($('#pkg1').html(), value)" value="10">Buy this</button>
 							</li>
 						</ul>
 						<h3>Social</h3>
