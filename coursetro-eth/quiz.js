@@ -667,6 +667,13 @@ update_answer_evt.watch(function (error, result) {
 //using event to update the quiz.
 var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
 update_the_next_quiz_evt.watch(function (error, result) {
+    
+    $('#betA').val("");
+    $('#betB').val("");
+    $('#betC').val("");
+    $('#betD').val("");
+    
+    
     //hide loader.
     $("#loader").hide();
 
