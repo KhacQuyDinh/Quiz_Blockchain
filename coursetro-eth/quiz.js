@@ -433,7 +433,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x85062c2ec9ca581db3381e03fb20ca900062a0d5');
+var quizInstant = quizContract.at('0xf2be1b09c483d1df53d9e740c4d7c6c19b92e28c');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -520,6 +520,8 @@ function startTimer(duration, display) {
         if (minutes >= 0 && minutes < 1) {
             minutes = "00";
         }
+
+        seconds = timer <= -60 ? -seconds : seconds;
         seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;
 
         if (timer < 0) {
@@ -535,6 +537,11 @@ function startTimer(duration, display) {
             display.val("" + minutes + ":" + seconds);
         }
 
+        //stop counting when timer reachs to -59:00 = -3540s
+        if (timer <= -3540) {
+            clearInterval(myTimer);
+        }
+        
         timer -= 1;
     }, 1000);
 }
