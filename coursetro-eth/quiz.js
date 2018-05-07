@@ -528,7 +528,7 @@ function startTimer(duration, display) {
             //to close quiz.
             // display.textContent = minutes + seconds + " => Question Closed";
             display.val("" + minutes + ":" + seconds);
-            $('#timeout').val('QUESTION IS CLOSED');
+            $('#timeout').val('THE QUIZ IS CLOSED');
             $('#timeout').css('color', '#ff7f82');
             $('#btn_submit').html("NEXT");
             //clearInterval(myTimer);    
