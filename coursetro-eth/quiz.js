@@ -433,7 +433,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x7a0739884e716076d4ad7f69a5c45fb5e8a81c03');
+var quizInstant = quizContract.at('0x85062c2ec9ca581db3381e03fb20ca900062a0d5');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -670,8 +670,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
     $('#betA').val("");
     $('#betB').val("");
     $('#betC').val("");
-    $('#betD').val("");
-    
+    $('#betD').val("");    
     
     //hide loader.
     $("#loader").hide();
@@ -757,10 +756,10 @@ update_the_old_quiz_evt.watch(function (error, result) {
         $('#questionId').html('Question number ' + question_num);
 
         $('#question').html(web3.toAscii(result.args.question));
-        var ansA = $('#answer_A').next()[0];
-        var ansB = $('#answer_B').next()[0];
-        var ansC = $('#answer_C').next()[0];
-        var ansD = $('#answer_D').next()[0];
+        var ansA = $('#answer_A');
+        var ansB = $('#answer_B');
+        var ansC = $('#answer_C');
+        var ansD = $('#answer_D');
         ansA.textContent = web3.toAscii(result.args.answer_A);
         ansB.textContent = web3.toAscii(result.args.answer_B);
         ansC.textContent = web3.toAscii(result.args.answer_C);
@@ -771,7 +770,7 @@ update_the_old_quiz_evt.watch(function (error, result) {
 function reloadQuizContent() {
     //hide loader.
     $("#loader").hide();
-
+	
     //get the old quiz.						
     if (sessionStorage.getItem('question_des') != null
         && sessionStorage.getItem('question_des') != 'null') {
@@ -794,7 +793,7 @@ function reloadQuizContent() {
 
 //refresh the page.
 window.onload = function () {
-
+   
     if (quizInstant.isServerCloseGame()) {
         //time out of whole game.											
         $('#btn_submit').html('GAME END');
