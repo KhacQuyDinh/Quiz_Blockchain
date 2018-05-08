@@ -1,0 +1,13 @@
+#----------------------------------
+1. Mở trò chơi.
+2. Kho câu đố.
+3. Tiền mua một câu đố; tiền đặt cược và ràng buộc.
+4. Thời gian cho mỗi câu đố và 3 gói thời gian.
+5. Submit.
+6. Tránh tra cứu đáp án.
+7. Vấn đề load trang, refresh trang.
+8. Điều kiện kết thúc trò chơi.
+
+#----------------------------------
+1. Vấn đề kho dữ liệu câu đố.
+2. Event and address.
