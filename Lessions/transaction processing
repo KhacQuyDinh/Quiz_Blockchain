@@ -1,0 +1,27 @@
+1. New transaction data as well as new blocks are forwarded to all nodes in a gossip
+fashion.
+2. Each node collects new transaction data in an inbox and selects them for processing.  
+3. Each node processes new blocks immediately with highest priority.  4. Each node processes new transaction data by validating them for authorization and
+formal and semantic correctness.
+5. Each node collects only valid transaction data into a Merkle tree and starts creating a
+new block by solving its hash puzzle.
+6. As soon as a node finishes the hash puzzle, it sends the newly created block to
+all other nodes.
+7. Each node processes new blocks by verifying the solution of its hash puzzle and by
+verifying all its containing transaction data for formal correctness, semantic
+correctness, and authorization.
+8. Each node adds valid blocks to its own copy of the blockchain-data-structure.
+9. If a newly arrived block has been identified as invalid, it will be discarded and the
+nodes continue with processing transaction data or with finishing the hash puzzle of
+a new block.
+10. If a newly arrived block has been identified as valid, the node removes those
+transactions that are contained in the new block from its own inbox and starts with
+processing transaction data and the creation of a new block.
+11. If a block that was added to the blockchain-data-structure is identified as invalid or
+useless later on, that block as well as all its subsequent blocks will be removed 2  from
+the blockchain-data-structure and their transactions will be added to the inbox to be
+processed again.
+12. The node whose block was accepted will receive the fees for all transactions
+contained in the block as reward.
+13. If a block is removed from the blockchain-data-structure, then the reward for adding
+it is withdrawn from the node that initially received it.

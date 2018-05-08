@@ -1,0 +1,28 @@
+#storage
+This is possible with window.localStorage (or window.sessionStorage). The difference is that sessionStorage lasts for as long as the browser stays open, localStorage survives past browser restarts. The persistence applies to the entire web site not just a single page of it.
+
+When you need to set a variable that should be reflected in the next page(s), use:
+
+var someVarName = "value";
+localStorage.setItem("someVarName", someVarName);
+And in any page (like when the page has loaded), get it like:
+
+var someVarName = localStorage.getItem("someVarName");
+
+
+#focus.
+With non-constant function vote, you can only get the transaction hash back immediately because the transaction may never get mined.
+
+#throws
++ This line: https://medium.com/blockchannel/the-use-of-revert-assert-and-require-in-solidity-and-the-new-revert-opcode-in-the-evm-1a3a7990e06e
+
+if(msg.sender != owner) { throw; }
+currently behaves exactly the same as all of the following:
+if(msg.sender != owner) { revert(); }
+assert(msg.sender == owner);
+require(msg.sender == owner);
+
++ revert(‘Something bad happened’); or require(condition, ‘Something bad happened’);
+
+#thread
+each transaction get all resources. single-thread in blockchain.

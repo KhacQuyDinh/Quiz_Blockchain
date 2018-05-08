@@ -1,0 +1,28 @@
+//Use the –unlock flag when starting Parity to allow any transactions to use the account without confirmation.
+sudo npm install -g truffle
+mkdir myproject
+cd myproject
+truffle init
+
+truffle compile
+truffle migrate
+
+parity --geth --chain dev --force-ui --reseal-min-period 0 --jsonrpc-cors http://localhost
+//then open your browser.
+
+
+parity --geth --chain dev --force-ui --reseal-min-period 0 --jsonrpc-cors http://localhost --unlock [0xda9b1a939350dc7198165ff84c43ce77a723ef73] --password [password.txt]
+
+truffle migrate --refresh
+
+#Testing your first truffle contract
+truffle test
+
+#Accessing your Truffle contract from a web app
+cd /var/www/html
+mkdir truffleBasic
+cd truffleBasic
+bower install jquery
+bower install web3
+
+
