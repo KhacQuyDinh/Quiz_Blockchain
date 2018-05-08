@@ -433,7 +433,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0xf2be1b09c483d1df53d9e740c4d7c6c19b92e28c');
+var quizInstant = quizContract.at('0xec15be8f3d4b64c63a0761fec14ed3b965e8d0c2');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
