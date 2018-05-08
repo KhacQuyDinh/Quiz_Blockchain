@@ -150,6 +150,7 @@ contract Quiz {
 	
 	//call event to update the next question in gui.
 	event update_the_old_quiz_evt(
+		address player,
 		uint256 quiz_id,
 		bytes question,
 		bytes answer_A,
@@ -216,7 +217,8 @@ contract Quiz {
 	    quiz_pattern storage quiz = quiz_set[quiz_id];
 	    
 		emit update_the_old_quiz_evt(
-		  quiz.id
+		  msg.sender
+		, quiz.id
 		, quiz.question
 		, quiz.answer_A
 		, quiz.answer_B

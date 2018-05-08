@@ -398,6 +398,11 @@ var quizContract = web3.eth.contract(
             "inputs": [
                 {
                     "indexed": false,
+                    "name": "player",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
                     "name": "quiz_id",
                     "type": "uint256"
                 },
@@ -433,7 +438,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0xec15be8f3d4b64c63a0761fec14ed3b965e8d0c2');
+var quizInstant = quizContract.at('0x40427e1da63fc95740209ffde1756631d482ae61');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -541,7 +546,7 @@ function startTimer(duration, display) {
         if (timer <= -3540) {
             clearInterval(myTimer);
         }
-        
+
         timer -= 1;
     }, 1000);
 }
@@ -563,7 +568,7 @@ var update_answer_evt = quizInstant.update_answer_evt();
 update_answer_evt.watch(function (error, result) {
     //hide loader.
     //show info including name-age or error.
-    if (!error) {
+    if (!error && result.args.player == sessionStorage.getItem('user_address')) {
 
         //#UPDATE MONEY FOR TRANSACTION.
         console.log('player: ' + result.args.player);
@@ -673,17 +678,17 @@ update_answer_evt.watch(function (error, result) {
 //using event to update the quiz.
 var update_the_next_quiz_evt = quizInstant.update_the_next_quiz_evt();
 update_the_next_quiz_evt.watch(function (error, result) {
-    
+
     $('#betA').val("");
     $('#betB').val("");
     $('#betC').val("");
-    $('#betD').val("");    
-    
+    $('#betD').val("");
+
     //hide loader.
     $("#loader").hide();
 
     //show info question.
-    if (!error) {
+    if (!error && result.args.player == sessionStorage.getItem('user_address')) {
         //update timeout.
         $('#timeout').val('PLEASE SUBMIT YOUR ANSWER');
         $('#timeout').css('color', '#0DFF92');
@@ -749,7 +754,7 @@ update_the_old_quiz_evt.watch(function (error, result) {
     $("#loader").hide();
 
     //show info question.
-    if (!error) {
+    if (!error && result.args.player == sessionStorage.getItem('user_address')) {
         //update value of quiz in client storage.
         sessionStorage.setItem('user_quiz_id', parseInt(result.args.quiz_id));
         sessionStorage.setItem('question_des', web3.toAscii(result.args.question));
@@ -777,7 +782,7 @@ update_the_old_quiz_evt.watch(function (error, result) {
 function reloadQuizContent() {
     //hide loader.
     $("#loader").hide();
-	
+
     //get the old quiz.						
     if (sessionStorage.getItem('question_des') != null
         && sessionStorage.getItem('question_des') != 'null') {
@@ -800,7 +805,7 @@ function reloadQuizContent() {
 
 //refresh the page.
 window.onload = function () {
-   
+
     if (quizInstant.isServerCloseGame()) {
         //time out of whole game.											
         $('#btn_submit').html('GAME END');
