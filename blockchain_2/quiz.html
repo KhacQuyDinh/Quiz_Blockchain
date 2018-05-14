@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Quizzes</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<style>
+		.line {
+			display: inline;
+		}
+
+		#balance {
+			margin-left: 30%;
+		}
+	</style>	
+	<script src='./node_modules/web3/dist/web3.min.js'></script>
+	<script src='./jquery-cookie/src/jquery-3.3.1.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+	<!-- Sidebar -->
+	<section id="sidebar">
+		<div class="inner">
+			<nav>
+				<ul>
+					<li>
+						<a href="#intro">Welcome</a>
+					</li>
+					<li>
+						<a href="#three">Play</a>
+					</li>
+					<!-- <li><a href="#two">Store</a></li>
+							<li><a href="#three">Get in touch</a></li> -->
+				</ul>
+			</nav>
+		</div>
+	</section>
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Intro -->
+		<section id="intro" class="wrapper style1 fullscreen fade-up">
+			<div class="inner">
+				<h1>Quiz Game</h1>
+				<p>Win money at question betting!</p>
+				<ul class="actions">
+					<li>
+						<a href="#three" class="button scrolly">Let's Play</a>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- One -->
+		<!-- <section id="one" class="wrapper style2 fullscreen fade-up">
+						<h3 id='timer' style="color:aqua">Time: 00:00:00</h3>
+						<div align = "center" class="inner" id="questionfld">
+						<h3 id='questionId'>Question Number</h3>
+						<p id='question'>This Is The Question</p>
+						<table class="" style="width: 80%;">
+							<tbody>
+								<tr>
+									<td style="color: white">A.</td>
+									<td style="color: wheat" align="left" id="answer_A">This is the answer A</td>
+									<td style="width: 15%;"><input id="betA" type="number"style="color: white" min="0.1" max="1" step="0.1" ></td>
+								</tr>
+								<tr>
+									<td style="color: white">B.</td>
+									<td style="color: wheat" id="answer_B">This is the answer B</td>
+									<td><input id="betB" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
+								</tr>
+								<tr>
+									<td style="color: white">C.</td>
+									<td style="color: wheat" id="answer_C">This is the answer C</td>
+									<td><input id="betC" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
+								</tr>
+								<tr>
+									<td style="color: white">D.</td>
+									<td style="color: wheat" id="answer_D">This is the answer D</td>
+									<td><input id="betD" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
+								</tr>
+							</tbody>
+						</table>
+						<button id='btn_submit'>Submit</button>
+						<button id='btn_reload'>Reload</button>
+						</div>
+					</section> -->
+
+		<!-- Three -->
+		<section id="three" class="wrapper style2 fade-up">
+			<div class="inner">
+				<h2 id='questionId' class="line">Question</h2>
+				<button class='line' id='balance'>Balance</button>
+				<p id='question'>Question Here</p>
+				<img id="loader" src="loader.gif" class="" width="10%">
+				<div class="split style1">
+					<section>
+						<form method="post" action="#">
+							<div class="field half first">
+								<label>Time</label>
+								<input type="text" id="timer" readonly/>
+							</div>
+							<div class="field half">
+								<label>Time Out</label>
+								<input type="text" id="timeout" value='NO' color='#0DFF92' readonly/>
+							</div>
+							<section>
+								<table class="">
+									<tbody>
+										<tr>
+											<td style="color: white; width: 10%;">A.</td>
+											<td style="color: white" align="left" id="answer_A">This is the answer A</td>
+											<td style="width: 25%;">
+												<input id="betA" type="number" style="color: white" min="0.1" max="1" step="0.1">
+											</td>
+										</tr>
+										<tr>
+											<td style="color: white">B.</td>
+											<td style="color: white" id="answer_B">This is the answer B</td>
+											<td>
+												<input id="betB" type="number" style="color: white" min="0.1" max="1" step="0.1">
+											</td>
+										</tr>
+										<tr>
+											<td style="color: white">C.</td>
+											<td style="color: white" id="answer_C">This is the answer C</td>
+											<td>
+												<input id="betC" type="number" style="color: white" min="0.1" max="1" step="0.1">
+											</td>
+										</tr>
+										<tr>
+											<td style="color: white">D.</td>
+											<td style="color: white" id="answer_D">This is the answer D</td>
+											<td>
+												<input id="betD" type="number" style="color: white" min="0.1" max="1" step="0.1">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</section>
+						</form>
+						<div align='center'>
+							<button id='btn_submit'>Submit</button>
+							<button id='btn_reload'>Reload</button>
+						</div>
+					</section>
+					<section>
+						<h3>Store</h3>
+						<ul class="">
+							<li>
+								<h3 id="pkg1">Silver Pack</h3>
+								<span>10s / 0.1 ETH</span>
+								<button style="font-size: 10px" onclick="ask($('#pkg1').html(), 10, 0.1)">Buy this</button>
+							</li>
+							<li>
+								<h3 id="pkg2">Golden Pack</h3>
+								<span>20s / 0.2 ETH</span>
+								<button onclick="ask($('#pkg2').html(), 20, 0.2)">Buy this</button>
+							</li>
+							<li>
+								<h3 id="pkg3">Diamond Pack</h3>
+								<span>30s / 0.3 ETH</span>
+								<button onclick="ask($('#pkg3').html(), 30, 0.3)">Buy this</button>
+							</li>
+						</ul>
+						<h3>Social</h3>
+						<ul class="icons">
+							<li>
+								<a href="#" class="fa-twitter">
+									<span class="label">Twitter</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="fa-facebook">
+									<span class="label">Facebook</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="fa-github">
+									<span class="label">GitHub</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="fa-instagram">
+									<span class="label">Instagram</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="fa-linkedin">
+									<span class="label">LinkedIn</span>
+								</a>
+							</li>
+						</ul>
+
+					</section>
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Footer -->
+	<footer id="footer" class="wrapper style1-alt">
+		<div class="inner">
+			<ul class="menu">
+				<li>&copy; Quizzes. All rights reserved.</li>
+				<li>Design: Quizzes</li>
+			</ul>
+		</div>
+	</footer>
+</body>
+
+<!-- Scripts -->
+	<script src="quiz.js"></script>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="assets/js/main.js"></script>
+</html>
