@@ -438,7 +438,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0xd956b0c9479bfe68fc90c3e961ecb050ea475a92');
+var quizInstant = quizContract.at('0xe9d384f68cc6407953f8e272667d0982619a6c36');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -510,6 +510,19 @@ function refreshClientStorage() {
     sessionStorage.setItem('answer_D', null);
 }
 
+/// PROGRESS BAR
+function progressBar(time) {
+    var elem = $('#myBar');
+    var value = time/30 * 100 + '%';
+    elem.css('width' , value);
+    if (time > 10) {
+        elem.css('background-color' ,'#0DFF92');
+    } else {
+        elem.css('background-color' ,'#ff7f82');
+    }
+}
+/// END PROGRESS BAR
+
 ///#START: COUNTDOWN TIMER.
 var myTimer;
 function startTimer(duration, display) {
@@ -528,14 +541,19 @@ function startTimer(duration, display) {
         if (timer < 0) {
             //to close quiz.
             // display.textContent = minutes + seconds + " => Question Closed";
-            display.val("" + minutes + ":" + seconds);
-            $('#timeout').val('THE QUIZ IS CLOSED');
+            display.html("" + minutes + ":" + seconds);
+            $('#timeout').html('THE QUIZ IS CLOSED');
             $('#timeout').css('color', '#ff7f82');
             $('#btn_submit').html("NEXT");
             //clearInterval(myTimer);    
         } else {
             // display.textContent = minutes + seconds;
-            display.val("" + minutes + ":" + seconds);
+            $('#timeout').html('PLEASE SUBMIT YOUR ANSWER');
+            $('#timeout').css('color', '#0DFF92');
+            display.html("" + minutes + ":" + seconds);
+            if (minutes==0) {
+                progressBar(seconds);
+            }
         }
 
         //stop counting when timer reachs to -59:00 = -3540s
@@ -686,7 +704,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
     //show info question.
     if (!error && result.args.player == sessionStorage.getItem('user_address')) {
         //update timeout.
-        $('#timeout').val('PLEASE SUBMIT YOUR ANSWER');
+        $('#timeout').html('PLEASE SUBMIT YOUR ANSWER');
         $('#timeout').css('color', '#0DFF92');
 
         //new quiz is not answered yet.
@@ -719,7 +737,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
 
         var question_num = parseInt(result.args.quiz_id) + 1;
         sessionStorage.setItem('question_number', question_num);
-        $('#questionId').html('Question number ' + question_num);
+        $('#questionId').html('Question ' + question_num);
 
         $('#question').html(web3.toAscii(result.args.question));
         $('#answer_A').html(web3.toAscii(result.args.answer_A));
@@ -761,7 +779,7 @@ update_the_old_quiz_evt.watch(function (error, result) {
 
         var question_num = parseInt(result.args.quiz_id) + 1;
         sessionStorage.setItem('question_number', question_num);
-        $('#questionId').html('Question number ' + question_num);
+        $('#questionId').html('Question ' + question_num);
 
         $('#question').html(web3.toAscii(result.args.question));
         var ansA = $('#answer_A');
@@ -782,7 +800,7 @@ function reloadQuizContent() {
     //get the old quiz.						
     if (sessionStorage.getItem('question_des') != null
         && sessionStorage.getItem('question_des') != 'null') {
-        $('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
+        $('#questionId').html('Question ' + sessionStorage.getItem('question_number'));
         $('#question').html('' + sessionStorage.getItem('question_des'));
         $('#answer_A').html('' + sessionStorage.getItem('answer_A'));
         $('#answer_B').html('' + sessionStorage.getItem('answer_B'));

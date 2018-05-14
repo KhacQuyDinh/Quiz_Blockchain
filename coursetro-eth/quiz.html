@@ -15,10 +15,25 @@
 		.line {
 			display: inline;
 		}
+		.inline {
+			display: inline;
+		}
 
 		#balance {
 			margin-left: 30%;
 		}
+
+		#myProgress {
+			width: 100%;
+			background-color: whitesmoke;
+			height: 20px;
+		}
+		#myBar {
+			width: 0%;
+			height: 20px;
+			background-color: #0DFF92;
+		}
+
 	</style>	
 	<script src='./node_modules/web3/dist/web3.min.js'></script>
 	<script src='./jquery-cookie/src/jquery-3.3.1.min.js'></script>
@@ -60,59 +75,32 @@
 			</div>
 		</section>
 
-		<!-- One -->
-		<!-- <section id="one" class="wrapper style2 fullscreen fade-up">
-						<h3 id='timer' style="color:aqua">Time: 00:00:00</h3>
-						<div align = "center" class="inner" id="questionfld">
-						<h3 id='questionId'>Question Number</h3>
-						<p id='question'>This Is The Question</p>
-						<table class="" style="width: 80%;">
-							<tbody>
-								<tr>
-									<td style="color: white">A.</td>
-									<td style="color: wheat" align="left" id="answer_A">This is the answer A</td>
-									<td style="width: 15%;"><input id="betA" type="number"style="color: white" min="0.1" max="1" step="0.1" ></td>
-								</tr>
-								<tr>
-									<td style="color: white">B.</td>
-									<td style="color: wheat" id="answer_B">This is the answer B</td>
-									<td><input id="betB" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
-								</tr>
-								<tr>
-									<td style="color: white">C.</td>
-									<td style="color: wheat" id="answer_C">This is the answer C</td>
-									<td><input id="betC" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
-								</tr>
-								<tr>
-									<td style="color: white">D.</td>
-									<td style="color: wheat" id="answer_D">This is the answer D</td>
-									<td><input id="betD" type="number"style="color: white" min="0.1" max="1" step="0.1"></td>
-								</tr>
-							</tbody>
-						</table>
-						<button id='btn_submit'>Submit</button>
-						<button id='btn_reload'>Reload</button>
-						</div>
-					</section> -->
-
 		<!-- Three -->
 		<section id="three" class="wrapper style2 fade-up">
 			<div class="inner">
 				<h2 id='questionId' class="line">Question</h2>
 				<button class='line' id='balance'>Balance</button>
-				<p id='question'>Question Here</p>
-				<img id="loader" src="loader.gif" class="" width="10%">
+				<button id='timer'>00:00</button>
+				<p id='question' style="color: yellow">Question Here</p>
+				<img id="loader" src="loader.gif" class="" width="4%">
 				<div class="split style1">
 					<section>
 						<form method="post" action="#">
-							<div class="field half first">
+							
+							<!-- <div class="info">
 								<label>Time</label>
-								<input type="text" id="timer" readonly/>
+								<input type="text" id="timer" readonly style="width: 50%"/>
+							</div> -->
+							<div>
+								<label class='inline'>Message: </label>
+								<label class='inline' id='timeout'>message</label>
+								<!-- <input class='inline' type="text" id="timeout" value='NO' color='#0DFF92' readonly style="width: 82%;display: inline;"/> -->
 							</div>
-							<div class="field half">
-								<label>Time Out</label>
-								<input type="text" id="timeout" value='NO' color='#0DFF92' readonly/>
+							<div id="myProgress">
+								<div id="myBar"></div>
 							</div>
+							<hr>
+							
 							<section>
 								<table class="">
 									<tbody>
@@ -157,22 +145,22 @@
 						<h3>Store</h3>
 						<ul class="">
 							<li>
-								<h3 id="pkg1">Silver Pack</h3>
+								<h3 id="pkg1" style="color: silver">Silver Pack</h3>
 								<span>10s / 0.1 ETH</span>
 								<button style="font-size: 10px" onclick="ask($('#pkg1').html(), 10, 0.1)">Buy this</button>
 							</li>
 							<li>
-								<h3 id="pkg2">Golden Pack</h3>
+								<h3 id="pkg2" style="color: gold">Golden Pack</h3>
 								<span>20s / 0.2 ETH</span>
 								<button onclick="ask($('#pkg2').html(), 20, 0.2)">Buy this</button>
 							</li>
 							<li>
-								<h3 id="pkg3">Diamond Pack</h3>
+								<h3 id="pkg3" style="color: #b9f2ff">Diamond Pack</h3>
 								<span>30s / 0.3 ETH</span>
 								<button onclick="ask($('#pkg3').html(), 30, 0.3)">Buy this</button>
 							</li>
 						</ul>
-						<h3>Social</h3>
+						<!-- <h3>Social</h3> -->
 						<ul class="icons">
 							<li>
 								<a href="#" class="fa-twitter">
