@@ -81,26 +81,12 @@
 				<h2 id='questionId' class="line">Question</h2>
 				<button class='line' id='balance'>Balance</button>
 				<button id='timer'>00:00</button>
-				<p id='question' style="color: yellow">Question Here</p>
+				<h3 id='question' style="color: yellow">Question Here</h3>
+				<hr>
 				<img id="loader" src="loader.gif" class="" width="4%">
 				<div class="split style1">
 					<section>
 						<form method="post" action="#">
-							
-							<!-- <div class="info">
-								<label>Time</label>
-								<input type="text" id="timer" readonly style="width: 50%"/>
-							</div> -->
-							<div>
-								<label class='inline'>Message: </label>
-								<label class='inline' id='timeout'>message</label>
-								<!-- <input class='inline' type="text" id="timeout" value='NO' color='#0DFF92' readonly style="width: 82%;display: inline;"/> -->
-							</div>
-							<div id="myProgress">
-								<div id="myBar"></div>
-							</div>
-							<hr>
-							
 							<section>
 								<table class="">
 									<tbody>
@@ -136,6 +122,15 @@
 								</table>
 							</section>
 						</form>
+						<div>
+							<strong class='inline'>Message: </strong>
+							<strong class='inline' id='timeout'>message</strong>
+							<!-- <input class='inline' type="text" id="timeout" value='NO' color='#0DFF92' readonly style="width: 82%;display: inline;"/> -->
+						</div>
+						<div id="myProgress">
+							<div id="myBar"></div>
+						</div>
+						<hr>
 						<div align='center'>
 							<button id='btn_submit'>Submit</button>
 							<button id='btn_reload'>Reload</button>
