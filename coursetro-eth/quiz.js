@@ -438,7 +438,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x6a8d557249db35fa45b4913ae03f6aa676064360');
+var quizInstant = quizContract.at('0x46f5b2eca8d1b138ba5d851114b9fa7a6ecc3cce');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -1033,6 +1033,7 @@ $('#btn_submit').click(function () {
                 });
             } else {
                 alert('please enter valid bet money - money from 0.1 to 1.0')
+                $('#loader').hide();
             }
         }
     }

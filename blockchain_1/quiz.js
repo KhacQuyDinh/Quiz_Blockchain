@@ -438,7 +438,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0x353c6e0209a4c2e2dd663651fabb2e9c4c8b0893');
+var quizInstant = quizContract.at('0x46f5b2eca8d1b138ba5d851114b9fa7a6ecc3cce');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -513,13 +513,44 @@ function refreshClientStorage() {
 /// PROGRESS BAR
 function progressBar(time) {
     var elem = $('#myBar');
-    var value = time/30 * 100 + '%';
-    elem.css('width' , value);
-    if (time > 10) {
-        elem.css('background-color' ,'#0DFF92');
-    } else {
-        elem.css('background-color' ,'#ff7f82');
+    // var value = time/30 * 100 + '%';
+    if (time < 30) {
+    //     var curr = time + 1;
+    //     curr = curr/30 * 100;
+    //     var to = time/30 * 100;
+    //     for (var i = curr; i >= to; i-=0.01) {
+    //         var value = i + '%';
+    //         elem.css('width' , value);
+    //         if (i > 10) {
+    //             elem.css('background-color' ,'#0DFF92');
+    //         } else {
+    //             elem.css('background-color' ,'#ff7f82');
+    //         }
+    //     }
+
+        var from = (time + 1)/30 * 100;
+        var to = time/30 * 100;
+        var width = from;
+        var id = setInterval(frame, 10);
+        function frame() {
+            if (width <= to) {
+                clearInterval(id);
+            } else {
+                width-=0.1;
+                var value = width+'%' ;
+                // elem.style.width = width + '%';
+                elem.css('width' , value);
+                // elem.css('background-color' ,'#0DFF92');
+                if (time > 10) {
+                    elem.css('background-color' ,'#0DFF92');
+                } else {
+                    elem.css('background-color' ,'#ff7f82');
+                }
+            }
+        }
     }
+
+    
 }
 /// END PROGRESS BAR
 
@@ -552,7 +583,7 @@ function startTimer(duration, display) {
             $('#timeout').css('color', '#0DFF92');
             display.html("" + minutes + ":" + seconds);
             if (minutes==0) {
-                progressBar(seconds);
+                progressBar(parseInt(seconds));
             }
         }
 
@@ -1002,6 +1033,7 @@ $('#btn_submit').click(function () {
                 });
             } else {
                 alert('please enter valid bet money - money from 0.1 to 1.0')
+                $('#loader').hide();
             }
         }
     }
