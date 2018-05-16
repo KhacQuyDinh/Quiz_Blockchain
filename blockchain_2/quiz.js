@@ -13,7 +13,7 @@ if (typeof web3 !== 'undefined') {
     web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 }
 //get the first account as defaultAccount in total 10 accounts which localhost gives.
-web3.eth.defaultAccount = web3.eth.accounts[0];
+web3.eth.defaultAccount = web3.eth.accounts[1];
 //fill contract description.
 var quizContract = web3.eth.contract(
     [
@@ -438,7 +438,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0xd956b0c9479bfe68fc90c3e961ecb050ea475a92');
+var quizInstant = quizContract.at('0x353c6e0209a4c2e2dd663651fabb2e9c4c8b0893');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -510,6 +510,19 @@ function refreshClientStorage() {
     sessionStorage.setItem('answer_D', null);
 }
 
+/// PROGRESS BAR
+function progressBar(time) {
+    var elem = $('#myBar');
+    var value = time/30 * 100 + '%';
+    elem.css('width' , value);
+    if (time > 10) {
+        elem.css('background-color' ,'#0DFF92');
+    } else {
+        elem.css('background-color' ,'#ff7f82');
+    }
+}
+/// END PROGRESS BAR
+
 ///#START: COUNTDOWN TIMER.
 var myTimer;
 function startTimer(duration, display) {
@@ -528,14 +541,19 @@ function startTimer(duration, display) {
         if (timer < 0) {
             //to close quiz.
             // display.textContent = minutes + seconds + " => Question Closed";
-            display.val("" + minutes + ":" + seconds);
-            $('#timeout').val('THE QUIZ IS CLOSED');
+            display.html("" + minutes + ":" + seconds);
+            $('#timeout').html('THE QUIZ IS CLOSED');
             $('#timeout').css('color', '#ff7f82');
             $('#btn_submit').html("NEXT");
             //clearInterval(myTimer);    
         } else {
             // display.textContent = minutes + seconds;
-            display.val("" + minutes + ":" + seconds);
+            $('#timeout').html('PLEASE SUBMIT YOUR ANSWER');
+            $('#timeout').css('color', '#0DFF92');
+            display.html("" + minutes + ":" + seconds);
+            if (minutes==0) {
+                progressBar(seconds);
+            }
         }
 
         //stop counting when timer reachs to -59:00 = -3540s
@@ -686,7 +704,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
     //show info question.
     if (!error && result.args.player == sessionStorage.getItem('user_address')) {
         //update timeout.
-        $('#timeout').val('PLEASE SUBMIT YOUR ANSWER');
+        $('#timeout').html('PLEASE SUBMIT YOUR ANSWER');
         $('#timeout').css('color', '#0DFF92');
 
         //new quiz is not answered yet.
@@ -701,7 +719,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
         //#END UPDATE INTERFACE
 
         //#START MONEY TRANSACTION
-        var moneyForAQuiz = 0.2 //0.2 ether
+        var moneyForAQuiz = 0.05 //0.2 ether
         web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(moneyForAQuiz, "ether") });
         //update balance token = must use web3.eth.getBalance because it lately update to server.
         sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
@@ -943,7 +961,7 @@ $('#btn_submit').click(function () {
                     sessionStorage.setItem('user_quiz_id', -2);
                 } else {
                     alert('Calm down, maybe the network is being overloaded');
-                }                               
+                }                            
             }
         });
     } else {
@@ -988,3 +1006,4 @@ $('#btn_submit').click(function () {
         }
     }
 });
+

@@ -13,7 +13,7 @@ if (typeof web3 !== 'undefined') {
     web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 }
 //get the first account as defaultAccount in total 10 accounts which localhost gives.
-web3.eth.defaultAccount = web3.eth.accounts[0];
+web3.eth.defaultAccount = web3.eth.accounts[1];
 //fill contract description.
 var quizContract = web3.eth.contract(
     [
@@ -438,7 +438,7 @@ var quizContract = web3.eth.contract(
     ]
 );
 
-var quizInstant = quizContract.at('0xe9d384f68cc6407953f8e272667d0982619a6c36');
+var quizInstant = quizContract.at('0x353c6e0209a4c2e2dd663651fabb2e9c4c8b0893');
 
 //console.log('gasLimit: ' + web3.eth.getBlock('latest').gasLimit);
 
@@ -719,7 +719,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
         //#END UPDATE INTERFACE
 
         //#START MONEY TRANSACTION
-        var moneyForAQuiz = 0.2 //0.2 ether
+        var moneyForAQuiz = 0.05 //0.2 ether
         web3.eth.sendTransaction({ from: result.args.player, to: result.args.creator, value: web3.toWei(moneyForAQuiz, "ether") });
         //update balance token = must use web3.eth.getBalance because it lately update to server.
         sessionStorage.setItem("user_wallet_balance", (web3.eth.getBalance(result.args.player) / web3.toWei(1)).toFixed(2));
@@ -737,7 +737,7 @@ update_the_next_quiz_evt.watch(function (error, result) {
 
         var question_num = parseInt(result.args.quiz_id) + 1;
         sessionStorage.setItem('question_number', question_num);
-        $('#questionId').html('Question ' + question_num);
+        $('#questionId').html('Question number ' + question_num);
 
         $('#question').html(web3.toAscii(result.args.question));
         $('#answer_A').html(web3.toAscii(result.args.answer_A));
@@ -779,7 +779,7 @@ update_the_old_quiz_evt.watch(function (error, result) {
 
         var question_num = parseInt(result.args.quiz_id) + 1;
         sessionStorage.setItem('question_number', question_num);
-        $('#questionId').html('Question ' + question_num);
+        $('#questionId').html('Question number ' + question_num);
 
         $('#question').html(web3.toAscii(result.args.question));
         var ansA = $('#answer_A');
@@ -800,7 +800,7 @@ function reloadQuizContent() {
     //get the old quiz.						
     if (sessionStorage.getItem('question_des') != null
         && sessionStorage.getItem('question_des') != 'null') {
-        $('#questionId').html('Question ' + sessionStorage.getItem('question_number'));
+        $('#questionId').html('Question number ' + sessionStorage.getItem('question_number'));
         $('#question').html('' + sessionStorage.getItem('question_des'));
         $('#answer_A').html('' + sessionStorage.getItem('answer_A'));
         $('#answer_B').html('' + sessionStorage.getItem('answer_B'));
@@ -961,7 +961,7 @@ $('#btn_submit').click(function () {
                     sessionStorage.setItem('user_quiz_id', -2);
                 } else {
                     alert('Calm down, maybe the network is being overloaded');
-                }                               
+                }                            
             }
         });
     } else {
@@ -1006,3 +1006,4 @@ $('#btn_submit').click(function () {
         }
     }
 });
+
